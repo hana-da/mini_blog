@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 begin
-  load File.expand_path('../spring', __FILE__) unless ENV['BUNDLE_GEMFILE']
+  unless ENV['BUNDLE_GEMFILE']
+    load File.expand_path('../spring', __FILE__)
+    ENV['WITHOUT_COV'] = true
+  end
 rescue LoadError => e
   raise unless e.message.include?('spring')
 end

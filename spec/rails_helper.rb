@@ -1,3 +1,17 @@
+# require simplecov and SimpleCov.start when WITHOUT_COV dose NOT exist.
+unless ENV['WITHOUT_COV']
+  require 'simplecov'
+
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+  ]
+
+  SimpleCov.minimum_coverage 100
+  SimpleCov.start :rails do
+    add_filter 'app/channels'
+  end
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
