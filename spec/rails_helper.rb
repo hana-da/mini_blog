@@ -23,6 +23,10 @@ require 'rspec/rails'
 
 require 'rspec-parameterized'
 
+# Customize Capybara Matching
+Capybara.exact      = true
+Capybara.exact_text = true
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
