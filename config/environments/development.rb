@@ -62,4 +62,7 @@ Rails.application.configure do
   
   # whitelist Docker private network for web-console
   config.web_console.permissions = '172.16.0.0/12'
+
+  # Allowing trusted Docker private network for better_errors
+  BetterErrors::Middleware.allow_ip! '172.16.0.0/12'
 end
