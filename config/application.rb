@@ -31,5 +31,13 @@ module MiniBlog
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # sets the default time zone for the application and enables time zone awareness
+    # for Active Record.
+    config.time_zone = 'Asia/Tokyo'
+
+    # determines whether to use Time.local (if set to :local) or Time.utc (if set to :utc)
+    # when pulling dates and times from the database. The default is :utc.
+    config.active_record.default_timezone = :utc
   end
 end
