@@ -1,0 +1,105 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+    
+AllCops:
+  Exclude:
+    - '.git/**/*'
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+  # Cop names are displayed in offense messages by default. Change behavior
+  # by overriding DisplayCopNames, or by giving the `--no-display-cop-names`
+  # option.
+  DisplayCopNames: true
+  # Style guide URLs are not displayed in offense messages by default. Change
+  # behavior by overriding `DisplayStyleGuide`, or by giving the
+  # `-S/--display-style-guide` option.
+  DisplayStyleGuide: true
+  # Extra details are not displayed in offense messages by default. Change
+  # behavior by overriding ExtraDetails, or by giving the
+  # `-E/--extra-details` option.
+  ExtraDetails: true
+  # New cops introduced between major versions are set to a special pending status
+  # and are not enabled by default with warning message.
+  # Change this behavior by overriding either `NewCops: enable` or `NewCops: disable`.
+  # When `NewCops` is `enable`, pending cops are enabled in bulk. Can be overridden by
+  # the `--enable-pending-cops` command-line option.
+  # When `NewCops` is `disable`, pending cops are disabled in bulk. Can be overridden by
+  # the `--disable-pending-cops` command-line option.
+  NewCops: enable
+
+## Layout ##
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle:      table
+
+Layout/LineLength:
+  Exclude:
+    - 'Gemfile'
+    - 'config/routes.rb'
+  Max: 128
+
+Layout/SpaceInsideArrayPercentLiteral:
+  Enabled: false
+
+## Lint ##
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+## Metrics ##
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+    - 'lib/tasks/**/*'
+
+## RSpec ##
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/lib/tasks/**/*'
+
+RSpec/DescribedClass:
+  EnforcedStyle: explicit
+
+RSpec/ExampleLength:
+  Max: 64 # default: 10
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 5 # default: 3
+
+RSpec/PredicateMatcher:
+  Strict: false
+  EnforcedStyle: inflected
+
+## Rails ##
+Rails/TimeZone:
+  EnforcedStyle: strict
+
+## Style ##
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
