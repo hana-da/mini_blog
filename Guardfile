@@ -57,7 +57,7 @@ group :red_green_refactor, halt_on_fail: true do
       spec_file = File.join(parts[0..-2], parts[1..-1].join('_'))
       [
         rspec.spec.call(spec_file),
-        "#{rspec.spec_dir}/#{spec_file}"
+        "#{rspec.spec_dir}/#{spec_file}",
       ]
     end
     rspec.spec_support          = %r{^#{rspec.support_dir}/([^/]+)\.rb$}
@@ -104,7 +104,7 @@ group :red_green_refactor, halt_on_fail: true do
     watch(rspec.factories) do |m|
       [
         rspec.spec.call("models/#{m[1].singularize}"),
-        rspec.feature_spec.call("features/#{m[1].pluralize}")
+        rspec.feature_spec.call("features/#{m[1].pluralize}"),
       ]
     end
 
@@ -131,7 +131,7 @@ group :red_green_refactor, halt_on_fail: true do
       [
         rspec.spec.call("routing/#{m[1]}_routing"),
         rspec.spec.call("controllers/#{m[1]}_controller"),
-        rspec.feature_spec.call("features/#{m[1]}_controllers")
+        rspec.feature_spec.call("features/#{m[1]}_controllers"),
       ]
     end
     watch(rails.decorators) { |m| rspec.spec.call("models/#{m[1]}") }

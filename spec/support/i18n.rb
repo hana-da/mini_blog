@@ -12,7 +12,7 @@ def translate(key, options = {})
     key = [
       path_parameters[:controller].tr('/', '.'),
       path_parameters[:action],
-      key[1..-1]
+      key[1..-1],
     ].join('.')
   end
   I18n.translate(key, options)

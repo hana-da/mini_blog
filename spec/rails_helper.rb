@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # require simplecov and SimpleCov.start when WITHOUT_COV dose NOT exist.
 unless ENV['WITHOUT_COV']
   require 'simplecov'
@@ -17,7 +19,7 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -109,5 +111,6 @@ end
 # raise I18n::MissingTranslation when missing translation
 I18n.exception_handler = lambda do |exception, locale, key, options|
   raise exception.to_exception if exception.is_a?(I18n::MissingTranslation)
+
   I18n.ExceptionHandler.new.call(exception, locale, key, options)
 end
