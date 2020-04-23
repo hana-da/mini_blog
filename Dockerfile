@@ -5,7 +5,9 @@ ENV APP_HOME=/mini_blog
 
 ENV PATH=$APP_HOME/bin:$PATH \
     BUNDLE_DISABLE_VERSION_CHECK=true \
-    BUNDLER_VERSION=2.0.2
+    BUNDLER_VERSION=2.0.2 \
+    NODE_VERSION=v10.15.3 \
+    YARN_VERSION=v1.16.0
 
 WORKDIR $APP_HOME
 
@@ -25,8 +27,8 @@ RUN set -ex \
     && apt-get install -y $forRubyGems $forWebpacker \
     && npm install -g n \
     # install node and yarn via n
-    && n stable \
-    && npm install -g yarn \
+    && n ${NODE_VERSION} \
+    && npm install -g yarn@${YARN_VERSION} \
     && apt-get purge -y $forWebpacker \
     # clean up
     && apt-get clean \
