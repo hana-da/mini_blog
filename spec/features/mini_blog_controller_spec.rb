@@ -19,12 +19,18 @@ RSpec.describe 'MiniBlogControllers', type: :feature do
       end
     end
 
-    it '投稿用のフォームが表示されている' do
+    it '投稿用のフォームからフォームを投稿できる' do
       visit root_path
 
+      content = FactoryBot.build(:blog).content
+
       within('#new_blog') do
-        expect(page).to have_field('blog[content]')
+        fill_in 'blog[content]', with: content
+        click_button
       end
+
+      expect(page).to have_current_path(root_path, ignore_query: true)
+      expect(page).to have_css('span.blogs__blog-content', text: content)
     end
   end
 end
