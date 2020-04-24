@@ -1,16 +1,13 @@
-%h1 MiniBlog#root
-%p Find me in app/views/mini_blog/root.html.haml
-
-.container
-  .row
-    %aside.col-4
-      = form_for(@blog) do |f|
-        %div
-          = f.text_area :content
-        = f.submit
-    %section.col-8
-      %ol#blogs
-        - @blogs.each do |blog|
-          %li{id: "blog-#{blog.id}", class: 'blogs__blog'}
-            %span.blogs__blog-timestamp= l(blog.created_at, format: :long)
-            %span.blogs__blog-content= blog.content
+.row.mt-2
+  %aside.col-4
+    = form_for(@blog) do |f|
+      .form-group
+        = f.text_area(:content, class: 'form-control')
+      .form-group
+        = f.submit(t('.post'), class: 'btn btn-primary')
+  %section.col-8
+    %ol#blogs.list-group
+      - @blogs.each do |blog|
+        %li{id: "blog-#{blog.id}", class: 'blogs__blog list-group-item'}
+          %span.blogs__blog-content= blog.content
+          %span.blogs__blog-timestamp= l(blog.created_at, format: :long)

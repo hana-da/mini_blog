@@ -1,0 +1,10 @@
+.blogs {
+  &__blog-content {
+    display: block;
+  }
+
+  &__blog-timestamp {
+    display: block;
+    color: $gray-500;
+  }
+}

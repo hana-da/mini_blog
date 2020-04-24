@@ -8,4 +8,11 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    = yield
+    %nav.navbar.sticky-top.navbar-expand.navbar-light.bg-light
+      %a.navbar-brand{:href => "#"} MiniBlog
+    .container-fluid
+      = yield
+      %hr/
+      %footer.text-right.text-monospace.text-muted
+        %small
+          MiniBlog Copyright © #{Time.current.year} hana-da
