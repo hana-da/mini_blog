@@ -11,5 +11,6 @@
 #
 FactoryBot.define do
   factory :blog do
+    content { Faker::Quote.matz.first(140).strip }
   end
 end
