@@ -1,2 +1,8 @@
 %h1 MiniBlog#root
 %p Find me in app/views/mini_blog/root.html.haml
+
+%ol#blogs
+  - @blogs.each do |blog|
+    %li{id: "blog-#{blog.id}", class: 'blogs__blog'}
+      %span.blogs__blog-timestamp= l(blog.created_at, format: :long)
+      %span.blogs__blog-content= blog.content
