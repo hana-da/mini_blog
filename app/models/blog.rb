@@ -10,4 +10,5 @@
 #  updated_at :datetime         not null
 #
 class Blog < ApplicationRecord
+  validates :content, length: { in: 1..140 }
 end

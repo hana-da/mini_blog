@@ -12,5 +12,9 @@
 require 'rails_helper'
 
 RSpec.describe Blog, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    it do
+      expect(Blog.new).to validate_length_of(:content).is_at_least(1).is_at_most(140)
+    end
+  end
 end
