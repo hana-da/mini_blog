@@ -18,5 +18,13 @@ RSpec.describe 'MiniBlogControllers', type: :feature do
         end
       end
     end
+
+    it '投稿用のフォームが表示されている' do
+      visit root_path
+
+      within('#new_blog') do
+        expect(page).to have_field('blog[content]')
+      end
+    end
   end
 end

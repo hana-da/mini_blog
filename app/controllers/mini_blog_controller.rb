@@ -2,6 +2,7 @@
 
 class MiniBlogController < ApplicationController
   def root
+    @blog = Blog.new
     @blogs = Blog.all
   end
 end

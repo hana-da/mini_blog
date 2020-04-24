@@ -2,6 +2,5 @@
 
 require 'rails_helper'
 
-RSpec.describe 'BlogsControllers', type: :feature do
-  pending "add some scenarios (or delete) #{__FILE__}"
+RSpec.describe 'BlogsControllers', type: :feature do # rubocop:disable RSpec/EmptyExampleGroup
 end
