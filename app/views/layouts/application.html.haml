@@ -10,6 +10,13 @@
   %body
     %nav.navbar.sticky-top.navbar-expand.navbar-light.bg-light
       %a.navbar-brand{:href => "#"} MiniBlog
+      .collapse.navbar-collapse
+        .navbar-nav.mr-auto
+        %ul.navbar-nav
+          - if current_user
+          - else
+            %li.navbar-item
+              =link_to(t('devise.shared.links.sign_up'), new_user_registration_path, class: 'nav-link')
     .container-fluid
       = yield
       %hr/
