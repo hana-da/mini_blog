@@ -18,5 +18,8 @@
 #
 FactoryBot.define do
   factory :user do
+    username { Faker::Internet.username(specifier: 1..20).delete('^a-zA-Z') }
+    password { 'password' }
+    password_confirmation { 'password' }
   end
 end

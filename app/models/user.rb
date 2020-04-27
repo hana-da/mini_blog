@@ -20,4 +20,11 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable
+
+  validates :username, uniqueness: true
+  validates :username, length: { in: 1..20 }
+  validates :username, format: { with: /\A[a-zA-Z]+\z/ }, allow_blank: true
+  validates :password, confirmation: true
+  validates :password, presence: true, on: :create
+  validates :profile, length: { maximum: 200 }
 end
