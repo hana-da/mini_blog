@@ -35,6 +35,7 @@ data:
   external:
     ## Example (replace %#= with %=):
     # - "<%#= %x[bundle show vagrant].chomp %>/templates/locales/%{locale}.yml"
+    - "<%= %x[bundle show devise-i18n].chomp %>/rails/locales/%{locale}.yml"
     - "<%= %x[bundle show rails-i18n].chomp %>/rails/locale/%{locale}.yml"
 
   ## Specify the router (see Readme for details). Valid values: conservative_router, pattern_router, or a custom class.
@@ -108,6 +109,8 @@ search:
 # - 'simple_form.{error_notification,required}.:'
 ignore_unused:
   - 'activerecord.{attributes,errors,models}.*'
+  - 'devise.*'
+  - 'errors.messages.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:
