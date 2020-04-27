@@ -1,0 +1,8 @@
+---
+ja:
+  activerecord:
+    attributes:
+      user:
+        blog_url: ブログURL
+        profile: プロフィール
+        username: ユーザー名

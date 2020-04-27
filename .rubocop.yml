@@ -57,6 +57,10 @@ Metrics/BlockLength:
     - 'config/**/*'
     - 'lib/tasks/**/*'
 
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
 ## RSpec ##
 RSpec/ContextWording:
   Enabled: false

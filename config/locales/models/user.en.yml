@@ -1,0 +1,8 @@
+---
+en:
+  activerecord:
+    attributes:
+      user:
+        blog_url: Blog URL
+        profile: Profile
+        username: Username
