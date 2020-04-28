@@ -36,9 +36,10 @@ RSpec.describe 'MiniBlogControllers', type: :feature do
 
   describe 'navbarには' do
     context 'ログインしていない時' do
-      it 'サインアップ用のリンクが表示されている' do
+      it 'ログイン用とサインアップ用のリンクが表示されている' do
         visit root_path
 
+        expect(page).to have_link(t('devise.shared.links.sign_in'), href: user_session_path)
         expect(page).to have_link(t('devise.shared.links.sign_up'), href: new_user_registration_path)
       end
     end
