@@ -14,6 +14,8 @@
         .navbar-nav.mr-auto
         %ul.navbar-nav
           - if current_user
+            %li.navbar-item
+              =link_to(t('devise.shared.links.sign_out'), destroy_user_session_path, method: :delete, class: 'nav-link')
           - else
             %li.navbar-item
               =link_to(t('devise.shared.links.sign_up'), new_user_registration_path, class: 'nav-link')

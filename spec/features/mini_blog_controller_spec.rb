@@ -42,5 +42,26 @@ RSpec.describe 'MiniBlogControllers', type: :feature do
         expect(page).to have_link(t('devise.shared.links.sign_up'), href: new_user_registration_path)
       end
     end
+
+    context 'ログインしている時' do
+      before do
+        sign_in FactoryBot.create(:user)
+      end
+
+      it 'ログアウト用のリンクが表示されている' do
+        visit root_path
+
+        expect(page).to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
+                                 text: t('devise.shared.links.sign_out'))
+      end
+
+      it 'ログアウト用のリンクをクリックするとログアウト状態になる' do
+        visit root_path
+        click_link(t('devise.shared.links.sign_out'))
+
+        expect(page).not_to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
+                                     text: t('devise.shared.links.sign_out'))
+      end
+    end
   end
 end
