@@ -2,4 +2,5 @@
 ja:
   mini_blog:
     root:
+      need_login_to_post: 投稿するにはログインしてください。アカウントをお持ちでない場合はアカウント登録してください。
       post: 投稿
