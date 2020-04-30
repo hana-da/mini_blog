@@ -26,4 +26,10 @@ RSpec.describe Blog, type: :model do
       expect(Blog.new).to validate_length_of(:content).is_at_least(1).is_at_most(140)
     end
   end
+
+  describe 'associations' do
+    it do
+      expect(Blog.new).to belong_to(:user)
+    end
+  end
 end

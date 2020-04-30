@@ -47,4 +47,10 @@ RSpec.describe User, type: :model do
       expect { FactoryBot.create(:user, username: username.upcase) }.not_to raise_error
     end
   end
+
+  describe 'associations' do
+    it do
+      expect(User.new).to have_many(:blogs).dependent(:destroy)
+    end
+  end
 end

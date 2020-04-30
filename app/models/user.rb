@@ -27,4 +27,6 @@ class User < ApplicationRecord
   validates :password, confirmation: true
   validates :password, presence: true, on: :create
   validates :profile, length: { maximum: 200 }
+
+  has_many :blogs, dependent: :destroy
 end
