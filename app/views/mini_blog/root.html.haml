@@ -2,10 +2,12 @@
   %aside.col-4
     - if current_user
       = form_for(@blog) do |f|
-        .form-group
-          = f.text_area(:content, class: 'form-control')
-        .form-group
-          = f.submit(t('.post'), class: 'btn btn-primary')
+        .form-row
+          .col-10
+            = f.text_area(:content, class: 'form-control', rows: 3)
+            .invalid-feedback= @blog.errors.full_messages_for(:content).first
+          .col.mt-5
+            = f.submit(t('.post'), class: 'btn btn-primary btn-block')
     - else
       .alert.alert-info= t('.need_login_to_post')
   %section.col-8

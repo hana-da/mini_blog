@@ -45,6 +45,22 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_current_path(root_path, ignore_query: true)
       expect(page).to have_css('span.blogs__blog-content', text: content)
     end
+
+    it '長文を投稿しようとするとエラーメッセージが表示される' do
+      visit root_path
+
+      blog = FactoryBot.build(:blog, content: 'a' * 1000).tap(&:validate)
+
+      within('#new_blog') do
+        fill_in 'blog[content]', with: blog.content
+        click_button
+      end
+
+      within('#new_blog') do
+        expect(page).to have_css('.field_with_errors > textarea#blog_content')
+        expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
+      end
+    end
   end
 
   describe 'navbarには' do
