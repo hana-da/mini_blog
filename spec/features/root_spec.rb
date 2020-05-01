@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'MiniBlogControllers', type: :feature do
+RSpec.describe '/', type: :feature do
   context 'rootページでは' do
     let!(:blogs) { FactoryBot.create_list(:blog, 3) }
 

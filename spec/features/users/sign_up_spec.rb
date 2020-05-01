@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Devise::RegistrationsControllers', type: :feature do
+RSpec.describe '/users/sign_up', type: :feature do
   describe 'ユーザ新規登録' do
     let(:user) { FactoryBot.build(:user) }
 

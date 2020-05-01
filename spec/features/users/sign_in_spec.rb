@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Devise::SessionsControllers', type: :feature do
+RSpec.describe '/users/sign_in', type: :feature do
   describe 'ログイン' do
     let!(:user) { FactoryBot.create(:user) }
 
