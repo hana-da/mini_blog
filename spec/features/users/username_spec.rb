@@ -2,6 +2,18 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Users::Usernames', type: :feature do
-  pending "add some scenarios (or delete) #{__FILE__}"
+RSpec.describe '/users/:username', type: :feature do
+  it '公開情報が表示されている' do
+    user = FactoryBot.create(:user)
+
+    visit user_path(user)
+
+    within('.users__profile') do
+      expect(page).to have_css('.users__profile-username', text: user.username)
+      expect(page).to have_css('.users__profile-profile',  text: user.profile)
+      expect(page).to have_css('.users__profile-blog_url', text: user.blog_url)
+
+      expect(page).to have_link(user.blog_url, href: user.blog_url)
+    end
+  end
 end

@@ -22,6 +22,6 @@ FactoryBot.define do
     blog_url { Faker::Internet.url(host: 'example.jp') }
     password { 'password' }
     password_confirmation { 'password' }
-    profile { Faker::Quote.matz.first(200) }
+    profile { Faker::Quote.matz.first(200).strip }
   end
 end

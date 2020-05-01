@@ -29,4 +29,9 @@ class User < ApplicationRecord
   validates :profile, length: { maximum: 200 }
 
   has_many :blogs, dependent: :destroy
+
+  # @return [String]
+  def to_param
+    username
+  end
 end
