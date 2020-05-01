@@ -22,4 +22,16 @@ RSpec.describe '/users/:username', type: :feature do
 
     expect { visit user_path(:not_exist) }.to raise_error(ActiveRecord::RecordNotFound)
   end
+
+  it 'navbarのbrandからroot-pathへ戻る事ができる' do
+    user = FactoryBot.create(:user)
+
+    visit user_path(user)
+
+    within('nav.navbar') do
+      click_link('MiniBlog')
+    end
+
+    expect(page).to have_current_path(root_path)
+  end
 end
