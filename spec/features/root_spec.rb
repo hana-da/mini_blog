@@ -74,13 +74,16 @@ RSpec.describe '/', type: :feature do
     end
 
     context 'ログインしている時' do
+      let!(:user) { FactoryBot.create(:user) }
+
       before do
-        sign_in FactoryBot.create(:user)
+        sign_in(user)
       end
 
-      it 'ログアウト用のリンクが表示されている' do
+      it 'ユーザー名とログアウト用のリンクが表示されている' do
         visit root_path
 
+        expect(page).to have_link(user.username, href: user_path(user))
         expect(page).to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
                                  text: t('devise.shared.links.sign_out'))
       end
