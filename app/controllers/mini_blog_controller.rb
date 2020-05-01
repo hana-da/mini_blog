@@ -3,6 +3,6 @@
 class MiniBlogController < ApplicationController
   def root
     @blog = Blog.new
-    @blogs = Blog.all
+    @blogs = Blog.includes(:user)
   end
 end

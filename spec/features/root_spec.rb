@@ -12,6 +12,7 @@ RSpec.describe '/', type: :feature do
 
     blogs.each do |blog|
       within("li#blog-#{blog.id}") do
+        expect(page).to have_link(blog.user.username, href: user_path(blog.user))
         expect(page).to have_css('span.blogs__blog-content', text: blog.content)
         expect(page).to have_css('span.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
       end
