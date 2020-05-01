@@ -3,48 +3,46 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
-  context 'rootページでは' do
-    let!(:blogs) { FactoryBot.create_list(:blog, 3) }
+  it '全ての投稿が表示される' do
+    blogs = FactoryBot.create_list(:blog, 3)
 
-    it '全ての投稿が表示される' do
+    visit root_path
+
+    expect(page).to have_css('li.blogs__blog', count: blogs.count)
+
+    blogs.each do |blog|
+      within("li#blog-#{blog.id}") do
+        expect(page).to have_css('span.blogs__blog-content', text: blog.content)
+        expect(page).to have_css('span.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
+      end
+    end
+  end
+
+  context 'ログインしていない時' do
+    it '投稿用のフォームは表示されていない' do
       visit root_path
 
-      expect(page).to have_css('li.blogs__blog', count: blogs.count)
+      expect(page).not_to have_css('#new_blog')
+    end
+  end
 
-      blogs.each do |blog|
-        within("li#blog-#{blog.id}") do
-          expect(page).to have_css('span.blogs__blog-content', text: blog.content)
-          expect(page).to have_css('span.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
-        end
-      end
+  context 'ログインしている時' do
+    before do
+      sign_in FactoryBot.create(:user)
     end
 
-    context 'ログインしていない時' do
-      it '投稿用のフォームは表示されていない' do
-        visit root_path
+    it '投稿用のフォームからフォームを投稿できる' do
+      visit root_path
 
-        expect(page).not_to have_css('#new_blog')
-      end
-    end
+      content = FactoryBot.build(:blog).content
 
-    context 'ログインしている時' do
-      before do
-        sign_in FactoryBot.create(:user)
+      within('#new_blog') do
+        fill_in 'blog[content]', with: content
+        click_button
       end
 
-      it '投稿用のフォームからフォームを投稿できる' do
-        visit root_path
-
-        content = FactoryBot.build(:blog).content
-
-        within('#new_blog') do
-          fill_in 'blog[content]', with: content
-          click_button
-        end
-
-        expect(page).to have_current_path(root_path, ignore_query: true)
-        expect(page).to have_css('span.blogs__blog-content', text: content)
-      end
+      expect(page).to have_current_path(root_path, ignore_query: true)
+      expect(page).to have_css('span.blogs__blog-content', text: content)
     end
   end
 
