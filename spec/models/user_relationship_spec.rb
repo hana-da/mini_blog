@@ -24,5 +24,11 @@
 require 'rails_helper'
 
 RSpec.describe UserRelationship, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it do
+      relationship = UserRelationship.new
+      expect(relationship).to belong_to(:followed).class_name('User')
+      expect(relationship).to belong_to(:follower).class_name('User')
+    end
+  end
 end

@@ -29,6 +29,12 @@ class User < ApplicationRecord
   validates :profile, length: { maximum: 200 }
 
   has_many :blogs, dependent: :destroy
+  has_many :following_relationships, class_name: 'UserRelationship',
+                                     foreign_key: :follower_id, inverse_of: :follower, dependent: :destroy
+  has_many :follower_relationships,  class_name: 'UserRelationship',
+                                     foreign_key: :followed_id, inverse_of: :followed, dependent: :destroy
+  has_many :followers, through: :follower_relationships,  source: :follower
+  has_many :following, through: :following_relationships, source: :followed
 
   # @return [String]
   def to_param
