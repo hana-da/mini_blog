@@ -48,4 +48,12 @@ Rails.application.configure do
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
+
+  config.after_initialize do
+    # enable Bullet gem
+    # help to kill N+1 queries and unused eager loading
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.raise         = true # raise an error if n+1 query occurs
+  end
 end

@@ -67,4 +67,14 @@ Rails.application.configure do
 
   # Allowing trusted Docker private network for better_errors
   BetterErrors::Middleware.allow_ip! '172.16.0.0/12'
+
+  config.after_initialize do
+    # enable Bullet gem
+    # help to kill N+1 queries and unused eager loading
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.console       = true
+    Bullet.rails_logger  = true
+    Bullet.add_footer    = true
+  end
 end
