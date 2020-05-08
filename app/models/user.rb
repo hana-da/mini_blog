@@ -48,4 +48,12 @@ class User < ApplicationRecord
   def follow(user)
     following << user
   end
+
+  # userをフォロー解除する
+  #
+  # @param [User] user フォロー解除するUser
+  # @return [UserRelationship, nil] そもそもフォローしていなかった場合はnil
+  def unfollow(user)
+    following_relationships.find_by(followed: user)&.destroy
+  end
 end

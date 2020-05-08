@@ -129,4 +129,28 @@ RSpec.describe User, type: :model do
       expect { user_a.follow(user_b) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  describe '#unfollow' do
+    it 'フォローしている人をフォロー解除する事ができる' do
+      user_a, user_b = FactoryBot.create_list(:user, 2)
+      user_a.follow(user_b)
+
+      expect(user_a.following).to be_include(user_b)
+      expect(user_b.followers).to be_include(user_a)
+
+      # フォロー解除
+      user_a.unfollow(user_b)
+
+      expect(user_a.following).not_to be_include(user_b)
+      expect(user_b.followers).not_to be_include(user_a)
+    end
+
+    it 'フォローしていない人をフォロー解除しても例外は発生しない' do
+      user_a, user_b = FactoryBot.create_list(:user, 2)
+      expect(user_a.following).not_to be_include(user_b)
+      expect(user_b.followers).not_to be_include(user_a)
+
+      expect(user_a.unfollow(user_b)).to be_nil
+    end
+  end
 end
