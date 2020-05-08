@@ -20,6 +20,15 @@ RSpec.describe '/', type: :feature do
   end
 
   context 'ログインしていない時' do
+    describe 'navbarには' do
+      it 'ログイン用とサインアップ用のリンクが表示されている' do
+        visit root_path
+
+        expect(page).to have_link(t('devise.shared.links.sign_in'), href: user_session_path)
+        expect(page).to have_link(t('devise.shared.links.sign_up'), href: new_user_registration_path)
+      end
+    end
+
     it '投稿用のフォームは表示されていない' do
       visit root_path
 
@@ -28,8 +37,28 @@ RSpec.describe '/', type: :feature do
   end
 
   context 'ログインしている時' do
+    let!(:user) { FactoryBot.create(:user) }
+
     before do
-      sign_in FactoryBot.create(:user)
+      sign_in(user)
+    end
+
+    describe 'navbarには' do
+      it 'ユーザー名とログアウト用のリンクが表示されている' do
+        visit root_path
+
+        expect(page).to have_link(user.username, href: user_path(user))
+        expect(page).to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
+                                 text: t('devise.shared.links.sign_out'))
+      end
+
+      it 'ログアウト用のリンクをクリックするとログアウト状態になる' do
+        visit root_path
+        click_link(t('devise.shared.links.sign_out'))
+
+        expect(page).not_to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
+                                     text: t('devise.shared.links.sign_out'))
+      end
     end
 
     it '投稿用のフォームからフォームを投稿できる' do
@@ -59,41 +88,6 @@ RSpec.describe '/', type: :feature do
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
-      end
-    end
-  end
-
-  describe 'navbarには' do
-    context 'ログインしていない時' do
-      it 'ログイン用とサインアップ用のリンクが表示されている' do
-        visit root_path
-
-        expect(page).to have_link(t('devise.shared.links.sign_in'), href: user_session_path)
-        expect(page).to have_link(t('devise.shared.links.sign_up'), href: new_user_registration_path)
-      end
-    end
-
-    context 'ログインしている時' do
-      let!(:user) { FactoryBot.create(:user) }
-
-      before do
-        sign_in(user)
-      end
-
-      it 'ユーザー名とログアウト用のリンクが表示されている' do
-        visit root_path
-
-        expect(page).to have_link(user.username, href: user_path(user))
-        expect(page).to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
-                                 text: t('devise.shared.links.sign_out'))
-      end
-
-      it 'ログアウト用のリンクをクリックするとログアウト状態になる' do
-        visit root_path
-        click_link(t('devise.shared.links.sign_out'))
-
-        expect(page).not_to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
-                                     text: t('devise.shared.links.sign_out'))
       end
     end
   end
