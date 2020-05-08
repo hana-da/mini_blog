@@ -105,4 +105,28 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#follow' do
+    it 'フォローする事ができる' do
+      user_a, user_b = FactoryBot.create_list(:user, 2)
+
+      expect(user_a.following).not_to be_include(user_b)
+      expect(user_b.followers).not_to be_include(user_a)
+
+      # フォローする
+      user_a.follow(user_b)
+
+      # user_a からみると user_b はフォローしている人になる
+      expect(user_a.following).to be_include(user_b)
+      # user_b からみると user_a はフォロワーになる
+      expect(user_b.followers).to be_include(user_a)
+    end
+
+    it '既にフォローしている人をフォローするとActiveRecord::RecordInvalidが発生する' do
+      user_a, user_b = FactoryBot.create_list(:user, 2)
+      user_a.follow(user_b)
+
+      expect { user_a.follow(user_b) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end

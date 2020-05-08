@@ -40,4 +40,12 @@ class User < ApplicationRecord
   def to_param
     username
   end
+
+  # userをフォローする
+  #
+  # @param [User] user フォローするUser
+  # @return [User::ActiveRecord_Associations_CollectionProxy]
+  def follow(user)
+    following << user
+  end
 end
