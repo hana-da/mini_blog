@@ -1,0 +1,9 @@
+---
+ja:
+  activerecord:
+    errors:
+      models:
+        user_relationship:
+          attributes:
+            base:
+              not_following_myself: 自分自身をフォローする事はできません。

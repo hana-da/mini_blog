@@ -128,6 +128,12 @@ RSpec.describe User, type: :model do
 
       expect { user_a.follow(user_b) }.to raise_error(ActiveRecord::RecordInvalid)
     end
+
+    it '自分自身をフォローする事はできない' do
+      user = FactoryBot.create(:user)
+
+      expect { user.follow(user) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
 
   describe '#unfollow' do
