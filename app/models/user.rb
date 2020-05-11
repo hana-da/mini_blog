@@ -49,6 +49,13 @@ class User < ApplicationRecord
     following << user
   end
 
+  # 自分とフォローしている人のBlogを返す
+  #
+  # @return [Blog::ActiveRecord_Relation]
+  def following_blogs
+    Blog.where(user_id: [id, following_ids].flatten!).includes(:user)
+  end
+
   # userをフォロー解除する
   #
   # @param [User] user フォロー解除するUser

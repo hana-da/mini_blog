@@ -136,6 +136,24 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#following_blogs' do
+    it '自分とフォローしている人のblogを返す' do
+      user = FactoryBot.create(:user)
+      following_user = FactoryBot.create(:user).tap { |u| user.follow(u) }
+      other_user = FactoryBot.create(:user)
+
+      expect(user.following).to include(following_user)
+      expect(user.following).not_to include(other_user)
+
+      user_blog = FactoryBot.create(:blog, user: user)
+      following_blog = FactoryBot.create(:blog, user: following_user)
+      other_blog = FactoryBot.create(:blog, user: other_user)
+
+      expect(user.following_blogs).to include(user_blog, following_blog)
+      expect(user.following_blogs).not_to include(other_blog)
+    end
+  end
+
   describe '#unfollow' do
     it 'フォローしている人をフォロー解除する事ができる' do
       user_a, user_b = FactoryBot.create_list(:user, 2)
