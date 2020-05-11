@@ -1,0 +1,15 @@
+.row.mt-2
+  %aside.col-2
+  %section.col-8
+    %ol#blogs.list-group
+      - @blogs.each do |blog|
+        %li{id: "blog-#{blog.id}", class: 'blogs__blog list-group-item'}
+          .row.blogs__blog-header
+            .col-10
+              = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
+          .row
+            .col
+              %span.blogs__blog-content= blog.content
+          .row
+            .col
+              %span.blogs__blog-timestamp= l(blog.created_at, format: :long)

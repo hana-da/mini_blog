@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     post '/users(.:format)',         to: 'devise/registrations#create', as: 'user_registration'
   end
   scope :users do
+    get  'timeline',  to: 'users#timeline', as: :user_timeline
     get  ':username', to: 'users#show',     as: :user
+
     post 'follow',    to: 'users#follow',   as: :follow_user
     post 'unfollow',  to: 'users#unfollow', as: :unfollow_user
   end

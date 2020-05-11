@@ -53,12 +53,17 @@ RSpec.describe '/', type: :feature do
     end
 
     describe 'navbarには' do
-      it 'ユーザー名とログアウト用のリンクが表示されている' do
+      it 'ログアウト用のリンクが表示されている' do
         visit root_path
 
-        expect(page).to have_link(user.username, href: user_path(user))
         expect(page).to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
                                  text: t('devise.shared.links.sign_out'))
+      end
+
+      it 'ユーザのタイムラインへのリンクになったユーザ名が表示されている' do
+        visit root_path
+
+        expect(page).to have_link(user.username, href: user_timeline_path)
       end
 
       it 'ログアウト用のリンクをクリックするとログアウト状態になる' do

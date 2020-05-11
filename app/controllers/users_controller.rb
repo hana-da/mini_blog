@@ -16,4 +16,8 @@ class UsersController < ApplicationController
     current_user.unfollow(User.find(params[:id]))
     redirect_to root_path
   end
+
+  def timeline
+    @blogs = current_user.following_blogs
+  end
 end
