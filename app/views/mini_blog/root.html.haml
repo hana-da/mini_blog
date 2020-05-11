@@ -18,7 +18,7 @@
             .col-10
               = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
             .col-2
-              - if @following_ids
+              - if @following_ids && blog.user_id != current_user.id
                 - if @following_ids.include?(blog.user_id)
                   = form_with(url: unfollow_user_path) do |f|
                     = f.hidden_field(:id, value: blog.user_id, id: nil)

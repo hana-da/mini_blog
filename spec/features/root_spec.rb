@@ -100,6 +100,19 @@ RSpec.describe '/', type: :feature do
       end
     end
 
+    it '自分の投稿にはフォローボタンは表示されていない' do
+      blog = FactoryBot.create(:blog, user: user)
+
+      visit root_path
+      within("li#blog-#{blog.id}") do
+        expect(page).not_to have_css(%(form[action="#{follow_user_path}"]))
+        expect(page).not_to have_button(t('.follow'))
+
+        expect(page).not_to have_css(%(form[action="#{unfollow_user_path}"]))
+        expect(page).not_to have_button(t('.unfollow'))
+      end
+    end
+
     describe 'フォロー/フォロー解除の動作' do
       it 'フォローしていないユーザの投稿には「フォローする」ボタンが表示されている' do
         blog = FactoryBot.create(:blog)
