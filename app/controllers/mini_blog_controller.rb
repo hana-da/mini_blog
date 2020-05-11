@@ -10,6 +10,7 @@ class MiniBlogController < ApplicationController
     end
     session[:invalid_blog_content] = nil
 
+    @following_ids = current_user&.following_ids
     @blogs = Blog.includes(:user)
   end
 end

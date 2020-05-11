@@ -34,6 +34,15 @@ RSpec.describe '/', type: :feature do
 
       expect(page).not_to have_css('#new_blog')
     end
+
+    it 'フォローする/フォロー解除ボタンは表示されていない' do
+      FactoryBot.create(:blog)
+
+      visit root_path
+
+      expect(page).not_to have_button(t('.follow'))
+      expect(page).not_to have_button(t('.unfollow'))
+    end
   end
 
   context 'ログインしている時' do
@@ -88,6 +97,74 @@ RSpec.describe '/', type: :feature do
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
+      end
+    end
+
+    describe 'フォロー/フォロー解除の動作' do
+      it 'フォローしていないユーザの投稿には「フォローする」ボタンが表示されている' do
+        blog = FactoryBot.create(:blog)
+        expect(user.following).not_to include(blog.user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          expect(page).to have_css(%(form[action="#{follow_user_path}"]))
+          expect(page).to have_button(t('.follow'))
+        end
+      end
+
+      it '「フォローする」ボタンでユーザをフォローできる' do
+        blog = FactoryBot.create(:blog)
+        expect(user.following).not_to include(blog.user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          click_button(t('.follow'))
+        end
+
+        expect(user.following.reload).to include(blog.user)
+
+        # 「フォローする」ボタンが「フォロー解除」ボタンになる
+        within("li#blog-#{blog.id}") do
+          expect(page).not_to have_css(%(form[action="#{follow_user_path}"]))
+          expect(page).not_to have_button(t('.follow'))
+
+          expect(page).to have_css(%(form[action="#{unfollow_user_path}"]))
+          expect(page).to have_button(t('.unfollow'))
+        end
+      end
+
+      it 'フォローしているユーザの投稿には「フォロー解除」ボタンが表示されている' do
+        blog = FactoryBot.create(:blog)
+        user.follow(blog.user)
+        expect(user.following).to include(blog.user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          expect(page).to have_css(%(form[action="#{unfollow_user_path}"]))
+          expect(page).to have_button(t('.unfollow'))
+        end
+      end
+
+      it '「フォロー解除」ボタンでフォローを解除できる' do
+        blog = FactoryBot.create(:blog)
+        user.follow(blog.user)
+        expect(user.following).to include(blog.user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          click_button(t('.unfollow'))
+        end
+
+        expect(user.following.reload).not_to include(blog.user)
+
+        # 「フォロー解除」ボタンが「フォローする」ボタンになる
+        within("li#blog-#{blog.id}") do
+          expect(page).not_to have_css(%(form[action="#{unfollow_user_path}"]))
+          expect(page).not_to have_button(t('.unfollow'))
+
+          expect(page).to have_css(%(form[action="#{follow_user_path}"]))
+          expect(page).to have_button(t('.follow'))
+        end
       end
     end
   end

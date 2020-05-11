@@ -14,6 +14,22 @@
     %ol#blogs.list-group
       - @blogs.each do |blog|
         %li{id: "blog-#{blog.id}", class: 'blogs__blog list-group-item'}
-          =link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
-          %span.blogs__blog-content= blog.content
-          %span.blogs__blog-timestamp= l(blog.created_at, format: :long)
+          .row.blogs__blog-header
+            .col-10
+              = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
+            .col-2
+              - if @following_ids
+                - if @following_ids.include?(blog.user_id)
+                  = form_with(url: unfollow_user_path) do |f|
+                    = f.hidden_field(:id, value: blog.user_id, id: nil)
+                    = f.submit(t('.unfollow'), class: 'btn btn-outline-primary btn-sm')
+                - else
+                  = form_with(url: follow_user_path) do |f|
+                    = f.hidden_field(:id, value: blog.user_id, id: nil)
+                    = f.submit(t('.follow'), class: 'btn btn-primary btn-sm')
+          .row
+            .col
+              %span.blogs__blog-content= blog.content
+          .row
+            .col
+              %span.blogs__blog-timestamp= l(blog.created_at, format: :long)

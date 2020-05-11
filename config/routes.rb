@@ -8,7 +8,11 @@ Rails.application.routes.draw do
     get  '/users/sign_up(.:format)', to: 'devise/registrations#new',    as: 'new_user_registration'
     post '/users(.:format)',         to: 'devise/registrations#create', as: 'user_registration'
   end
-  get 'users/:username', to: 'users#show', as: :user
+  scope :users do
+    get  ':username', to: 'users#show',     as: :user
+    post 'follow',    to: 'users#follow',   as: :follow_user
+    post 'unfollow',  to: 'users#unfollow', as: :unfollow_user
+  end
 
   root 'mini_blog#root'
 end
