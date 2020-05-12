@@ -112,3 +112,10 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 end
+
+# Completely disable any_login gem in production
+if defined?(AnyLogin)
+  AnyLogin.setup do |config|
+    config.enabled = false
+  end
+end
