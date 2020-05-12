@@ -65,6 +65,8 @@ GEM
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
+    any_login (1.4.3)
+      rails (>= 4.2.7)
     ast (2.4.0)
     bcrypt (3.1.13)
     better_errors (2.7.0)
@@ -385,6 +387,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  any_login
   better_errors
   binding_of_caller
   bootsnap (>= 1.4.2)

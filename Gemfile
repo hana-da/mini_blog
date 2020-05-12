@@ -54,6 +54,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'annotate'
+  gem 'any_login'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'guard',          require: false
