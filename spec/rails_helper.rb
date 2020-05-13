@@ -88,6 +88,8 @@ RSpec.configure do |config|
   config.before :all do
     FactoryBot.reload
   end
+
+  config.include ActiveSupport::Testing::TimeHelpers
 end
 
 # https://github.com/thoughtbot/shoulda-matchers
