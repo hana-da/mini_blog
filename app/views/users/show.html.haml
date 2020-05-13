@@ -1,19 +1,33 @@
 .row.justify-content-center
   .col-6
     .jumbotron.users__profile
-      %h1.mb-0.display-4.users__profile-username= @user.username
-      %hr.my-0
-      %dl.mt-4
-        %dt Profile:
-        %dd.users__profile-profile
-          %p.lead= @user.profile
-        %dt Blog:
-        %dd.users__profile-blog_url= link_to(@user.blog_url, @user.blog_url)
-      %hr.mb-0
-      %ul.list-inline
-        %li.list-inline-item.badge.badge-pill.badge-info
-          %span.users__following-count= @user.following.count
-          %span.users__following= t('.following')
-        %li.list-inline-item.badge.badge-pill.badge-info
-          %span.users__followers-count= @user.followers.count
-          %span.users__followers= t('.followers')
+      .row.border-bottom.border-secondary
+        .col
+          %h1.users__profile-username= @user.username
+        .col.text-right
+          -if current_user
+            -if current_user.following?(@user)
+              = form_with(url: unfollow_user_path) do |f|
+                = f.hidden_field(:id, value: @user.id, id: nil)
+                = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
+            -elsif current_user != @user
+              = form_with(url: follow_user_path) do |f|
+                = f.hidden_field(:id, value: @user.id, id: nil)
+                = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
+      .row.mt-4.border-bottom.border-secondary
+        .col
+          %dl
+            %dt Profile:
+            %dd.users__profile-profile
+              %p.lead= @user.profile
+            %dt Blog:
+            %dd.users__profile-blog_url= link_to(@user.blog_url, @user.blog_url)
+      .row.mt-2
+        .col
+          %ul.list-inline
+            %li.list-inline-item.badge.badge-pill.badge-info
+              %span.users__following-count= @user.following.count
+              %span.users__following= t('.following')
+            %li.list-inline-item.badge.badge-pill.badge-info
+              %span.users__followers-count= @user.followers.count
+              %span.users__followers= t('.followers')
