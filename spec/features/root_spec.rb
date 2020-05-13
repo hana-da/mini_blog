@@ -49,8 +49,8 @@ RSpec.describe '/', type: :feature do
 
       visit root_path
 
-      expect(page).not_to have_button(t('.follow'))
-      expect(page).not_to have_button(t('.unfollow'))
+      expect(page).not_to have_button(t('helpers.submit.follow'))
+      expect(page).not_to have_button(t('helpers.submit.unfollow'))
     end
   end
 
@@ -120,10 +120,10 @@ RSpec.describe '/', type: :feature do
       visit root_path
       within("li#blog-#{blog.id}") do
         expect(page).not_to have_css(%(form[action="#{follow_user_path}"]))
-        expect(page).not_to have_button(t('.follow'))
+        expect(page).not_to have_button(t('helpers.submit.follow'))
 
         expect(page).not_to have_css(%(form[action="#{unfollow_user_path}"]))
-        expect(page).not_to have_button(t('.unfollow'))
+        expect(page).not_to have_button(t('helpers.submit.unfollow'))
       end
     end
 
@@ -135,7 +135,7 @@ RSpec.describe '/', type: :feature do
         visit root_path
         within("li#blog-#{blog.id}") do
           expect(page).to have_css(%(form[action="#{follow_user_path}"]))
-          expect(page).to have_button(t('.follow'))
+          expect(page).to have_button(t('helpers.submit.follow'))
         end
       end
 
@@ -145,7 +145,7 @@ RSpec.describe '/', type: :feature do
 
         visit root_path
         within("li#blog-#{blog.id}") do
-          click_button(t('.follow'))
+          click_button(t('helpers.submit.follow'))
         end
 
         expect(user.following.reload).to include(blog.user)
@@ -153,10 +153,10 @@ RSpec.describe '/', type: :feature do
         # 「フォローする」ボタンが「フォロー解除」ボタンになる
         within("li#blog-#{blog.id}") do
           expect(page).not_to have_css(%(form[action="#{follow_user_path}"]))
-          expect(page).not_to have_button(t('.follow'))
+          expect(page).not_to have_button(t('helpers.submit.follow'))
 
           expect(page).to have_css(%(form[action="#{unfollow_user_path}"]))
-          expect(page).to have_button(t('.unfollow'))
+          expect(page).to have_button(t('helpers.submit.unfollow'))
         end
       end
 
@@ -168,7 +168,7 @@ RSpec.describe '/', type: :feature do
         visit root_path
         within("li#blog-#{blog.id}") do
           expect(page).to have_css(%(form[action="#{unfollow_user_path}"]))
-          expect(page).to have_button(t('.unfollow'))
+          expect(page).to have_button(t('helpers.submit.unfollow'))
         end
       end
 
@@ -179,7 +179,7 @@ RSpec.describe '/', type: :feature do
 
         visit root_path
         within("li#blog-#{blog.id}") do
-          click_button(t('.unfollow'))
+          click_button(t('helpers.submit.unfollow'))
         end
 
         expect(user.following.reload).not_to include(blog.user)
@@ -187,10 +187,10 @@ RSpec.describe '/', type: :feature do
         # 「フォロー解除」ボタンが「フォローする」ボタンになる
         within("li#blog-#{blog.id}") do
           expect(page).not_to have_css(%(form[action="#{unfollow_user_path}"]))
-          expect(page).not_to have_button(t('.unfollow'))
+          expect(page).not_to have_button(t('helpers.submit.unfollow'))
 
           expect(page).to have_css(%(form[action="#{follow_user_path}"]))
-          expect(page).to have_button(t('.follow'))
+          expect(page).to have_button(t('helpers.submit.follow'))
         end
       end
     end

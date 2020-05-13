@@ -1,0 +1,6 @@
+---
+en:
+  helpers:
+    submit:
+      follow: Follow
+      unfollow: Unfollow
