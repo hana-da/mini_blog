@@ -5,7 +5,7 @@
       .form-group.form-group__sign_up-username
         = f.label(:username)
         = f.text_field(:username, autofocus: true, autocomplete: 'username', class: 'form-control')
-        .invalid-feedback= resource.errors.full_messages_for(:username).join
+        = invalid_feedback_tag(resource, :username)
       .form-group.form-group__sign_up-password
         = f.label(:password)
         - if @minimum_password_length
@@ -13,21 +13,21 @@
         - if !resource.errors.include?(:password) && resource.errors.include?(:password_confirmation)
           .field_with_errors
             = f.password_field(:password, autocomplete: 'new-password', class: 'form-control')
-          .invalid-feedback= resource.errors.full_messages_for(:password_confirmation).join
+          = invalid_feedback_tag(resource, :password_confirmation)
         - else
           = f.password_field(:password, autocomplete: 'new-password', class: 'form-control')
-          .invalid-feedback= resource.errors.full_messages_for(:password).join
+          = invalid_feedback_tag(resource, :password)
       .form-group.form-group__sign_up-password_confirmation
         = f.label(:password_confirmation)
         = f.password_field(:password_confirmation, autocomplete: 'new-password', class: 'form-control')
-        .invalid-feedback= resource.errors.full_messages_for(:password_confirmation).join
+        = invalid_feedback_tag(resource, :password_confirmation)
       .form-group.form-group__sign_up-profile
         = f.label(:profile)
         = f.text_area(:profile, class: 'form-control', rows: 6)
-        .invalid-feedback= resource.errors.full_messages_for(:profile).join
+        = invalid_feedback_tag(resource, :profile)
       .form-group.form-group__sign_up-blog_url
         = f.label(:blog_url)
         = f.text_field(:blog_url, class: 'form-control')
-        .invalid-feedback= resource.errors.full_messages_for(:blog_url).join
+        = invalid_feedback_tag(resource, :blog_url)
       .form-group.form-group__sign_up-submit
         = f.submit(t('.sign_up'), class: 'btn btn-primary btn-block')
