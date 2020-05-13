@@ -3,13 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe '/users/sign_up', type: :feature do
-  let(:user) { FactoryBot.build(:user) }
-
-  before do
-    expect(User.find_by(username: user.username)).to be_nil
-  end
-
   it 'new_user_registration_pathの登録フォームで登録できる' do
+    user = FactoryBot.build(:user)
+    expect(User.find_by(username: user.username)).to be_nil
+
     visit new_user_registration_path
 
     within('#new_user') do
