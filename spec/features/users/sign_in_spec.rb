@@ -18,4 +18,17 @@ RSpec.describe '/users/sign_in', type: :feature do
     expect(page).to have_css(%(a[data-method="delete"][href="#{destroy_user_session_path}"]),
                              text: t('devise.shared.links.sign_out'))
   end
+
+  it '認証に失敗した時はエラーメッセージが表示される' do
+    visit new_user_session_path
+    expect(page).not_to have_css('.alert-danger')
+
+    within('#new_user') do
+      click_button
+    end
+
+    expect(page).to have_css('.alert-danger',
+                             text: t('devise.failure.not_found_in_database',
+                                     authentication_keys: User.human_attribute_name(:username)))
+  end
 end
