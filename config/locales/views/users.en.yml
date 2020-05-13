@@ -1,0 +1,6 @@
+---
+en:
+  users:
+    show:
+      followers: Followers
+      following: Following

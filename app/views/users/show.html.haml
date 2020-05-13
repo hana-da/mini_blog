@@ -9,3 +9,11 @@
           %p.lead= @user.profile
         %dt Blog:
         %dd.users__profile-blog_url= link_to(@user.blog_url, @user.blog_url)
+      %hr.mb-0
+      %ul.list-inline
+        %li.list-inline-item.badge.badge-pill.badge-info
+          %span.users__following-count= @user.following.count
+          %span.users__following= t('.following')
+        %li.list-inline-item.badge.badge-pill.badge-info
+          %span.users__followers-count= @user.followers.count
+          %span.users__followers= t('.followers')

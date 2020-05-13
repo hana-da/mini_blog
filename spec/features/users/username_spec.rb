@@ -17,6 +17,17 @@ RSpec.describe '/users/:username', type: :feature do
     end
   end
 
+  it 'フォロー中とフォロワーの数が表示されている' do
+    user = FactoryBot.create(:user)
+    FactoryBot.create_list(:user_relationship, 3, follower: user)
+    FactoryBot.create_list(:user_relationship, 2, followed: user)
+
+    visit user_path(user)
+
+    expect(page).to have_css('.users__following-count', text: 3)
+    expect(page).to have_css('.users__followers-count', text: 2)
+  end
+
   it '存在しないusernameを指定するとActiveRecord::RecordNotFoundが発生する' do
     expect(User.find_by(username: :not_exist)).to be_nil
 
