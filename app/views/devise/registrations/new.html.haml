@@ -2,23 +2,32 @@
   .col-4
     %h2= t('.sign_up')
     = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-      = render('devise/shared/error_messages', resource: resource)
-      .form-group
+      .form-group.form-group__sign_up-username
         = f.label(:username)
         = f.text_field(:username, autofocus: true, autocomplete: 'username', class: 'form-control')
-      .form-group
+        .invalid-feedback= resource.errors.full_messages_for(:username).join
+      .form-group.form-group__sign_up-password
         = f.label(:password)
         - if @minimum_password_length
           %em= t('devise.shared.minimum_password_length', count: @minimum_password_length)
-        = f.password_field(:password, autocomplete: 'new-password', class: 'form-control')
-      .form-group
+        - if !resource.errors.include?(:password) && resource.errors.include?(:password_confirmation)
+          .field_with_errors
+            = f.password_field(:password, autocomplete: 'new-password', class: 'form-control')
+          .invalid-feedback= resource.errors.full_messages_for(:password_confirmation).join
+        - else
+          = f.password_field(:password, autocomplete: 'new-password', class: 'form-control')
+          .invalid-feedback= resource.errors.full_messages_for(:password).join
+      .form-group.form-group__sign_up-password_confirmation
         = f.label(:password_confirmation)
         = f.password_field(:password_confirmation, autocomplete: 'new-password', class: 'form-control')
-      .form-group
+        .invalid-feedback= resource.errors.full_messages_for(:password_confirmation).join
+      .form-group.form-group__sign_up-profile
         = f.label(:profile)
         = f.text_area(:profile, class: 'form-control', rows: 6)
-      .form-group
+        .invalid-feedback= resource.errors.full_messages_for(:profile).join
+      .form-group.form-group__sign_up-blog_url
         = f.label(:blog_url)
         = f.text_field(:blog_url, class: 'form-control')
-      .form-group
+        .invalid-feedback= resource.errors.full_messages_for(:blog_url).join
+      .form-group.form-group__sign_up-submit
         = f.submit(t('.sign_up'), class: 'btn btn-primary btn-block')

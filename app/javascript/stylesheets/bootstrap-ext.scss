@@ -1,4 +1,8 @@
 .field_with_errors {
+  input {
+    @extend .is-invalid;
+  }
+
   textarea {
     @extend .is-invalid;
   }
