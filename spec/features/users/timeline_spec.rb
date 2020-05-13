@@ -18,22 +18,29 @@ RSpec.describe '/users/timeline', type: :feature do
       sign_in(user)
     end
 
-    it '自分とフォローしているユーザの投稿のみが表示される' do
+    it '自分とフォローしているユーザの投稿のみが降順に表示される' do
       following_user = FactoryBot.create(:user).tap { |u| user.follow(u) }
       other_user = FactoryBot.create(:user)
 
       expect(user.following).to include(following_user)
       expect(user.following).not_to include(other_user)
 
-      user_blog = FactoryBot.create(:blog, user: user)
-      following_blog = FactoryBot.create(:blog, user: following_user)
-      other_blog = FactoryBot.create(:blog, user: other_user)
+      user_blog, following_blog, other_blog = [user, following_user, other_user].map.with_index do |author, i|
+        travel_to((5 - i).day.ago) { FactoryBot.create(:blog, user: author) }
+      end
 
       visit user_timeline_path
 
       expect(page).to have_css("li#blog-#{user_blog.id}")
       expect(page).to have_css("li#blog-#{following_blog.id}")
       expect(page).not_to have_css("li#blog-#{other_blog.id}")
+
+      # 表示順の確認
+      oldest_blog, latest_blog = [user_blog, following_blog].minmax_by(&:created_at)
+      expect(page).to have_css('ol#blogs > li:first-child span.blogs__blog-timestamp',
+                               text: l(latest_blog.created_at, format: :long))
+      expect(page).to have_css('ol#blogs > li:last-child  span.blogs__blog-timestamp',
+                               text: l(oldest_blog.created_at, format: :long))
     end
   end
 end

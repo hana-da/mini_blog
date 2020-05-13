@@ -18,6 +18,6 @@ class UsersController < ApplicationController
   end
 
   def timeline
-    @blogs = current_user.following_blogs
+    @blogs = current_user.following_blogs.order(created_at: :desc)
   end
 end
