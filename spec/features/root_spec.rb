@@ -3,8 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
-  it '全ての投稿が表示される' do
-    blogs = FactoryBot.create_list(:blog, 3)
+  it '全ての投稿が降順に表示される' do
+    blogs = 3.times.map do |i|
+      travel_to((5 - i).day.ago) { FactoryBot.create(:blog) }
+    end
 
     visit root_path
 
@@ -17,6 +19,13 @@ RSpec.describe '/', type: :feature do
         expect(page).to have_css('span.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
       end
     end
+
+    # 表示順の確認
+    oldest_blog, latest_blog = blogs.minmax_by(&:created_at)
+    expect(page).to have_css('ol#blogs > li:first-child span.blogs__blog-timestamp',
+                             text: l(latest_blog.created_at, format: :long))
+    expect(page).to have_css('ol#blogs > li:last-child  span.blogs__blog-timestamp',
+                             text: l(oldest_blog.created_at, format: :long))
   end
 
   context 'ログインしていない時' do
