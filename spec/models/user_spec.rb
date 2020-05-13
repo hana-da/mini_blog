@@ -154,6 +154,36 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#following?' do
+    context 'フォローしている時' do
+      it 'trueを返す' do
+        user, other = FactoryBot.create_list(:user, 2)
+        user.follow(other)
+
+        expect(user).to be_following(other.id)
+        expect(user).to be_following(other)
+      end
+    end
+
+    context 'フォローしていない時' do
+      it 'falseを返す' do
+        user, other = FactoryBot.create_list(:user, 2)
+
+        expect(user).not_to be_following(other.id)
+        expect(user).not_to be_following(other)
+      end
+    end
+
+    context '自分自身の時' do
+      it 'falseを返す' do
+        user = FactoryBot.create(:user)
+
+        expect(user).not_to be_following(user.id)
+        expect(user).not_to be_following(user)
+      end
+    end
+  end
+
   describe '#unfollow' do
     it 'フォローしている人をフォロー解除する事ができる' do
       user_a, user_b = FactoryBot.create_list(:user, 2)
