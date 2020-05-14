@@ -9,7 +9,7 @@
           .col.mt-5
             = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
     - else
-      .alert.alert-info= t('.need_login_to_post')
+      .alert.alert-info= t('.need_login_to_post_html', login_link: link_to(t('devise.shared.links.sign_in'), user_session_path), signup_link: link_to(t('devise.shared.links.sign_up'), new_user_registration_path))
 .row.justify-content-center.mb-3
   %nav.col-5
     %ul.nav.nav-tabs
