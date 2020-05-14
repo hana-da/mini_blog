@@ -7,7 +7,7 @@
             = f.text_area(:content, class: 'form-control', rows: 3)
             = invalid_feedback_tag(@blog, :content)
           .col.mt-5
-            = f.submit(t('.post'), class: 'btn btn-primary btn-block')
+            = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
     - else
       .alert.alert-info= t('.need_login_to_post')
   %section.col-8

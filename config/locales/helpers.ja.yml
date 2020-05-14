@@ -3,4 +3,5 @@ ja:
   helpers:
     submit:
       follow: フォローする
+      post: 投稿
       unfollow: フォロー解除

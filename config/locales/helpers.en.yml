@@ -3,4 +3,5 @@ en:
   helpers:
     submit:
       follow: Follow
+      post: Post
       unfollow: Unfollow
