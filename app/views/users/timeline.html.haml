@@ -1,5 +1,12 @@
 .row
-  %aside.col-2
+  %aside.col-4
+    = form_for(@blog) do |f|
+      .form-row
+        .col-10
+          = f.text_area(:content, class: 'form-control', rows: 3)
+          = invalid_feedback_tag(@blog, :content)
+        .col.mt-5
+          = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
   %section.col-8
     %ol#blogs.list-group
       - @blogs.each do |blog|

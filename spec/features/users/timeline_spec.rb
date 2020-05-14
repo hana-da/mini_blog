@@ -42,5 +42,36 @@ RSpec.describe '/users/timeline', type: :feature do
       expect(page).to have_css('ol#blogs > li:last-child  span.blogs__blog-timestamp',
                                text: l(oldest_blog.created_at, format: :long))
     end
+
+    it '投稿用のフォームからフォームを投稿できる' do
+      visit user_timeline_path
+
+      content = FactoryBot.attributes_for(:blog)[:content]
+
+      within('#new_blog') do
+        fill_in 'blog[content]', with: content
+        click_button
+      end
+
+      expect(page).to have_current_path(user_timeline_path)
+      expect(page).to have_css('span.blogs__blog-content', text: content)
+    end
+
+    it '長文を投稿しようとするとエラーメッセージが表示される' do
+      visit user_timeline_path
+
+      blog = FactoryBot.build(:blog, content: 'a' * 1000).tap(&:validate)
+
+      within('#new_blog') do
+        fill_in 'blog[content]', with: blog.content
+        click_button
+      end
+
+      expect(page).to have_current_path(user_timeline_path)
+      within('#new_blog') do
+        expect(page).to have_css('.field_with_errors > textarea#blog_content')
+        expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
+      end
+    end
   end
 end
