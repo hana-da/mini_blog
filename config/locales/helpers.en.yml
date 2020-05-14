@@ -1,6 +1,11 @@
 ---
 en:
   helpers:
+    link:
+      root: Timeline
+      timeline: Your timeline
+    placeholder:
+      post: Let's share our everyday thoughts.
     submit:
       follow: Follow
       post: Post

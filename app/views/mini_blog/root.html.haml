@@ -1,32 +1,39 @@
-.row
-  %aside.col-4
+.row.justify-content-center.mb-3
+  %aside.col-5
     - if current_user
       = form_for(@blog) do |f|
         .form-row
           .col-10
-            = f.text_area(:content, class: 'form-control', rows: 3)
+            = f.text_area(:content, class: 'form-control', rows: 3, placeholder: t('helpers.placeholder.post'))
             = invalid_feedback_tag(@blog, :content)
           .col.mt-5
             = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
     - else
       .alert.alert-info= t('.need_login_to_post')
-  %section.col-8
+.row.justify-content-center.mb-3
+  %nav.col-5
+    %ul.nav.nav-tabs
+      %li.nav-item= link_to(t('helpers.link.root'), root_path, class: 'nav-link active')
+      - if current_user
+        %li.nav-item= link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link")
+.row.justify-content-center
+  %section.col-5
     %ol#blogs.list-group
       - @blogs.each do |blog|
         %li{id: "blog-#{blog.id}", class: 'blogs__blog list-group-item'}
           .row.blogs__blog-header
-            .col-10
+            .col-9.mb-2
               = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
-            .col-2
+            .col.text-right
               - if @following_ids && blog.user_id != current_user.id
                 - if @following_ids.include?(blog.user_id)
                   = form_with(url: unfollow_user_path) do |f|
                     = f.hidden_field(:id, value: blog.user_id, id: nil)
-                    = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
+                    = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm h-50')
                 - else
                   = form_with(url: follow_user_path) do |f|
                     = f.hidden_field(:id, value: blog.user_id, id: nil)
-                    = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
+                    = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm h-50')
           .row
             .col
               %span.blogs__blog-content= blog.content

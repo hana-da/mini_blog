@@ -1,18 +1,24 @@
-.row
-  %aside.col-4
+.row.justify-content-center.mb-3
+  %aside.col-5
     = form_for(@blog) do |f|
       .form-row
         .col-10
-          = f.text_area(:content, class: 'form-control', rows: 3)
+          = f.text_area(:content, class: 'form-control', rows: 3, placeholder: t('helpers.placeholder.post'))
           = invalid_feedback_tag(@blog, :content)
         .col.mt-5
           = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
-  %section.col-8
+.row.justify-content-center.mb-3
+  %nav.col-5
+    %ul.nav.nav-tabs
+      %li.nav-item= link_to(t('helpers.link.root'),     root_path,          class: 'nav-link')
+      %li.nav-item= link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link active")
+.row.justify-content-center
+  %section.col-5
     %ol#blogs.list-group
       - @blogs.each do |blog|
         %li{id: "blog-#{blog.id}", class: 'blogs__blog list-group-item'}
           .row.blogs__blog-header
-            .col-10
+            .col-9.mb-2
               = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
           .row
             .col
