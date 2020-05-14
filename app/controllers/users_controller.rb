@@ -18,12 +18,9 @@ class UsersController < ApplicationController
   end
 
   def timeline
-    @blog = Blog.new do |blog|
-      next unless session[:invalid_blog_content]
+    @blog = Blog.new_with_validation(content: session[:nil_or_invalid_blog_content])
+    session[:nil_or_invalid_blog_content] = nil
 
-      blog.content = session[:invalid_blog_content]
-      blog.validate
-    end
     @blogs = current_user.following_blogs.order(created_at: :desc)
   end
 end

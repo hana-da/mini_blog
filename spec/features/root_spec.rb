@@ -90,12 +90,15 @@ RSpec.describe '/', type: :feature do
       content = FactoryBot.build(:blog).content
 
       within('#new_blog') do
+        expect(page).not_to have_css('.field_with_errors > textarea#blog_content')
+
         fill_in 'blog[content]', with: content
         click_button
       end
 
-      expect(page).to have_current_path(root_path, ignore_query: true)
+      expect(page).to have_current_path(root_path)
       expect(page).to have_css('span.blogs__blog-content', text: content)
+      expect(page.find('textarea#blog_content').value).to be_blank
     end
 
     it '長文を投稿しようとするとエラーメッセージが表示される' do

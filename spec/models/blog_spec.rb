@@ -32,4 +32,46 @@ RSpec.describe Blog, type: :model do
       expect(Blog.new).to belong_to(:user)
     end
   end
+
+  describe '.new_with_validate' do
+    context '引数がない時' do
+      it 'validationは行われない' do
+        blog_without_validation = Blog.new_with_validation
+
+        expect(blog_without_validation).to be_instance_of(Blog)
+        expect(blog_without_validation.content).to be_nil
+        expect(blog_without_validation.errors).to be_empty
+      end
+    end
+
+    context '引数なしでblock付きの時' do
+      it 'validationは行われない' do
+        blog_without_validation = Blog.new_with_validation { |blog| blog.content = '' }
+
+        expect(blog_without_validation).to be_instance_of(Blog)
+        expect(blog_without_validation.content).to eq('')
+        expect(blog_without_validation.errors).to be_empty
+      end
+    end
+
+    context '引数の値がnilの時' do
+      it 'validationは行われない' do
+        blog_without_validation = Blog.new_with_validation(content: nil)
+
+        expect(blog_without_validation).to be_instance_of(Blog)
+        expect(blog_without_validation.content).to be_nil
+        expect(blog_without_validation.errors).to be_empty
+      end
+    end
+
+    context '引数の値がnilでない時' do
+      it 'validationが行われている' do
+        blog_with_validation = Blog.new_with_validation(content: '')
+
+        expect(blog_with_validation).to be_instance_of(Blog)
+        expect(blog_with_validation.content).to eq('')
+        expect(blog_with_validation.errors).to be_include(:content)
+      end
+    end
+  end
 end

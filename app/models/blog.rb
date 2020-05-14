@@ -22,4 +22,12 @@ class Blog < ApplicationRecord
   validates :content, length: { in: 1..140 }
 
   belongs_to :user
+
+  # attributesの指定があれば new した後にvalidateもする
+  #
+  # @param [Hash] attributes
+  # @return [Blog]
+  def self.new_with_validation(attributes = {}, &block)
+    new(attributes, &block).tap { |blog| blog.validate if attributes.values.any? }
+  end
 end
