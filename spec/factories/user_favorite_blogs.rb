@@ -23,7 +23,7 @@
 #
 FactoryBot.define do
   factory :user_favorite_blog do
-    blog { nil }
-    user { nil }
+    blog
+    user
   end
 end

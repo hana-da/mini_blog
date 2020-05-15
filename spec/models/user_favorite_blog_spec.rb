@@ -24,5 +24,12 @@
 require 'rails_helper'
 
 RSpec.describe UserFavoriteBlog, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it do
+      favorite_blog = UserFavoriteBlog.new
+
+      expect(favorite_blog).to belong_to(:user)
+      expect(favorite_blog).to belong_to(:blog)
+    end
+  end
 end

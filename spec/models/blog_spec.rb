@@ -29,7 +29,13 @@ RSpec.describe Blog, type: :model do
 
   describe 'associations' do
     it do
-      expect(Blog.new).to belong_to(:user)
+      blog = Blog.new
+
+      expect(blog).to belong_to(:user)
+
+      # いいね
+      expect(blog).to have_many(:likes).class_name('UserFavoriteBlog').dependent(:destroy)
+      expect(blog).to have_many(:liked_users).through(:likes).source(:user)
     end
   end
 

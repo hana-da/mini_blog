@@ -23,6 +23,10 @@ class Blog < ApplicationRecord
 
   belongs_to :user
 
+  # いいね
+  has_many :likes, class_name: 'UserFavoriteBlog', dependent: :destroy
+  has_many :liked_users, through: :likes, source: :user
+
   # attributesの指定があれば new した後にvalidateもする
   #
   # @param [Hash] attributes

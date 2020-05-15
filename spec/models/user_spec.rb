@@ -66,6 +66,11 @@ RSpec.describe User, type: :model do
       expect(user).to have_many(:followers).through(:follower_relationships).source(:follower)
       # ユーザがフォローしているユーザ
       expect(user).to have_many(:following).through(:following_relationships).source(:followed)
+
+      # いいね
+      expect(user).to have_many(:likes).class_name('UserFavoriteBlog').dependent(:destroy)
+      # いいねしたBlog
+      expect(user).to have_many(:likes_blogs).through(:likes).source(:blog)
     end
 
     describe 'user relationship' do
