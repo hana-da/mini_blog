@@ -158,6 +158,23 @@ RSpec.describe '/', type: :feature do
 
         expect(blog.liked_users.reload).to include(user)
       end
+
+      it '「いいね」ボタンには「いいね」された数が表示されている' do
+        favorite = FactoryBot.create(:user_favorite_blog, user: user)
+        favorited_blog = favorite.blog
+        expect(favorited_blog.liked_users).to include(user)
+
+        blog = FactoryBot.create(:blog)
+
+        visit root_path
+        within("li#blog-#{favorited_blog.id}") do
+          expect(page).to have_css("#like-button-#{favorited_blog.id}", text: "1 #{t('helpers.submit.like')}")
+        end
+
+        within("li#blog-#{blog.id}") do
+          expect(page).to have_css("#like-button-#{blog.id}", text: "0 #{t('helpers.submit.like')}")
+        end
+      end
     end
 
     it '自分の投稿にはフォローボタンは表示されていない' do
