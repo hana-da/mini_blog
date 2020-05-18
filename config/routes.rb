@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :blogs, only: :create
+  resources :blogs, only: :create do
+    post :like, on: :member
+  end
 
   devise_for :users, skip: :registration
   devise_scope :user do

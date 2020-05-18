@@ -52,6 +52,14 @@ RSpec.describe '/', type: :feature do
       expect(page).not_to have_button(t('helpers.submit.follow'))
       expect(page).not_to have_button(t('helpers.submit.unfollow'))
     end
+
+    it 'いいねボタンは表示されていない' do
+      FactoryBot.create(:blog)
+
+      visit root_path
+
+      expect(page).not_to have_button(t('helpers.submit.like'))
+    end
   end
 
   context 'ログインしている時' do
@@ -114,6 +122,30 @@ RSpec.describe '/', type: :feature do
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
+      end
+    end
+
+    describe '「いいね」ボタン' do
+      it '自分の投稿には「いいね」ボタンは表示されていない' do
+        blog = FactoryBot.create(:blog, user: user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          expect(page).not_to have_css(%(form[action="#{like_blog_path(blog)}"]))
+          expect(page).not_to have_button(t('helpers.submit.like'))
+        end
+      end
+
+      it '「いいね」ボタンで投稿に「いいね」する事ができる' do
+        blog = FactoryBot.create(:blog)
+        expect(blog.liked_users).not_to include(user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          click_button("like-button-#{blog.id}")
+        end
+
+        expect(blog.liked_users.reload).to include(user)
       end
     end
 

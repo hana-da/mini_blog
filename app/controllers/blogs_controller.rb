@@ -8,4 +8,11 @@ class BlogsController < ApplicationController
     session[:nil_or_invalid_blog_content] = blog.content if blog.invalid?
     redirect_back fallback_location: root_path
   end
+
+  # Blogを「いいね」する
+  def like
+    blog = Blog.find(params[:id])
+    blog.liked_users << current_user
+    redirect_back fallback_location: root_path
+  end
 end
