@@ -135,13 +135,13 @@ RSpec.describe '/', type: :feature do
     end
 
     describe '「いいね」ボタン' do
-      it '自分の投稿には「いいね」ボタンは表示されていない' do
+      it '自分の投稿でも「いいね」の数を表示するために「いいね」ボタンは表示されている。が、押せない' do
         blog = FactoryBot.create(:blog, user: user)
 
         visit root_path
         within("li#blog-#{blog.id}") do
-          expect(page).not_to have_css(%(form[action="#{like_blog_path(blog)}"]))
-          expect(page).not_to have_button(t('helpers.submit.like'))
+          expect(page).to have_css("#like-button-#{blog.id}[disabled='disabled']",
+                                   text: "0 #{t('helpers.submit.like')}")
         end
       end
 

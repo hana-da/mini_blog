@@ -59,6 +59,15 @@ RSpec.describe 'BlogsControllers', type: :request do
         end.to raise_error(ActiveRecord::RecordInvalid)
         expect(UserFavoriteBlog.count).to eq(1)
       end
+
+      it '自分の投稿には「いいね」できない' do
+        blog = FactoryBot.create(:blog, user: user)
+
+        expect do
+          post like_blog_path(blog)
+        end.to raise_error(ActiveRecord::RecordInvalid)
+        expect(UserFavoriteBlog.count).to be_zero
+      end
     end
   end
 end

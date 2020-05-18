@@ -44,9 +44,8 @@
             .col
               %span.blogs__blog-timestamp= l(blog.created_at, format: :long)
             .col.text-right
-              - if blog.user_id != current_user&.id
-                = button_to(like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm h-50", disabled: @likes_blog_ids.nil? || @likes_blog_ids.include?(blog.id)) do
-                  %span.badge.badge-pill.badge-light
-                    = @liked_count[blog.id].to_i
-                  %span
-                    = t('helpers.submit.like')
+              = button_to(like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm h-50", disabled: @likes_blog_ids.nil? || current_user == blog.user || @likes_blog_ids.include?(blog.id)) do
+                %span.badge.badge-pill.badge-light
+                  = @liked_count[blog.id].to_i
+                %span
+                  = t('helpers.submit.like')
