@@ -31,6 +31,13 @@ RSpec.describe UserFavoriteBlog, type: :model do
       expect(favorite).to validate_uniqueness_of(:user_id).scoped_to(:blog_id)
     end
 
+    it '自分の投稿にいいねする事はできない' do
+      blog = FactoryBot.create(:blog)
+      blog_user = blog.user
+
+      expect(UserFavoriteBlog.new(blog: blog, user: blog_user)).to be_invalid
+    end
+
     it '同じ投稿に複数回いいねはできない' do
       favorite = FactoryBot.create(:user_favorite_blog)
       blog = favorite.blog

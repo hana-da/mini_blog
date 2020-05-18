@@ -1,0 +1,9 @@
+---
+ja:
+  activerecord:
+    errors:
+      models:
+        user_favorite_blog:
+          attributes:
+            base:
+              not_own_blog: 自分のブログを「いいね」する事はできません。

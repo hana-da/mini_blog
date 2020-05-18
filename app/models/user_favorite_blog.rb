@@ -25,6 +25,13 @@ class UserFavoriteBlog < ApplicationRecord
   belongs_to :blog
   belongs_to :user
 
+  validate :not_own_blog
   validates :blog_id, uniqueness: { scope: :user_id }
   validates :user_id, uniqueness: { scope: :blog_id }
+
+  private def not_own_blog
+    return unless blog&.user_id == user_id
+
+    errors.add(:base, :not_own_blog)
+  end
 end
