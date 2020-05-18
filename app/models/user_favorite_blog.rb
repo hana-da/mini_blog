@@ -24,4 +24,7 @@
 class UserFavoriteBlog < ApplicationRecord
   belongs_to :blog
   belongs_to :user
+
+  validates :blog_id, uniqueness: { scope: :user_id }
+  validates :user_id, uniqueness: { scope: :blog_id }
 end
