@@ -28,4 +28,24 @@ RSpec.describe 'BlogsControllers', type: :request do
       expect(response).to redirect_to(new_user_session_path)
     end
   end
+
+  describe '#like' do
+    context 'ログインしている時' do
+      let!(:user) { FactoryBot.create(:user) }
+
+      before do
+        sign_in(user)
+      end
+
+      it '既に「いいね」したblogには「いいね」できない' do
+        favorite = FactoryBot.create(:user_favorite_blog, user: user)
+        favorited_blog = favorite.blog
+
+        expect do
+          post like_blog_path(favorited_blog)
+        end.to raise_error(ActiveRecord::RecordInvalid)
+        expect(UserFavoriteBlog.count).to eq(1)
+      end
+    end
+  end
 end

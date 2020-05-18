@@ -136,6 +136,17 @@ RSpec.describe '/', type: :feature do
         end
       end
 
+      it '「いいね」済みの投稿の「いいね」ボタンは押せない' do
+        favorite = FactoryBot.create(:user_favorite_blog, user: user)
+        blog = favorite.blog
+        expect(blog.liked_users).to include(user)
+
+        visit root_path
+        within("li#blog-#{blog.id}") do
+          expect(page).to have_css("#like-button-#{blog.id}[disabled='disabled']")
+        end
+      end
+
       it '「いいね」ボタンで投稿に「いいね」する事ができる' do
         blog = FactoryBot.create(:blog)
         expect(blog.liked_users).not_to include(user)

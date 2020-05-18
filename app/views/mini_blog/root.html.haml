@@ -44,5 +44,5 @@
             .col
               %span.blogs__blog-timestamp= l(blog.created_at, format: :long)
             .col.text-right
-              - if current_user && blog.user_id != current_user.id
-                = button_to(t('helpers.submit.like'), like_blog_path(blog), id: "like-button-#{blog.id}", class: 'btn btn-primary btn-sm h-50')
+              - if current_user && blog.user_id != current_user&.id
+                = button_to(t('helpers.submit.like'), like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm h-50", disabled: @likes_blog_ids&.include?(blog.id))

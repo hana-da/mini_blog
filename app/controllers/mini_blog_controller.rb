@@ -6,6 +6,7 @@ class MiniBlogController < ApplicationController
     session[:nil_or_invalid_blog_content] = nil
 
     @following_ids = current_user&.following_ids
+    @likes_blog_ids = current_user&.likes_blog_ids
     @blogs = Blog.order(created_at: :desc).includes(:user)
   end
 end
