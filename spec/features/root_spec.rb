@@ -53,12 +53,21 @@ RSpec.describe '/', type: :feature do
       expect(page).not_to have_button(t('helpers.submit.unfollow'))
     end
 
-    it 'いいねボタンは表示されていない' do
-      FactoryBot.create(:blog)
+    it '「いいね」ボタンは押せないが、「いいね」の数を表示するために見えている' do
+      blog = FactoryBot.create(:blog)
+      favorite = FactoryBot.create(:user_favorite_blog)
+      favorited_blog = favorite.blog
 
       visit root_path
+      within("li#blog-#{favorited_blog.id}") do
+        expect(page).to have_css("#like-button-#{favorited_blog.id}[disabled='disabled']",
+                                 text: "1 #{t('helpers.submit.like')}")
+      end
 
-      expect(page).not_to have_button(t('helpers.submit.like'))
+      within("li#blog-#{blog.id}") do
+        expect(page).to have_css("#like-button-#{blog.id}[disabled='disabled']",
+                                 text: "0 #{t('helpers.submit.like')}")
+      end
     end
   end
 

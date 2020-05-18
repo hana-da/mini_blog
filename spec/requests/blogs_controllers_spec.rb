@@ -30,6 +30,19 @@ RSpec.describe 'BlogsControllers', type: :request do
   end
 
   describe '#like' do
+    context 'ログインしていない時' do
+      it '「いいね」はできない' do
+        blog = FactoryBot.create(:blog)
+
+        expect do
+          post like_blog_path(blog)
+        end.not_to change(UserFavoriteBlog, :count)
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
     context 'ログインしている時' do
       let!(:user) { FactoryBot.create(:user) }
 
