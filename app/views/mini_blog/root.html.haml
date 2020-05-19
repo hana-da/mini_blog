@@ -12,13 +12,16 @@
           .col.mt-5
             = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
     - else
-      .alert.alert-info= t('.need_login_to_post_html', login_link: link_to(t('devise.shared.links.sign_in'), user_session_path), signup_link: link_to(t('devise.shared.links.sign_up'), new_user_registration_path))
+      .alert.alert-info
+        = t('.need_login_to_post_html', login_link: link_to(t('devise.shared.links.sign_in'), user_session_path), signup_link: link_to(t('devise.shared.links.sign_up'), new_user_registration_path))
 .row.justify-content-center.mb-3
   %nav.col-5
     %ul.nav.nav-tabs
-      %li.nav-item= link_to(t('helpers.link.root'), root_path, class: "nav-link #{current_page?(root_path) && 'active'}")
+      %li.nav-item
+        = link_to(t('helpers.link.root'), root_path, class: "nav-link #{current_page?(root_path) && 'active'}")
       - if current_user
-        %li.nav-item= link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link  #{current_page?(user_timeline_path) && 'active'}")
+        %li.nav-item
+          = link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link  #{current_page?(user_timeline_path) && 'active'}")
 .row.justify-content-center
   %section.col-5
     %ol#blogs.list-unstyled
