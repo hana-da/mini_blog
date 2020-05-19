@@ -70,15 +70,16 @@ RSpec.describe '/', type: :feature do
       end
     end
 
-    it '「いいね」したユーザのusernameが表示されている' do
+    it '「いいね」したユーザのusernameがリンクで表示されている' do
       blog = FactoryBot.create(:blog)
       favorited_blog = FactoryBot.create(:blog)
       favorited_users = FactoryBot.create_list(:user_favorite_blog, 3, blog: favorited_blog).map(&:user)
 
       visit root_path
-      within("li#blog-#{favorited_blog.id}") do
-        expect(page).to have_css('.blogs__blog-favorited-users',
-                                 text: favorited_users.map(&:username).join(I18n.t('support.array.words_connector')))
+      within("li#blog-#{favorited_blog.id} .blogs__blog-favorited-users") do
+        favorited_users.each do |user|
+          expect(page).to have_link(user.username, href: user_path(user))
+        end
       end
       within("li#blog-#{blog.id}") do
         expect(page).to have_css('.blogs__blog-favorited-users', text: '')
@@ -201,15 +202,16 @@ RSpec.describe '/', type: :feature do
       end
     end
 
-    it '「いいね」したユーザのusernameが表示されている' do
+    it '「いいね」したユーザのusernameがリンクで表示されている' do
       blog = FactoryBot.create(:blog)
       favorited_blog = FactoryBot.create(:blog)
       favorited_users = FactoryBot.create_list(:user_favorite_blog, 3, blog: favorited_blog).map(&:user)
 
       visit root_path
-      within("li#blog-#{favorited_blog.id}") do
-        expect(page).to have_css('.blogs__blog-favorited-users',
-                                 text: favorited_users.map(&:username).join(I18n.t('support.array.words_connector')))
+      within("li#blog-#{favorited_blog.id} .blogs__blog-favorited-users") do
+        favorited_users.each do |user|
+          expect(page).to have_link(user.username, href: user_path(user))
+        end
       end
       within("li#blog-#{blog.id}") do
         expect(page).to have_css('.blogs__blog-favorited-users', text: '')

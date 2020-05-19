@@ -49,6 +49,9 @@
                   = @liked_count[blog.id].to_i
                 %span
                   = t('helpers.submit.like')
-            .col.text-left
-              %span.blogs__blog-favorited-users
-                = blog.liked_users.map(&:username).join(I18n.t('support.array.words_connector'))
+          .row
+            .col-3
+            .col
+              %ul.list-inline.blogs__blog-favorited-users
+                - blog.liked_users.each do |user|
+                  %li.list-inline-item= link_to(user.username, user_path(user), class: 'badge badge-info')
