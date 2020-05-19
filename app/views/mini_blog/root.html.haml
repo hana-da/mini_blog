@@ -34,11 +34,11 @@
                     - if following_ids.include?(blog.user_id)
                       = form_with(url: unfollow_user_path) do |f|
                         = f.hidden_field(:id, value: blog.user_id, id: nil)
-                        = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm h-50')
+                        = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
                     - else
                       = form_with(url: follow_user_path) do |f|
                         = f.hidden_field(:id, value: blog.user_id, id: nil)
-                        = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm h-50')
+                        = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
               .row
                 .col
                   %article.blogs__blog-content= blog.content
