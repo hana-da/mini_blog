@@ -17,10 +17,13 @@ class UsersController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
+  # ユーザ個別のタイムライン
   def timeline
     @blog = Blog.new_with_validation(content: session[:nil_or_invalid_blog_content])
     session[:nil_or_invalid_blog_content] = nil
 
-    @blogs = current_user.following_blogs.order(created_at: :desc)
+    @blogs = current_user.following_blogs.order(created_at: :desc).includes(:user, :liked_users)
+
+    render template: 'mini_blog/root'
   end
 end

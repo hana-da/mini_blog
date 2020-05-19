@@ -1,3 +1,6 @@
+- following_ids = current_user&.following_ids
+- likes_blog_ids = current_user&.likes_blog_ids
+- liked_count = UserFavoriteBlog.group(:blog_id).count
 .row.justify-content-center.mb-3
   %aside.col-5
     - if current_user
@@ -13,9 +16,9 @@
 .row.justify-content-center.mb-3
   %nav.col-5
     %ul.nav.nav-tabs
-      %li.nav-item= link_to(t('helpers.link.root'), root_path, class: 'nav-link active')
+      %li.nav-item= link_to(t('helpers.link.root'), root_path, class: "nav-link #{current_page?(root_path) && 'active'}")
       - if current_user
-        %li.nav-item= link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link")
+        %li.nav-item= link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link  #{current_page?(user_timeline_path) && 'active'}")
 .row.justify-content-center
   %section.col-5
     %ol#blogs.list-unstyled
@@ -27,8 +30,8 @@
                 .col-9.mb-2
                   = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
                 .col.text-right
-                  - if @following_ids && blog.user_id != current_user.id
-                    - if @following_ids.include?(blog.user_id)
+                  - if following_ids && blog.user_id != current_user.id
+                    - if following_ids.include?(blog.user_id)
                       = form_with(url: unfollow_user_path) do |f|
                         = f.hidden_field(:id, value: blog.user_id, id: nil)
                         = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm h-50')
@@ -44,9 +47,9 @@
                 .col-3
                   %span.text-muted.blogs__blog-timestamp= l(blog.created_at, format: :long)
                 .col-2.text-right
-                  = button_to(like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm", disabled: @likes_blog_ids.nil? || current_user == blog.user || @likes_blog_ids.include?(blog.id)) do
+                  = button_to(like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm", disabled: likes_blog_ids.nil? || current_user == blog.user || likes_blog_ids.include?(blog.id)) do
                     %span.badge.badge-pill.badge-light
-                      = @liked_count[blog.id].to_i
+                      = liked_count[blog.id].to_i
                     %span
                       = t('helpers.submit.like')
                 .col
