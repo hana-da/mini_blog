@@ -56,7 +56,7 @@ RSpec.describe '/users/timeline', type: :feature do
       end
 
       expect(page).to have_current_path(user_timeline_path)
-      expect(page).to have_css('span.blogs__blog-content', text: content)
+      expect(page).to have_css('article.blogs__blog-content', text: content)
       expect(page.find('textarea#blog_content').value).to be_blank
     end
 

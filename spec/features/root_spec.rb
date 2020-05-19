@@ -15,7 +15,7 @@ RSpec.describe '/', type: :feature do
     blogs.each do |blog|
       within("li#blog-#{blog.id}") do
         expect(page).to have_link(blog.user.username, href: user_path(blog.user))
-        expect(page).to have_css('span.blogs__blog-content', text: blog.content)
+        expect(page).to have_css('article.blogs__blog-content', text: blog.content)
         expect(page).to have_css('span.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe '/', type: :feature do
       end
 
       expect(page).to have_current_path(root_path)
-      expect(page).to have_css('span.blogs__blog-content', text: content)
+      expect(page).to have_css('article.blogs__blog-content', text: content)
       expect(page.find('textarea#blog_content').value).to be_blank
     end
 

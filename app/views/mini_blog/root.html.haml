@@ -18,40 +18,38 @@
         %li.nav-item= link_to(t('helpers.link.timeline'), user_timeline_path, class: "nav-link")
 .row.justify-content-center
   %section.col-5
-    %ol#blogs.list-group
+    %ol#blogs.list-unstyled
       - @blogs.each do |blog|
-        %li{id: "blog-#{blog.id}", class: 'blogs__blog list-group-item'}
-          .row.blogs__blog-header
-            .col-9.mb-2
-              = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
-            .col.text-right
-              - if @following_ids && blog.user_id != current_user.id
-                - if @following_ids.include?(blog.user_id)
-                  = form_with(url: unfollow_user_path) do |f|
-                    = f.hidden_field(:id, value: blog.user_id, id: nil)
-                    = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm h-50')
-                - else
-                  = form_with(url: follow_user_path) do |f|
-                    = f.hidden_field(:id, value: blog.user_id, id: nil)
-                    = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm h-50')
-          .row
-            .col
-              %span.blogs__blog-content= blog.content
-          .row
-            .col
-              %hr.mt-1.mb-2
-          .row
-            .col-3
-              %span.blogs__blog-timestamp= l(blog.created_at, format: :long)
-            .col-2.text-right
-              = button_to(like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm", disabled: @likes_blog_ids.nil? || current_user == blog.user || @likes_blog_ids.include?(blog.id)) do
-                %span.badge.badge-pill.badge-light
-                  = @liked_count[blog.id].to_i
-                %span
-                  = t('helpers.submit.like')
-          .row
-            .col-3
-            .col
-              %ul.list-inline.blogs__blog-favorited-users
-                - blog.liked_users.each do |user|
-                  %li.list-inline-item= link_to(user.username, user_path(user), class: 'badge badge-info')
+        %li{id: "blog-#{blog.id}", class: 'blogs__blog mb-2'}
+          .card
+            .card-body
+              .row.blogs__blog-header
+                .col-9.mb-2
+                  = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
+                .col.text-right
+                  - if @following_ids && blog.user_id != current_user.id
+                    - if @following_ids.include?(blog.user_id)
+                      = form_with(url: unfollow_user_path) do |f|
+                        = f.hidden_field(:id, value: blog.user_id, id: nil)
+                        = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm h-50')
+                    - else
+                      = form_with(url: follow_user_path) do |f|
+                        = f.hidden_field(:id, value: blog.user_id, id: nil)
+                        = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm h-50')
+              .row
+                .col
+                  %article.blogs__blog-content= blog.content
+            .card-footer
+              .row
+                .col-3
+                  %span.text-muted.blogs__blog-timestamp= l(blog.created_at, format: :long)
+                .col-2.text-right
+                  = button_to(like_blog_path(blog), id: "like-button-#{blog.id}", class: "btn btn-primary btn-sm", disabled: @likes_blog_ids.nil? || current_user == blog.user || @likes_blog_ids.include?(blog.id)) do
+                    %span.badge.badge-pill.badge-light
+                      = @liked_count[blog.id].to_i
+                    %span
+                      = t('helpers.submit.like')
+                .col
+                  %ul.list-inline.blogs__blog-favorited-users
+                    - blog.liked_users.each do |user|
+                      %li.list-inline-item= link_to(user.username, user_path(user), class: 'badge badge-info')
