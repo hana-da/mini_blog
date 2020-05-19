@@ -69,6 +69,21 @@ RSpec.describe '/', type: :feature do
                                  text: "0 #{t('helpers.submit.like')}")
       end
     end
+
+    it '「いいね」したユーザのusernameが表示されている' do
+      blog = FactoryBot.create(:blog)
+      favorited_blog = FactoryBot.create(:blog)
+      favorited_users = FactoryBot.create_list(:user_favorite_blog, 3, blog: favorited_blog).map(&:user)
+
+      visit root_path
+      within("li#blog-#{favorited_blog.id}") do
+        expect(page).to have_css('.blogs__blog-favorited-users',
+                                 text: favorited_users.map(&:username).join(I18n.t('support.array.words_connector')))
+      end
+      within("li#blog-#{blog.id}") do
+        expect(page).to have_css('.blogs__blog-favorited-users', text: '')
+      end
+    end
   end
 
   context 'ログインしている時' do
@@ -183,6 +198,21 @@ RSpec.describe '/', type: :feature do
         within("li#blog-#{blog.id}") do
           expect(page).to have_css("#like-button-#{blog.id}", text: "0 #{t('helpers.submit.like')}")
         end
+      end
+    end
+
+    it '「いいね」したユーザのusernameが表示されている' do
+      blog = FactoryBot.create(:blog)
+      favorited_blog = FactoryBot.create(:blog)
+      favorited_users = FactoryBot.create_list(:user_favorite_blog, 3, blog: favorited_blog).map(&:user)
+
+      visit root_path
+      within("li#blog-#{favorited_blog.id}") do
+        expect(page).to have_css('.blogs__blog-favorited-users',
+                                 text: favorited_users.map(&:username).join(I18n.t('support.array.words_connector')))
+      end
+      within("li#blog-#{blog.id}") do
+        expect(page).to have_css('.blogs__blog-favorited-users', text: '')
       end
     end
 

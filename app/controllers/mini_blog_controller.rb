@@ -8,6 +8,6 @@ class MiniBlogController < ApplicationController
     @following_ids = current_user&.following_ids
     @likes_blog_ids = current_user&.likes_blog_ids
     @liked_count = UserFavoriteBlog.group(:blog_id).count
-    @blogs = Blog.order(created_at: :desc).includes(:user)
+    @blogs = Blog.order(created_at: :desc).includes(:user, :liked_users)
   end
 end
