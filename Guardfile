@@ -54,7 +54,7 @@ group :red_green_refactor, halt_on_fail: true do
     rspec.factories = %r{^#{rspec.spec_dir}/factories/(.+)\.rb$}
     rspec.feature_spec = lambda do |m|
       parts = m.split('/')
-      spec_file = File.join(parts[0..-2], parts[1..-1].join('_'))
+      spec_file = File.join(parts[0..-2], parts[1..].join('_'))
       [
         rspec.spec.call(spec_file),
         "#{rspec.spec_dir}/#{spec_file}",
