@@ -86,4 +86,12 @@ class User < ApplicationRecord
   def like!(blog)
     likes_blogs << blog
   end
+
+  # blog を「いいね」できるかどうか?
+  #
+  # @param [Blog] blog 検査対象のBlog
+  # @return [boolean]
+  def likable?(blog)
+    self != blog.user && likes_blog_ids.exclude?(blog.id)
+  end
 end

@@ -238,4 +238,27 @@ RSpec.describe User, type: :model do
       expect { user.like!(blog) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  describe '#likable?' do
+    it '自分のBlogには「いいね」できない' do
+      blog = FactoryBot.create(:blog)
+      expect(blog.user).not_to be_likable(blog)
+    end
+
+    it '既に「いいね」したBlogには「いいね」できない' do
+      user = FactoryBot.create(:user)
+      blog = FactoryBot.create(:blog)
+      user.like!(blog)
+
+      expect(user).not_to be_likable(blog)
+    end
+
+    it '人のBlogで「いいね」してなければ「いいね」できる' do
+      user = FactoryBot.create(:user)
+      blog = FactoryBot.create(:blog)
+      expect(user.likes_blogs).not_to be_include(blog)
+
+      expect(user).to be_likable(blog)
+    end
+  end
 end
