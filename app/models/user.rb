@@ -76,4 +76,13 @@ class User < ApplicationRecord
   def unfollow(user)
     following_relationships.find_by(followed: user)&.destroy
   end
+
+  # blogを「いいね」する
+  #
+  # @param [Blog] blog 「いいね」するBlog
+  # @raise [ActiveRecord::RecordInvalid]
+  # @return [Blog::ActiveRecord_Associations_CollectionProxy]
+  def like!(blog)
+    likes_blogs << blog
+  end
 end

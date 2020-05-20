@@ -212,4 +212,30 @@ RSpec.describe User, type: :model do
       expect(user_a.unfollow(user_b)).to be_nil
     end
   end
+
+  describe '#like!' do
+    it '「いいね」できる' do
+      user = FactoryBot.create(:user)
+      blog = FactoryBot.create(:blog)
+
+      expect { user.like!(blog) }.to change(UserFavoriteBlog, :count).by(1)
+
+      expect(user.likes_blogs).to be_include(blog)
+    end
+
+    it '自分のBlogを「いいね」するとActiveRecord::RecordInvalidが発生する' do
+      blog = FactoryBot.create(:blog)
+
+      expect { blog.user.like!(blog) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it '既に「いいね」したBlogを「いいね」するとActiveRecord::RecordInvalidが発生する' do
+      user = FactoryBot.create(:user)
+      blog = FactoryBot.create(:blog)
+
+      user.like!(blog)
+
+      expect { user.like!(blog) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end
