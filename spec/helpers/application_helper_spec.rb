@@ -3,19 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
-  before do
-    stub_const('DummyModel', Class.new do
-      include ActiveModel::Validations
-
-      attr_accessor :name
-
-      validates :name, presence:  true,
-                       length:    { maximum: 5 },
-                       exclusion: { in: ['NG WORD'] }
-    end)
-  end
-
   describe '#invalid_feedback_tag' do
+    before do
+      stub_const('DummyModel', Class.new do
+        include ActiveModel::Validations
+
+        attr_accessor :name
+
+        validates :name, presence:  true,
+                         length:    { maximum: 5 },
+                         exclusion: { in: ['NG WORD'] }
+      end)
+    end
+
     context 'modelにerrorが登録されていない時' do
       it '中身のないdiv.invalid-feedbackタグが返る' do
         model = DummyModel.new.tap { |m| m.name = 'decoy' }
