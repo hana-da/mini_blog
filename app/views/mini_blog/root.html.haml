@@ -5,7 +5,11 @@
       = form_for(@blog) do |f|
         .form-row
           .col-10
-            = f.text_area(:content, class: 'form-control', rows: 3, placeholder: t('helpers.placeholder.post'))
+            = f.text_area(:content,
+                class: 'form-control',
+                rows: 3,
+                autofocus: true,
+                placeholder: t('helpers.placeholder.post'))
             = invalid_feedback_tag(@blog, :content)
           .col.mt-5
             = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
@@ -37,17 +41,20 @@
                     = follow_unfollow_button_tag(blog.user_id)
               .row
                 .col
-                  %article.blogs__blog-content.lead= blog.content
+                  %article.blogs__blog-content.lead
+                    = blog.content
             .card-footer
               .row
                 .col-3
-                  %span.text-muted.blogs__blog-timestamp= l(blog.created_at, format: :long)
+                  %span.text-muted.blogs__blog-timestamp
+                    = l(blog.created_at, format: :long)
                 .col-2.text-right
                   = favorite_button_tag(blog: blog, count: liked_count[blog.id].to_i)
                 .col
                   %ul.list-inline.blogs__blog-favorited-users
                     - blog.liked_users.each do |user|
-                      %li.list-inline-item= link_to(user.username, user_path(user), class: 'badge badge-info')
+                      %li.list-inline-item
+                        = link_to(user.username, user_path(user), class: 'badge badge-info')
             .card-body.border-top.pt-0
               %ul.list-group.list-group-flush
                 - blog.comments.each do |comment|

@@ -3,7 +3,8 @@
     .jumbotron.users__profile
       .row.border-bottom.border-secondary
         .col
-          %h1.users__profile-username= @user.username
+          %h1.users__profile-username
+            = @user.username
         .col.text-right
           -if current_user
             -if current_user.following?(@user)
@@ -28,8 +29,12 @@
         .col
           %ul.list-inline
             %li.list-inline-item.badge.badge-pill.badge-info
-              %span.users__following-count= @user.following.count
-              %span.users__following= t('.following')
+              %span.users__following-count
+                = @user.following.count
+              %span.users__following
+                = t('.following')
             %li.list-inline-item.badge.badge-pill.badge-info
-              %span.users__followers-count= @user.followers.count
-              %span.users__followers= t('.followers')
+              %span.users__followers-count
+                = @user.followers.count
+              %span.users__followers
+                = t('.followers')
