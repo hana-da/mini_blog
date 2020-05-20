@@ -24,4 +24,6 @@
 class BlogComment < ApplicationRecord
   belongs_to :blog
   belongs_to :user
+
+  validates :content, length: { in: 1..140 }
 end

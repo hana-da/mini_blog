@@ -24,6 +24,12 @@
 require 'rails_helper'
 
 RSpec.describe BlogComment, type: :model do
+  describe 'validations' do
+    it do
+      expect(BlogComment.new).to validate_length_of(:content).is_at_least(1).is_at_most(140)
+    end
+  end
+
   describe 'associations' do
     it do
       comment = BlogComment.new
