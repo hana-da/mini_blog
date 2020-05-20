@@ -10,7 +10,7 @@ RSpec.describe 'UsersControllers', type: :request do
     before { sign_in user }
 
     it 'フォローできる' do
-      expect(user.following).not_to include(other_user)
+      expect(user).not_to be_following(other_user)
 
       expect do
         post follow_user_path, params: { id: other_user.id }
@@ -22,7 +22,7 @@ RSpec.describe 'UsersControllers', type: :request do
 
     it 'フォロー解除できる' do
       user.follow!(other_user)
-      expect(user.following).to include(other_user)
+      expect(user).to be_following(other_user)
 
       expect do
         post unfollow_user_path, params: { id: other_user.id }
@@ -35,7 +35,7 @@ RSpec.describe 'UsersControllers', type: :request do
 
   context 'ログインしていない時' do
     it 'フォローできない' do
-      expect(user.following).not_to include(other_user)
+      expect(user).not_to be_following(other_user)
 
       expect do
         post follow_user_path, params: { id: other_user.id }
@@ -47,7 +47,7 @@ RSpec.describe 'UsersControllers', type: :request do
 
     it 'フォロー解除できない' do
       user.follow!(other_user)
-      expect(user.following).to include(other_user)
+      expect(user).to be_following(other_user)
 
       expect do
         post follow_user_path, params: { id: other_user.id }

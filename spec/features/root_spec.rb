@@ -234,7 +234,7 @@ RSpec.describe '/', type: :feature do
     describe 'フォロー/フォロー解除の動作' do
       it 'フォローしていないユーザの投稿には「フォローする」ボタンが表示されている' do
         blog = FactoryBot.create(:blog)
-        expect(user.following).not_to include(blog.user)
+        expect(user).not_to be_following(blog.user)
 
         visit root_path
         within("li#blog-#{blog.id}") do
@@ -245,14 +245,14 @@ RSpec.describe '/', type: :feature do
 
       it '「フォローする」ボタンでユーザをフォローできる' do
         blog = FactoryBot.create(:blog)
-        expect(user.following).not_to include(blog.user)
+        expect(user).not_to be_following(blog.user)
 
         visit root_path
         within("li#blog-#{blog.id}") do
           click_button(t('helpers.submit.follow'))
         end
 
-        expect(user.following.reload).to include(blog.user)
+        expect(user.reload).to be_following(blog.user)
 
         # 「フォローする」ボタンが「フォロー解除」ボタンになる
         within("li#blog-#{blog.id}") do
@@ -267,7 +267,7 @@ RSpec.describe '/', type: :feature do
       it 'フォローしているユーザの投稿には「フォロー解除」ボタンが表示されている' do
         blog = FactoryBot.create(:blog)
         user.follow!(blog.user)
-        expect(user.following).to include(blog.user)
+        expect(user).to be_following(blog.user)
 
         visit root_path
         within("li#blog-#{blog.id}") do
@@ -279,14 +279,14 @@ RSpec.describe '/', type: :feature do
       it '「フォロー解除」ボタンでフォローを解除できる' do
         blog = FactoryBot.create(:blog)
         user.follow!(blog.user)
-        expect(user.following).to include(blog.user)
+        expect(user).to be_following(blog.user)
 
         visit root_path
         within("li#blog-#{blog.id}") do
           click_button(t('helpers.submit.unfollow'))
         end
 
-        expect(user.following.reload).not_to include(blog.user)
+        expect(user.reload).not_to be_following(blog.user)
 
         # 「フォロー解除」ボタンが「フォローする」ボタンになる
         within("li#blog-#{blog.id}") do

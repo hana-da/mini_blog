@@ -147,8 +147,8 @@ RSpec.describe User, type: :model do
       following_user = FactoryBot.create(:user).tap { |u| user.follow!(u) }
       other_user = FactoryBot.create(:user)
 
-      expect(user.following).to include(following_user)
-      expect(user.following).not_to include(other_user)
+      expect(user).to be_following(following_user)
+      expect(user).not_to be_following(other_user)
 
       user_blog = FactoryBot.create(:blog, user: user)
       following_blog = FactoryBot.create(:blog, user: following_user)

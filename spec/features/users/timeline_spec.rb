@@ -22,8 +22,8 @@ RSpec.describe '/users/timeline', type: :feature do
       following_user = FactoryBot.create(:user).tap { |u| user.follow!(u) }
       other_user = FactoryBot.create(:user)
 
-      expect(user.following).to include(following_user)
-      expect(user.following).not_to include(other_user)
+      expect(user).to be_following(following_user)
+      expect(user).not_to be_following(other_user)
 
       user_blog, following_blog, other_blog = [user, following_user, other_user].map.with_index do |author, i|
         travel_to((5 - i).day.ago) { FactoryBot.create(:blog, user: author) }
