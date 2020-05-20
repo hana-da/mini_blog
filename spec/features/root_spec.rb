@@ -44,6 +44,26 @@ RSpec.describe '/', type: :feature do
       expect(page).not_to have_css('#new_blog')
     end
 
+    describe 'コメント欄' do
+      it 'コメント用のフォームは表示されていない' do
+        FactoryBot.create(:blog)
+        visit root_path
+
+        expect(page).not_to have_css('.blogs__blog-comment-form')
+      end
+
+      it 'コメントは表示されている' do
+        comment = FactoryBot.create(:blog_comment)
+        visit root_path
+
+        within("#blogs--blog-comment-#{comment.id}") do
+          expect(page).to have_css('.blogs--blog-comment-content', text: comment.content)
+            .and have_link(comment.user.username, href: user_path(comment.user))
+            .and have_css('.blogs--blog-comment-timestamp', text: l(comment.created_at, format: :long))
+        end
+      end
+    end
+
     it 'フォローする/フォロー解除ボタンは表示されていない' do
       FactoryBot.create(:blog)
 
@@ -147,6 +167,31 @@ RSpec.describe '/', type: :feature do
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
+      end
+    end
+
+    describe 'コメント欄' do
+      it 'コメント用のフォームでコメントを投稿することができる' do
+        blog = FactoryBot.create(:blog)
+        comment = FactoryBot.build(:blog_comment)
+
+        visit root_path
+
+        within("#blog-#{blog.id}") do
+          expect(page).not_to have_css('.blogs--blog-comment')
+
+          fill_in 'comment', with: comment.content
+          click_button(t('helpers.submit.comment'))
+        end
+
+        expect(page).to have_current_path(root_path)
+        within("#blog-#{blog.id}") do
+          expect(page).to have_css('.blogs--blog-comment', count: 1)
+
+          expect(page).to have_css('.blogs--blog-comment-content', text: comment.content)
+            .and have_link(user.username, href: user_path(user))
+            .and have_css('.blogs--blog-comment-timestamp')
+        end
       end
     end
 

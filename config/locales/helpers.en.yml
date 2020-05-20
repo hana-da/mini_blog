@@ -5,8 +5,10 @@ en:
       root: Timeline
       timeline: Your timeline
     placeholder:
+      comment: How are you?
       post: Let's share our everyday thoughts.
     submit:
+      comment: Comment
       follow: Follow
       like: Like
       post: Post

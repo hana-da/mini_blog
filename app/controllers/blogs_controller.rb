@@ -15,4 +15,10 @@ class BlogsController < ApplicationController
     current_user.like!(blog)
     redirect_back fallback_location: root_path
   end
+
+  # Blogにコメントする
+  def comment
+    Blog.find(params[:id]).comments.create(content: params[:comment], user: current_user)
+    redirect_back fallback_location: root_path
+  end
 end

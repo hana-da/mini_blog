@@ -48,3 +48,20 @@
                   %ul.list-inline.blogs__blog-favorited-users
                     - blog.liked_users.each do |user|
                       %li.list-inline-item= link_to(user.username, user_path(user), class: 'badge badge-info')
+            .card-body.border-top.pt-0
+              %ul.list-group.list-group-flush
+                - blog.comments.each do |comment|
+                  %li{id: "blogs--blog-comment-#{comment.id}", class: 'list-group-item blogs--blog-comment'}
+                    %span.blogs--blog-comment-content
+                      = comment.content
+                    %footer.text-right.blogs--blog-comment-username
+                      = link_to(comment.user.username, user_path(comment.user))
+                      %small.text-muted.blogs--blog-comment-timestamp
+                        = l(comment.created_at, format: :long)
+              - if current_user
+                = form_with(url: comment_blog_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
+                  .form-row
+                    .col-9
+                      = f.text_field(:comment, class: 'form-control', placeholder: t('helpers.placeholder.comment'))
+                    .col-3
+                      = f.submit(t('helpers.submit.comment'), class: 'btn btn-outline-primary')

@@ -5,8 +5,10 @@ ja:
       root: 全体タイムライン
       timeline: あなたのタイムライン
     placeholder:
+      comment: コメントをどうぞ!
       post: ブログに書くまでもない、日常のふとした思いつきを誰しも広くシェアしましょう
     submit:
+      comment: コメントする
       follow: フォローする
       like: いいね
       post: 投稿

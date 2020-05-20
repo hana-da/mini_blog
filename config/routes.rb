@@ -2,7 +2,10 @@
 
 Rails.application.routes.draw do
   resources :blogs, only: :create do
-    post :like, on: :member
+    member do
+      post :like
+      post :comment
+    end
   end
 
   devise_for :users, skip: :registration
