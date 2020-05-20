@@ -42,4 +42,26 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe '#nav_link_to' do
+    context 'current_page? が 真 の時' do
+      before do
+        allow(helper).to receive(:current_page?).and_return(true)
+      end
+
+      it 'a.nav-link.active タグが返る' do
+        expect(helper.nav_link_to('name', 'url')).to have_css('a.nav-link.active[href="url"]', text: 'name')
+      end
+    end
+
+    context 'current_page? が 偽 の時' do
+      before do
+        allow(helper).to receive(:current_page?).and_return(false)
+      end
+
+      it 'a.nav-link の タグが返る' do
+        expect(helper.nav_link_to('name', 'url')).to have_css('a.nav-link[href="url"]', text: 'name')
+      end
+    end
+  end
 end
