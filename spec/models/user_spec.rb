@@ -52,6 +52,8 @@ RSpec.describe User, type: :model do
     it do
       user = User.new
       expect(user).to have_many(:blogs).dependent(:destroy)
+      expect(user).to have_many(:blog_comments).dependent(:destroy)
+
       # ユーザがフォローしている関係
       expect(user).to have_many(:following_relationships).with_foreign_key(:follower_id)
                                                          .class_name('UserRelationship')

@@ -23,8 +23,8 @@
 #
 FactoryBot.define do
   factory :blog_comment do
-    content { 'MyText' }
-    blog { nil }
-    user { nil }
+    content { Faker::Quote.most_interesting_man_in_the_world }
+    blog
+    user
   end
 end

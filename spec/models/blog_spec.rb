@@ -32,6 +32,7 @@ RSpec.describe Blog, type: :model do
       blog = Blog.new
 
       expect(blog).to belong_to(:user)
+      expect(blog).to have_many(:comments).class_name('BlogComment').dependent(:destroy)
 
       # いいね
       expect(blog).to have_many(:likes).class_name('UserFavoriteBlog').dependent(:destroy)
