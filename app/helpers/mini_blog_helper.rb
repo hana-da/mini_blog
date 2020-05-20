@@ -37,4 +37,22 @@ module MiniBlogHelper
         f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
     end
   end
+
+  # 「いいね」ボタンのタグ
+  #
+  # current_user.likable?(blog) が偽の場合は button に disabled="disabled" が付与される
+  #
+  # @param [Blog] blog_id いいねする対象のBlog
+  # @param [Integer] liked_count 現在のいいねの数
+  # @return [ActiveSupport::SafeBuffer]
+  def favorite_button_tag(blog:, count:)
+    button_to(like_blog_path(blog.id),
+              id:       "like-button-#{blog.id}",
+              class:    'btn btn-primary btn-sm',
+              disabled: !current_user&.likable?(blog)) do
+      tag.span(count, class: 'badge badge-pill badge-light') +
+        ' ' +
+        tag.span(t('helpers.submit.like'))
+    end
+  end
 end

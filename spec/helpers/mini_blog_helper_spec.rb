@@ -49,4 +49,74 @@ RSpec.describe MiniBlogHelper, type: :helper do
       end
     end
   end
+
+  describe '#favorite_button_tag' do
+    context 'ログインしている時' do
+      let(:current_user) { FactoryBot.create(:user) }
+
+      before do
+        allow(helper).to receive(:current_user).and_return(current_user)
+      end
+
+      context 'current_userが「いいね」できるblogの時' do
+        before do
+          allow(current_user).to receive(:likable?).and_return(true)
+        end
+
+        it do
+          blog = FactoryBot.create(:blog)
+          liked_count = 2
+
+          actual = helper.favorite_button_tag(blog: blog, count: liked_count)
+          expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
+
+          actual_doc = Nokogiri::HTML.fragment(actual)
+          expect(actual_doc).not_to have_css("button#like-button-#{blog.id}[disabled='disabled']")
+          expect(actual_doc).to have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
+            .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
+            .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
+        end
+      end
+
+      context 'current_userが「いいね」できないblogの時' do
+        before do
+          allow(current_user).to receive(:likable?).and_return(false)
+        end
+
+        it do
+          blog = FactoryBot.create(:blog)
+          liked_count = 2
+
+          actual = helper.favorite_button_tag(blog: blog, count: liked_count)
+          expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
+
+          actual_doc = Nokogiri::HTML.fragment(actual)
+          expect(actual_doc).to have_css("button#like-button-#{blog.id}[disabled='disabled']")
+          expect(actual_doc).to have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
+            .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
+            .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
+        end
+      end
+    end
+
+    context 'ログインしていない時' do
+      before do
+        allow(helper).to receive(:current_user).and_return(nil)
+      end
+
+      it do
+        blog = FactoryBot.create(:blog)
+        liked_count = 2
+
+        actual = helper.favorite_button_tag(blog: blog, count: liked_count)
+        expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
+
+        actual_doc = Nokogiri::HTML.fragment(actual)
+        expect(actual_doc).to have_css("button#like-button-#{blog.id}[disabled='disabled']")
+        expect(actual_doc).to have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
+          .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
+          .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
+      end
+    end
+  end
 end
