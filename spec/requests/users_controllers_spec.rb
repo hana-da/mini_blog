@@ -21,7 +21,7 @@ RSpec.describe 'UsersControllers', type: :request do
     end
 
     it 'フォロー解除できる' do
-      user.follow(other_user)
+      user.follow!(other_user)
       expect(user.following).to include(other_user)
 
       expect do
@@ -46,7 +46,7 @@ RSpec.describe 'UsersControllers', type: :request do
     end
 
     it 'フォロー解除できない' do
-      user.follow(other_user)
+      user.follow!(other_user)
       expect(user.following).to include(other_user)
 
       expect do

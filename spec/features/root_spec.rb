@@ -266,7 +266,7 @@ RSpec.describe '/', type: :feature do
 
       it 'フォローしているユーザの投稿には「フォロー解除」ボタンが表示されている' do
         blog = FactoryBot.create(:blog)
-        user.follow(blog.user)
+        user.follow!(blog.user)
         expect(user.following).to include(blog.user)
 
         visit root_path
@@ -278,7 +278,7 @@ RSpec.describe '/', type: :feature do
 
       it '「フォロー解除」ボタンでフォローを解除できる' do
         blog = FactoryBot.create(:blog)
-        user.follow(blog.user)
+        user.follow!(blog.user)
         expect(user.following).to include(blog.user)
 
         visit root_path

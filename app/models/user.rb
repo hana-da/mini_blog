@@ -48,8 +48,9 @@ class User < ApplicationRecord
   # userをフォローする
   #
   # @param [User] user フォローするUser
+  # @raise [ActiveRecord::RecordInvalid]
   # @return [User::ActiveRecord_Associations_CollectionProxy]
-  def follow(user)
+  def follow!(user)
     following << user
   end
 

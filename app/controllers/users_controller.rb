@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def follow
-    current_user.follow(User.find(params[:id]))
+    current_user.follow!(User.find(params[:id]))
     redirect_back fallback_location: root_path
   end
 

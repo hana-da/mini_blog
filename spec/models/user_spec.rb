@@ -111,7 +111,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#follow' do
+  describe '#follow!' do
     it 'フォローする事ができる' do
       user_a, user_b = FactoryBot.create_list(:user, 2)
 
@@ -119,7 +119,7 @@ RSpec.describe User, type: :model do
       expect(user_b.followers).not_to be_include(user_a)
 
       # フォローする
-      user_a.follow(user_b)
+      user_a.follow!(user_b)
 
       # user_a からみると user_b はフォローしている人になる
       expect(user_a.following).to be_include(user_b)
@@ -129,22 +129,22 @@ RSpec.describe User, type: :model do
 
     it '既にフォローしている人をフォローするとActiveRecord::RecordInvalidが発生する' do
       user_a, user_b = FactoryBot.create_list(:user, 2)
-      user_a.follow(user_b)
+      user_a.follow!(user_b)
 
-      expect { user_a.follow(user_b) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect { user_a.follow!(user_b) }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it '自分自身をフォローする事はできない' do
       user = FactoryBot.create(:user)
 
-      expect { user.follow(user) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect { user.follow!(user) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 
   describe '#following_blogs' do
     it '自分とフォローしている人のblogを返す' do
       user = FactoryBot.create(:user)
-      following_user = FactoryBot.create(:user).tap { |u| user.follow(u) }
+      following_user = FactoryBot.create(:user).tap { |u| user.follow!(u) }
       other_user = FactoryBot.create(:user)
 
       expect(user.following).to include(following_user)
@@ -163,7 +163,7 @@ RSpec.describe User, type: :model do
     context 'フォローしている時' do
       it 'trueを返す' do
         user, other = FactoryBot.create_list(:user, 2)
-        user.follow(other)
+        user.follow!(other)
 
         expect(user).to be_following(other.id)
         expect(user).to be_following(other)
@@ -192,7 +192,7 @@ RSpec.describe User, type: :model do
   describe '#unfollow' do
     it 'フォローしている人をフォロー解除する事ができる' do
       user_a, user_b = FactoryBot.create_list(:user, 2)
-      user_a.follow(user_b)
+      user_a.follow!(user_b)
 
       expect(user_a.following).to be_include(user_b)
       expect(user_b.followers).to be_include(user_a)

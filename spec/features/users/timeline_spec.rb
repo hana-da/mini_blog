@@ -19,7 +19,7 @@ RSpec.describe '/users/timeline', type: :feature do
     end
 
     it '自分とフォローしているユーザの投稿のみが降順に表示される' do
-      following_user = FactoryBot.create(:user).tap { |u| user.follow(u) }
+      following_user = FactoryBot.create(:user).tap { |u| user.follow!(u) }
       other_user = FactoryBot.create(:user)
 
       expect(user.following).to include(following_user)

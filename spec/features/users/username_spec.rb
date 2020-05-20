@@ -66,7 +66,7 @@ RSpec.describe '/users/:username', type: :feature do
 
     context 'フォローしているユーザのページだと' do
       it 'フォロー解除ボタンが表示されていて、押すとフォロー解除できる' do
-        following = FactoryBot.create(:user).tap { |u| user.follow(u) }
+        following = FactoryBot.create(:user).tap { |u| user.follow!(u) }
         expect(user).to be_following(following)
 
         visit user_path(following)

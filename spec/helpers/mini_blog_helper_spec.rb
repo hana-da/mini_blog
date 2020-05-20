@@ -12,7 +12,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
       context 'current_userがuser_idをフォローしている時' do
         it '「フォロー解除」のボタンのtagが返る' do
           user = FactoryBot.create(:user)
-          helper.current_user.follow(user)
+          helper.current_user.follow!(user)
           expect(helper.current_user).to be_following(user)
 
           actual = helper.follow_unfollow_button_tag(user.id)
