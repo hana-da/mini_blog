@@ -66,7 +66,7 @@ class User < ApplicationRecord
   # @return [Boolean]
   def following?(user_or_id)
     user_id = user_or_id.is_a?(User) ? user_or_id.id : user_or_id
-    following.exists?(user_id)
+    following_ids.include?(user_id)
   end
 
   # userをフォロー解除する

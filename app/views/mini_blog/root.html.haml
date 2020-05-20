@@ -1,4 +1,3 @@
-- following_ids = current_user&.following_ids
 - likes_blog_ids = current_user&.likes_blog_ids
 - liked_count = UserFavoriteBlog.group(:blog_id).count
 .row.justify-content-center.mb-3
@@ -33,15 +32,8 @@
                 .col-9.mb-2
                   = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
                 .col.text-right
-                  - if following_ids && blog.user_id != current_user.id
-                    - if following_ids.include?(blog.user_id)
-                      = form_with(url: unfollow_user_path) do |f|
-                        = f.hidden_field(:id, value: blog.user_id, id: nil)
-                        = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
-                    - else
-                      = form_with(url: follow_user_path) do |f|
-                        = f.hidden_field(:id, value: blog.user_id, id: nil)
-                        = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
+                  - if blog.user != current_user
+                    = follow_unfollow_button_tag(blog.user_id)
               .row
                 .col
                   %article.blogs__blog-content= blog.content
