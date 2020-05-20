@@ -36,6 +36,9 @@
               .row.blogs__blog-header
                 .col-9.mb-2
                   = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
+                  %br
+                  %small.text-muted.blogs__blog-timestamp
+                    = l(blog.created_at, format: :long)
                 .col.text-right
                   - if blog.user != current_user
                     = follow_unfollow_button_tag(blog.user_id)
@@ -45,9 +48,6 @@
                     = blog.content
             .card-footer
               .row
-                .col-3
-                  %span.text-muted.blogs__blog-timestamp
-                    = l(blog.created_at, format: :long)
                 .col-2.text-right
                   = favorite_button_tag(blog: blog, count: liked_count[blog.id].to_i)
                 .col

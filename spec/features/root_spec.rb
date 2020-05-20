@@ -16,15 +16,15 @@ RSpec.describe '/', type: :feature do
       within("li#blog-#{blog.id}") do
         expect(page).to have_link(blog.user.username, href: user_path(blog.user))
         expect(page).to have_css('article.blogs__blog-content', text: blog.content)
-        expect(page).to have_css('span.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
+        expect(page).to have_css('.blogs__blog-timestamp', text: l(blog.created_at, format: :long))
       end
     end
 
     # 表示順の確認
     oldest_blog, latest_blog = blogs.minmax_by(&:created_at)
-    expect(page).to have_css('ol#blogs > li:first-child span.blogs__blog-timestamp',
+    expect(page).to have_css('ol#blogs > li:first-child .blogs__blog-timestamp',
                              text: l(latest_blog.created_at, format: :long))
-    expect(page).to have_css('ol#blogs > li:last-child  span.blogs__blog-timestamp',
+    expect(page).to have_css('ol#blogs > li:last-child  .blogs__blog-timestamp',
                              text: l(oldest_blog.created_at, format: :long))
   end
 

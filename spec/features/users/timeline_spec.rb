@@ -37,9 +37,9 @@ RSpec.describe '/users/timeline', type: :feature do
 
       # 表示順の確認
       oldest_blog, latest_blog = [user_blog, following_blog].minmax_by(&:created_at)
-      expect(page).to have_css('ol#blogs > li:first-child span.blogs__blog-timestamp',
+      expect(page).to have_css('ol#blogs > li:first-child .blogs__blog-timestamp',
                                text: l(latest_blog.created_at, format: :long))
-      expect(page).to have_css('ol#blogs > li:last-child  span.blogs__blog-timestamp',
+      expect(page).to have_css('ol#blogs > li:last-child  .blogs__blog-timestamp',
                                text: l(oldest_blog.created_at, format: :long))
     end
 
