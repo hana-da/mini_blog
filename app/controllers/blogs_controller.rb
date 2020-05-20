@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
   # Blogを「いいね」する
   def like
     blog = Blog.find(params[:id])
-    blog.liked_users << current_user
+    current_user.like!(blog)
     redirect_back fallback_location: root_path
   end
 end
