@@ -1,12 +1,6 @@
 ---
 en:
   helpers:
-    link:
-      root: Timeline
-      timeline: Your timeline
-    placeholder:
-      comment: How are you?
-      post: Let's share our everyday thoughts.
     submit:
       comment: Comment
       follow: Follow
@@ -19,3 +13,9 @@ en:
           one: Liked.
           other: "%{count} users Liked."
           zero: Nobody liked.
+  link:
+    root: Timeline
+    timeline: Your timeline
+  placeholder:
+    comment: How are you?
+    post: Let's share our everyday thoughts.

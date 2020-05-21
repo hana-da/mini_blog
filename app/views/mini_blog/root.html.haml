@@ -9,7 +9,7 @@
                 class: 'form-control',
                 rows: 3,
                 autofocus: true,
-                placeholder: t('helpers.placeholder.post'))
+                placeholder: t('placeholder.post'))
             = invalid_feedback_tag(@blog, :content)
           .col.mt-5
             = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
@@ -22,10 +22,10 @@
   %nav.col-5
     %ul.nav.nav-tabs
       %li.nav-item
-        = nav_link_to(t('helpers.link.root'), root_path)
+        = nav_link_to(t('link.root'), root_path)
       - if current_user
         %li.nav-item
-          = nav_link_to(t('helpers.link.timeline'), user_timeline_path)
+          = nav_link_to(t('link.timeline'), user_timeline_path)
 .row.justify-content-center
   %section.col-5
     %ol#blogs.list-unstyled
@@ -66,6 +66,6 @@
                 = form_with(url: comment_blog_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
                   .form-row
                     .col-9
-                      = f.text_field(:comment, class: 'form-control', placeholder: t('helpers.placeholder.comment'))
+                      = f.text_field(:comment, class: 'form-control', placeholder: t('placeholder.comment'))
                     .col-3
                       = f.submit(t('helpers.submit.comment'), class: 'btn btn-outline-primary btn-block')

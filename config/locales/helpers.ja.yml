@@ -1,12 +1,6 @@
 ---
 ja:
   helpers:
-    link:
-      root: 全体タイムライン
-      timeline: あなたのタイムライン
-    placeholder:
-      comment: コメントをどうぞ!
-      post: ブログに書くまでもない、日常のふとした思いつきを誰しも広くシェアしましょう
     submit:
       comment: コメントする
       follow: フォローする
@@ -19,3 +13,9 @@ ja:
           one: が「いいね」しています。
           other: 達 %{count}人が「いいね」しています。
           zero: "「いいね」している人はいません。"
+  link:
+    root: 全体タイムライン
+    timeline: あなたのタイムライン
+  placeholder:
+    comment: コメントをどうぞ!
+    post: ブログに書くまでもない、日常のふとした思いつきを誰しも広くシェアしましょう
