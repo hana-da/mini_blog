@@ -33,6 +33,15 @@
 
 # This group allows to skip running RuboCop and Brakeman when RSpec failed.
 group :red_green_refactor, halt_on_fail: true do
+  guard :rubocop, cli: '-a' do
+    watch('config.ru')
+    watch('Gemfile')
+    watch('Rakefile')
+    watch(/.+\.rb$/)
+    watch(/.+\.rake$/)
+    watch(%r{(?:.+/)?\.rubocop(_todo)?\.yml$}) { |m| File.dirname(m[0]) }
+  end
+
   guard :rspec, cmd: "RUBYLIB='#{ENV['RUBYLIB']}' WITHOUT_COV='true' bin/rspec" do
     require 'active_support/inflector'
     require 'guard/rspec/dsl'
@@ -135,15 +144,6 @@ group :red_green_refactor, halt_on_fail: true do
       ]
     end
     watch(rails.decorators) { |m| rspec.spec.call("models/#{m[1]}") }
-  end
-
-  guard :rubocop, cli: '-a' do
-    watch('config.ru')
-    watch('Gemfile')
-    watch('Rakefile')
-    watch(/.+\.rb$/)
-    watch(/.+\.rake$/)
-    watch(%r{(?:.+/)?\.rubocop(_todo)?\.yml$}) { |m| File.dirname(m[0]) }
   end
 end
 # rubocop:enable Metrics/BlockLength
