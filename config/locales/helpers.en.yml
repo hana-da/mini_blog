@@ -13,3 +13,9 @@ en:
       like: Like
       post: Post
       unfollow: Unfollow
+    users_to_link_tag:
+      suffix:
+        liked_users:
+          one: Liked.
+          other: "%{count} users Liked."
+          zero: Nobody liked.

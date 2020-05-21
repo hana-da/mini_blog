@@ -48,13 +48,10 @@
                     = blog.content
             .card-footer
               .row
-                .col-2.text-right
+                .col-3.blogs__blog-favorite-button
                   = favorite_button_tag(blog: blog, count: liked_count[blog.id].to_i)
-                .col
-                  %ul.list-inline.blogs__blog-favorited-users
-                    - blog.liked_users.each do |user|
-                      %li.list-inline-item
-                        = link_to(user.username, user_path(user), class: 'badge badge-info')
+                .col-9.pl-0.ml-0.blogs__blog-favorited-users
+                  = users_to_link_tag(blog.liked_users, :liked_users)
             .card-body.border-top.pt-0
               %ul.list-group.list-group-flush
                 - blog.comments.each do |comment|

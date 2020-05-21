@@ -23,4 +23,18 @@ module ApplicationHelper
   def nav_link_to(name, options)
     link_to(name, options, class: "nav-link #{current_page?(url_for(options)) && 'active'}")
   end
+
+  # usersをそれぞれのuser_pathのリンクにした文字列を返す
+  #
+  # @param [Array<User>] users Userのコレクション
+  # @param [String, Symbol] suffix 最後につける文字列、またはI18nのlocale key
+  # @return [ActiveSupport::SafeBuffer]
+  def users_to_link_tag(users, suffix = nil)
+    user_links = users.map { |u| link_to(u.username, user_path(u)) }
+
+    locale_key = "helpers.users_to_link_tag.suffix.#{suffix}"
+    suffix = I18n.exists?(locale_key) ? I18n.t(locale_key, count: users.size) : suffix if suffix.present?
+
+    safe_join(user_links, I18n.t('support.array.words_connector')) + tag.small(" #{suffix}")
+  end
 end

@@ -91,7 +91,7 @@ RSpec.describe '/', type: :feature do
     end
 
     it '「いいね」したユーザのusernameがリンクで表示されている' do
-      blog = FactoryBot.create(:blog)
+      no_favorited_blog = FactoryBot.create(:blog)
       favorited_blog = FactoryBot.create(:blog)
       favorited_users = FactoryBot.create_list(:user_favorite_blog, 3, blog: favorited_blog).map(&:user)
 
@@ -101,8 +101,8 @@ RSpec.describe '/', type: :feature do
           expect(page).to have_link(user.username, href: user_path(user))
         end
       end
-      within("li#blog-#{blog.id}") do
-        expect(page).to have_css('.blogs__blog-favorited-users', text: '')
+      within("li#blog-#{no_favorited_blog.id} .blogs__blog-favorited-users") do
+        expect(page).not_to have_link
       end
     end
   end
@@ -258,8 +258,8 @@ RSpec.describe '/', type: :feature do
           expect(page).to have_link(user.username, href: user_path(user))
         end
       end
-      within("li#blog-#{blog.id}") do
-        expect(page).to have_css('.blogs__blog-favorited-users', text: '')
+      within("li#blog-#{blog.id} .blogs__blog-favorited-users") do
+        expect(page).not_to have_link
       end
     end
 

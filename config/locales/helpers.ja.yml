@@ -13,3 +13,9 @@ ja:
       like: いいね
       post: 投稿
       unfollow: フォロー解除
+    users_to_link_tag:
+      suffix:
+        liked_users:
+          one: が「いいね」しています。
+          other: 達 %{count}人が「いいね」しています。
+          zero: "「いいね」している人はいません。"
