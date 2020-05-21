@@ -15,10 +15,9 @@ RSpec.describe MiniBlogHelper, type: :helper do
           helper.current_user.follow!(user)
           expect(helper.current_user).to be_following(user)
 
-          actual = helper.follow_unfollow_button_tag(user.id)
-          expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
-
-          expect(Nokogiri::HTML.fragment(actual)).to have_css("form[action='#{unfollow_user_path}'][method='post']")
+          expect(helper.follow_unfollow_button_tag(user.id))
+            .to be_instance_of(ActiveSupport::SafeBuffer)
+            .and have_css("form[action='#{unfollow_user_path}'][method='post']")
             .and have_css("input[type='hidden'][name='id'][value='#{user.id}']", visible: :hidden)
             .and have_css("input[type='submit'][value='#{t('helpers.submit.unfollow')}']")
         end
@@ -29,10 +28,9 @@ RSpec.describe MiniBlogHelper, type: :helper do
           user = FactoryBot.create(:user)
           expect(helper.current_user).not_to be_following(user)
 
-          actual = helper.follow_unfollow_button_tag(user.id)
-          expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
-
-          expect(Nokogiri::HTML.fragment(actual)).to have_css("form[action='#{follow_user_path}'][method='post']")
+          expect(helper.follow_unfollow_button_tag(user.id))
+            .to be_instance_of(ActiveSupport::SafeBuffer)
+            .and have_css("form[action='#{follow_user_path}'][method='post']")
             .and have_css("input[type='hidden'][name='id'][value='#{user.id}']", visible: :hidden)
             .and have_css("input[type='submit'][value='#{t('helpers.submit.follow')}']")
         end
@@ -45,7 +43,8 @@ RSpec.describe MiniBlogHelper, type: :helper do
       end
 
       it do
-        expect(helper.follow_unfollow_button_tag(1)).to be_nil
+        expect(helper.follow_unfollow_button_tag(1))
+          .to be_nil
       end
     end
   end
@@ -67,12 +66,10 @@ RSpec.describe MiniBlogHelper, type: :helper do
           blog = FactoryBot.create(:blog)
           liked_count = 2
 
-          actual = helper.favorite_button_tag(blog: blog, count: liked_count)
-          expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
-
-          actual_doc = Nokogiri::HTML.fragment(actual)
-          expect(actual_doc).not_to have_css("button#like-button-#{blog.id}[disabled='disabled']")
-          expect(actual_doc).to have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
+          expect(helper.favorite_button_tag(blog: blog, count: liked_count))
+            .to be_instance_of(ActiveSupport::SafeBuffer)
+            .and have_none_of_selectors("button#like-button-#{blog.id}[disabled='disabled']")
+            .and have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
             .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
             .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
         end
@@ -87,12 +84,10 @@ RSpec.describe MiniBlogHelper, type: :helper do
           blog = FactoryBot.create(:blog)
           liked_count = 2
 
-          actual = helper.favorite_button_tag(blog: blog, count: liked_count)
-          expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
-
-          actual_doc = Nokogiri::HTML.fragment(actual)
-          expect(actual_doc).to have_css("button#like-button-#{blog.id}[disabled='disabled']")
-          expect(actual_doc).to have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
+          expect(helper.favorite_button_tag(blog: blog, count: liked_count))
+            .to be_instance_of(ActiveSupport::SafeBuffer)
+            .and have_css("button#like-button-#{blog.id}[disabled='disabled']")
+            .and have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
             .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
             .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
         end
@@ -108,12 +103,10 @@ RSpec.describe MiniBlogHelper, type: :helper do
         blog = FactoryBot.create(:blog)
         liked_count = 2
 
-        actual = helper.favorite_button_tag(blog: blog, count: liked_count)
-        expect(actual).to be_instance_of(ActiveSupport::SafeBuffer)
-
-        actual_doc = Nokogiri::HTML.fragment(actual)
-        expect(actual_doc).to have_css("button#like-button-#{blog.id}[disabled='disabled']")
-        expect(actual_doc).to have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
+        expect(helper.favorite_button_tag(blog: blog, count: liked_count))
+          .to be_instance_of(ActiveSupport::SafeBuffer)
+          .and have_css("button#like-button-#{blog.id}[disabled='disabled']")
+          .and have_css("form[action='#{like_blog_path(blog.id)}'][method='post']")
           .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
           .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
       end

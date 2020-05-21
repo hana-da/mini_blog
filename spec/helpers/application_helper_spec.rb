@@ -22,10 +22,10 @@ RSpec.describe ApplicationHelper, type: :helper do
         model.validate
         expect(model.errors).to be_empty
 
-        expect(helper.invalid_feedback_tag(model, :name)).to be_instance_of(ActiveSupport::SafeBuffer)
-          .and eq(<<~HTML)
-            <div class="invalid-feedback"></div>
-          HTML
+        expect(helper.invalid_feedback_tag(model, :name))
+          .to be_instance_of(ActiveSupport::SafeBuffer)
+          .and have_css('div.invalid-feedback',
+                        text: '')
       end
     end
 
@@ -35,10 +35,10 @@ RSpec.describe ApplicationHelper, type: :helper do
         model.validate
         expect(model.errors.count).to eq(2)
 
-        expect(helper.invalid_feedback_tag(model, :name)).to be_instance_of(ActiveSupport::SafeBuffer)
-          .and eq(<<~HTML)
-            <div class="invalid-feedback">#{model.errors.full_messages_for(:name).join(I18n.t('support.array.words_connector'))}</div>
-          HTML
+        expect(helper.invalid_feedback_tag(model, :name))
+          .to be_instance_of(ActiveSupport::SafeBuffer)
+          .and have_css('div.invalid-feedback',
+                        text: model.errors.full_messages_for(:name).join(I18n.t('support.array.words_connector')))
       end
     end
   end
@@ -50,7 +50,9 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
 
       it 'a.nav-link.active タグが返る' do
-        expect(helper.nav_link_to('name', 'url')).to have_css('a.nav-link.active[href="url"]', text: 'name')
+        expect(helper.nav_link_to('name', 'url'))
+          .to have_css('a.nav-link.active[href="url"]',
+                       text: 'name')
       end
     end
 
@@ -60,7 +62,9 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
 
       it 'a.nav-link の タグが返る' do
-        expect(helper.nav_link_to('name', 'url')).to have_css('a.nav-link[href="url"]', text: 'name')
+        expect(helper.nav_link_to('name', 'url'))
+          .to have_css('a.nav-link[href="url"]',
+                       text: 'name')
       end
     end
   end
