@@ -6,6 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  blog_url           :text             default(""), not null
+#  email              :string           default(""), not null
 #  encrypted_password :string           default(""), not null
 #  profile            :text             default(""), not null
 #  username           :string           not null
@@ -14,6 +15,7 @@
 #
 # Indexes
 #
+#  index_users_on_email     (email) UNIQUE WHERE ((email)::text <> ''::text)
 #  index_users_on_username  (username) UNIQUE
 #
 FactoryBot.define do
