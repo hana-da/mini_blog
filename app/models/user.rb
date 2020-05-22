@@ -28,7 +28,7 @@ class User < ApplicationRecord
   validates :username, format: { with: /\A[a-zA-Z]+\z/ }, allow_blank: true
 
   validates :email, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, uniqueness: { case_sensitive: false }, if: ->(u) { u.email.present? }
   validates :email, format: { with: /\A.+@.+\..+\z/ }, allow_blank: true
 
   validates :password, confirmation: true

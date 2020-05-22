@@ -11,6 +11,7 @@ RSpec.describe '/users/sign_up', type: :feature do
 
     within('#new_user') do
       fill_in('user[username]',              with: user.username)
+      fill_in('user[email]',                 with: user.email)
       fill_in('user[password]',              with: 'password')
       fill_in('user[password_confirmation]', with: 'password')
       fill_in('user[profile]',               with: user.profile)
@@ -41,11 +42,14 @@ RSpec.describe '/users/sign_up', type: :feature do
           click_button
         end
 
-        expect(page).to have_css('.field_with_errors', count: 6)
+        expect(page).to have_css('.field_with_errors', count: 8) # label もあるので項目数の2倍
 
         expect(page).to have_css('.form-group__sign_up-username > .field_with_errors')
         expect(page).to have_css('.form-group__sign_up-username > .invalid-feedback',
                                  text: user.errors.full_messages_for(:username).join)
+        expect(page).to have_css('.form-group__sign_up-email > .field_with_errors')
+        expect(page).to have_css('.form-group__sign_up-email > .invalid-feedback',
+                                 text: user.errors.full_messages_for(:email).join)
         expect(page).to have_css('.form-group__sign_up-password > .field_with_errors')
         expect(page).to have_css('.form-group__sign_up-password > .invalid-feedback',
                                  text: user.errors.full_messages_for(:password).join)

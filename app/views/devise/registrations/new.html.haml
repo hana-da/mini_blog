@@ -7,6 +7,10 @@
         = f.label(:username)
         = f.text_field(:username, autofocus: true, autocomplete: 'username', class: 'form-control')
         = invalid_feedback_tag(resource, :username)
+      .form-group.form-group__sign_up-email
+        = f.label(:email)
+        = f.text_field(:email, autocomplete: 'email', class: 'form-control')
+        = invalid_feedback_tag(resource, :email)
       .form-group.form-group__sign_up-password
         = f.label(:password)
         - if @minimum_password_length

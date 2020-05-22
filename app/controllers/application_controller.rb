@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   protected def devise_permitted_parameters
-    devise_parameter_sanitizer.permit :sign_up, keys: %i[username profile blog_url]
+    devise_parameter_sanitizer.permit :sign_up, keys: %i[username email profile blog_url]
     devise_parameter_sanitizer.permit :sign_in, keys: %i[username]
   end
 end

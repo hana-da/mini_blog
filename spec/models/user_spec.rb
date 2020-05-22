@@ -28,10 +28,27 @@ RSpec.describe User, type: :model do
       expect(user).to validate_uniqueness_of(:username)
       expect(user).not_to allow_values('sujidame4', 'space dame', 'kigo_dame').for(:username)
 
+      expect(user).to validate_presence_of(:email)
+      expect(user).to validate_uniqueness_of(:email).case_insensitive
+      expect(user).to allow_values('hana-da@example.jp', 'a@a.a').for(:email)
+      expect(user).not_to allow_values('hana-da', '.a', 'a.a', '@a', '@.a', '@a.a', 'a@a', 'a@.a').for(:email)
+
       expect(user).to validate_confirmation_of(:password)
       expect(user).to validate_presence_of(:password).on(:create)
 
       expect(user).to validate_length_of(:profile).is_at_most(200)
+    end
+
+    it 'emailが""なのはuniquenessにはかからない' do
+      # emailは仕様変更で増えたのでdefaultの""になっているレコードが存在する場合がある
+      old_user = FactoryBot.build(:user, email: '').tap { |u| u.save!(validate: false) }.reload
+      expect(old_user).to be_persisted
+      expect(old_user.email).to eq('')
+
+      new_user = User.new.tap(&:validate)
+      expect(new_user.email).to eq('')
+
+      expect(new_user.errors).not_to be_added(:email, :taken, value: '')
     end
   end
 
