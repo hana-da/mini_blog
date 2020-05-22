@@ -1,8 +1,15 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
-    :css
-      /* Email styles need to be inline */
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
+    %link{rel:         "stylesheet",
+          href:        "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",
+          integrity:   "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh",
+          crossorigin: "anonymous"}
   %body
-    = yield
+    .container
+      = yield
+      %hr
+      %footer.text-right.text-monospace.text-muted
+        %small
+          MiniBlog Copyright © #{Time.current.year} hana-da

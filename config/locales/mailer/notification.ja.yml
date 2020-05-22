@@ -1,0 +1,8 @@
+---
+ja:
+  notification_mailer:
+    added_to_blog:
+      comment_from: この投稿に %{username} さんから以下のコメントがつきました。
+      comment_from_html: この投稿に %{user_link} さんから以下のコメントがつきました。
+      new_comment_added: 新しいコメントが追加されました。
+      subject: "[MiniBlog] 新規コメント追加のお知らせ"

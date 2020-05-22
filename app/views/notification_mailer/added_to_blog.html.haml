@@ -1,0 +1,33 @@
+.row.justify-content-center.mt-2
+  .col-6
+    %h1{class: 'h4'}
+      = t('.new_comment_added')
+.row
+  .col
+    %hr.mb-3.mt-0
+.row.justify-content-center
+  .col-6
+    .card
+      .card-body
+        .row.blogs__blog-header
+          .col-9.mb-2
+            = link_to(@comment.blog.user.username, user_url(@comment.blog.user), class: 'blogs__blog-username')
+            %br
+            %small.text-muted.blogs__blog-timestamp
+              = l(@comment.blog.created_at, format: :long)
+        .row
+          .col
+            %article.blogs__blog-content.lead
+              = @comment.blog.content
+      .card-footer.text-center
+        %p
+          = t('.comment_from_html', user_link: link_to(@comment.user.username, user_url(@comment.user)))
+      .card-body.border-top.pt-0
+        %ul.list-group.list-group-flush
+          %li{id: "blogs--blog-comment-#{@comment.id}", class: 'list-group-item blogs--blog-comment'}
+            %span.blogs--blog-comment-content
+              = @comment.content
+            %footer.text-right.blogs--blog-comment-username
+              = link_to(@comment.user.username, user_url(@comment.user))
+              %small.text-muted.blogs--blog-comment-timestamp
+                = l(@comment.created_at, format: :long)

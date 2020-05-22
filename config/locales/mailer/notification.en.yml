@@ -1,0 +1,8 @@
+---
+en:
+  notification_mailer:
+    added_to_blog:
+      comment_from: This post received the following comment from %{username}.
+      comment_from_html: This post received the following comment from %{user_link}.
+      new_comment_added: A new comment has been added.
+      subject: "[MiniBlog] New comments added."

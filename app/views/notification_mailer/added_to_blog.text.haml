@@ -1,0 +1,14 @@
+:plain
+  #{t('.new_comment_added')}
+
+  --------------------------------------------------------------------------------
+  #{@comment.blog.user.username} #{l(@comment.blog.created_at, format: :long)}
+  #{@comment.blog.content}
+  --------------------------------------------------------------------------------
+
+  #{t('.comment_from', username: @comment.user.username)}
+
+  --------------------------------------------------------------------------------
+  #{@comment.content}
+  #{@comment.user.username} #{l(@comment.created_at, format: :long)}
+  --------------------------------------------------------------------------------
