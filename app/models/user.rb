@@ -26,6 +26,11 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
   validates :username, length: { in: 1..20 }
   validates :username, format: { with: /\A[a-zA-Z]+\z/ }, allow_blank: true
+
+  validates :email, presence: true
+  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, format: { with: /\A.+@.+\..+\z/ }, allow_blank: true
+
   validates :password, confirmation: true
   validates :password, presence: true, on: :create
   validates :profile, length: { maximum: 200 }
