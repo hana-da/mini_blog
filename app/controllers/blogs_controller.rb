@@ -18,7 +18,16 @@ class BlogsController < ApplicationController
 
   # Blogにコメントする
   def comment
-    Blog.find(params[:id]).comments.create(content: params[:comment], user: current_user)
+    comment = Blog.find(params[:id]).comments.create(content: params[:comment], user: current_user)
+
+    send_notification_to_blog_author(comment)
     redirect_back fallback_location: root_path
+  end
+
+  private def send_notification_to_blog_author(comment)
+    return unless comment.persisted?
+    return if comment.blog.user.email.blank?
+
+    NotificationMailer.added_to_blog(comment).deliver_now
   end
 end

@@ -171,7 +171,7 @@ RSpec.describe '/', type: :feature do
       end
     end
 
-    describe 'コメント欄' do
+    describe 'コメント欄で' do
       it 'コメント用のフォームでコメントを投稿することができる' do
         blog = FactoryBot.create(:blog)
         comment = FactoryBot.build(:blog_comment)
@@ -192,6 +192,65 @@ RSpec.describe '/', type: :feature do
           expect(page).to have_css('.blogs--blog-comment-content', text: comment.content)
             .and have_link(user.username, href: user_path(user))
             .and have_css('.blogs--blog-comment-timestamp')
+        end
+      end
+
+      context 'コメントの追加に成功した時' do
+        it 'コメントしたBlogの投稿者がemailを登録していれば通知メールが送信される' do
+          blog = FactoryBot.create(:blog)
+          expect(blog.user.email).to be_present
+
+          visit root_path
+
+          within("#blog-#{blog.id}") do
+            expect(page).not_to have_css('.blogs--blog-comment')
+            fill_in 'comment', with: FactoryBot.attributes_for(:blog_comment)[:content]
+
+            expect { click_button(t('helpers.submit.comment')) }
+              .to(
+                change(BlogComment, :count).by(1)
+                  .and(change { ActionMailer::Base.deliveries.count }.by(1))
+              )
+            expect(ActionMailer::Base.deliveries.last.to).to eq([blog.user.email])
+          end
+        end
+
+        it 'コメントしたBlogの投稿者がemailを登録していないと通知メールは送信されない' do
+          non_email_user = FactoryBot.build(:user, email: '').tap { |user| user.save!(validate: false) }
+          blog = FactoryBot.create(:blog, user: non_email_user)
+          expect(blog.user.email).to be_blank
+
+          visit root_path
+
+          within("#blog-#{blog.id}") do
+            expect(page).not_to have_css('.blogs--blog-comment')
+
+            fill_in 'comment', with: FactoryBot.attributes_for(:blog_comment)[:content]
+            expect { click_button(t('helpers.submit.comment')) }
+              .to(
+                change(BlogComment, :count).by(1)
+                  .and(change { ActionMailer::Base.deliveries.count }.by(0))
+              )
+          end
+        end
+      end
+
+      context 'コメントの追加に失敗した時' do
+        it '通知メールは送信されない' do
+          blog = FactoryBot.create(:blog)
+          expect(blog.user.email).to be_present
+
+          visit root_path
+
+          within("#blog-#{blog.id}") do
+            expect(page).not_to have_css('.blogs--blog-comment')
+
+            expect { click_button(t('helpers.submit.comment')) }
+              .to(
+                change(BlogComment, :count).by(0)
+                  .and(change { ActionMailer::Base.deliveries.count }.by(0))
+              )
+          end
         end
       end
     end
