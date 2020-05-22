@@ -2,8 +2,10 @@
 
 if defined?(AnyLogin)
   AnyLogin.setup do |config|
+    # rubocop:disable Layout/LineLength
     # # provider (:devise, :authlogic, sorcery, clearance). Provider can be identified automatically based on your Gemfile
     # config.provider = nil
+    # rubocop:enable Layout/LineLength
 
     # # enabled or not
     # config.enabled = Rails.env.to_s == 'development'

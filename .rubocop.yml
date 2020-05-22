@@ -88,19 +88,8 @@ Layout/HashAlignment:
   EnforcedHashRocketStyle: table
   EnforcedColonStyle:      table
 
-Layout/LineLength:
-  Exclude:
-    - 'Gemfile'
-    - 'config/routes.rb'
-  Max: 128
-
 Layout/SpaceInsideArrayPercentLiteral:
   Enabled: false
-
-## Lint ##
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/**/*'
 
 ## Metrics ##
 Metrics/BlockLength:
@@ -108,10 +97,6 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'config/**/*'
     - 'lib/tasks/**/*'
-
-Metrics/MethodLength:
-  Exclude:
-    - 'db/migrate/*'
 
 ## RSpec ##
 RSpec/ContextWording:
@@ -125,7 +110,7 @@ RSpec/DescribedClass:
   EnforcedStyle: explicit
 
 RSpec/ExampleLength:
-  Max: 64 # default: 10
+  Max: 25 # default: 10
 
 RSpec/ExpectInHook:
   Enabled: false

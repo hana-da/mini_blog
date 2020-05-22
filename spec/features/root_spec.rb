@@ -166,7 +166,8 @@ RSpec.describe '/', type: :feature do
 
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
-        expect(page).to have_css('.field_with_errors + .invalid-feedback', text: blog.errors.full_messages_for(:content).first)
+        expect(page).to have_css('.field_with_errors + .invalid-feedback',
+                                 text: blog.errors.full_messages_for(:content).first)
       end
     end
 
