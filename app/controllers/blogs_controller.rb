@@ -17,17 +17,12 @@ class BlogsController < ApplicationController
   end
 
   # Blogにコメントする
+  #
+  # コメントの作成に成功するとBlogの投稿者に通知メールが送信される
   def comment
-    comment = Blog.find(params[:id]).comments.create(content: params[:comment], user: current_user)
+    Blog.find(params[:id]).comments
+        .create_with_notification(content: params[:comment], user: current_user)
 
-    send_notification_to_blog_author(comment)
     redirect_back fallback_location: root_path
-  end
-
-  private def send_notification_to_blog_author(comment)
-    return unless comment.persisted?
-    return if comment.blog.user.email.blank?
-
-    NotificationMailer.added_to_blog(comment).deliver_now
   end
 end
