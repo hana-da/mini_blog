@@ -49,8 +49,10 @@
                 .col
                   %article.blogs__blog-content.lead
                     = blog.content
-            - if blog.image_url.present?
-              = image_tag( blog.image_url, class: 'card-image img-fluid blogs__blog-image')
+              .row
+                .col.text-center
+                  - if blog.image_url.present?
+                    = image_tag(blog.image.thumb.url, class: 'shadow-sm blogs__blog-image')
             .card-footer
               .row
                 .col-3.blogs__blog-favorite-button
