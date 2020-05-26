@@ -152,6 +152,27 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_current_path(root_path)
       expect(page).to have_css('article.blogs__blog-content', text: content)
       expect(page.find('textarea#blog_content').value).to be_blank
+      expect(page).not_to have_css('img.blogs__blog-image')
+    end
+
+    it '投稿用のフォームから画像付きでも投稿できる' do
+      visit root_path
+
+      content = FactoryBot.build(:blog).content
+
+      within('#new_blog') do
+        expect(page).not_to have_css('.field_with_errors > textarea#blog_content')
+
+        fill_in 'blog[content]', with: content
+        attach_file 'spec/fixtures/images/bike.jpg', name: 'blog[image]'
+
+        click_button
+      end
+
+      expect(page).to have_current_path(root_path)
+      expect(page).to have_css('article.blogs__blog-content', text: content)
+      expect(page.find('textarea#blog_content').value).to be_blank
+      expect(page).to have_css('img.blogs__blog-image')
     end
 
     it '長文を投稿しようとするとエラーメッセージが表示される' do
