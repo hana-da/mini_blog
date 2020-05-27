@@ -55,4 +55,68 @@ RSpec.describe UserFavoriteBlog, type: :model do
       expect(favorite_blog).to belong_to(:blog)
     end
   end
+
+  describe '.daily_ranking' do
+    context '引数がない時' do
+      it '本日「いいね」された回数の上位10件が降順で返ってくる' do
+        blogs = FactoryBot.create_list(:blog, 11)
+
+        blogs.flat_map.with_index(1) { |b, i| FactoryBot.create_list(:user_favorite_blog, i, blog: b) }
+
+        actual_ranking = UserFavoriteBlog.daily_ranking
+        expect(actual_ranking).to be_a(Hash)
+        expect(actual_ranking.keys.first).to be_a(Blog)
+        expect(actual_ranking.keys.first.association(:user)).to be_loaded
+        expect(actual_ranking.size).to eq(10) # 10件だけ
+        expect(actual_ranking.values).to eq(actual_ranking.values.sort.reverse) # 降順
+      end
+
+      it '今日より前の「いいね」は含まれない' do
+        travel_to(2.days.ago) do
+          FactoryBot.create(:user_favorite_blog)
+        end
+
+        travel_to(Time.zone.now.midnight - 1) do
+          FactoryBot.create(:user_favorite_blog)
+        end
+
+        # 今日の「いいね」
+        blog = FactoryBot.create(:blog)
+        FactoryBot.create_list(:user_favorite_blog, 3, blog: blog)
+
+        expect(UserFavoriteBlog.daily_ranking.values.first).to eq(3)
+      end
+    end
+
+    context '引数で昨日のランキングを指定した時' do
+      it '昨日の「いいね」だけが含まれる' do
+        # 一昨日の「いいね」
+        travel_to(1.day.ago.midnight - 1) do
+          FactoryBot.create(:user_favorite_blog)
+        end
+
+        # 昨日の「いいね」
+        travel_to(1.day.ago) do
+          blog = FactoryBot.create(:blog)
+          FactoryBot.create_list(:user_favorite_blog, 3, blog: blog)
+        end
+
+        # 今日の「いいね」
+        travel_to(Time.zone.now.midnight) do
+          FactoryBot.create(:user_favorite_blog)
+        end
+
+        expect(UserFavoriteBlog.daily_ranking(period: 1.day.ago).values.first).to eq(3)
+      end
+    end
+
+    context '引数で件数を指定した時' do
+      it '指定した件数分だけ返ってくる' do
+        FactoryBot.create_list(:user_favorite_blog, 5)
+
+        # この場合は5件とも同率1位だが、limit:3なので神(DB)が選んだ適当な3件が返る
+        expect(UserFavoriteBlog.daily_ranking(limit: 3).size).to eq(3)
+      end
+    end
+  end
 end

@@ -29,6 +29,18 @@ class UserFavoriteBlog < ApplicationRecord
   validates :blog_id, uniqueness: { scope: :user_id }
   validates :user_id, uniqueness: { scope: :blog_id }
 
+  # dateに付けられた「いいね」の数を集計して上位limit件をHashにして返す
+  #
+  # @param [ActiveSupport::TimeWithZone] period 集計対象の日
+  # @param [Integer] limit 件数制限
+  # @return [Hash{Blog => Integer}]
+  def self.daily_ranking(period: Time.zone.now, limit: 10)
+    date_range = (period.midnight..period.tomorrow.midnight)
+    ranking = where(created_at: date_range).group(:blog_id).order(count_all: :desc).limit(limit).count
+    blogs = Blog.where(id: ranking.keys).preload(:user).index_by(&:id)
+    ranking.transform_keys { |id| blogs[id] }
+  end
+
   private def not_own_blog
     return unless blog&.user_id == user_id
 
