@@ -4,6 +4,7 @@
 # NOTE: are sensitive to local FS writes, and besides -- it's just not proper
 # NOTE: to have a dev-mode tool do its thing in production.
 if Rails.env.development?
+  # :nocov:
   require 'annotate'
   task :set_annotation_options do # rubocop:disable Rails/RakeEnvironment
     # You can override any of these by setting an environment variable of the
@@ -58,4 +59,5 @@ if Rails.env.development?
   end
 
   Annotate.load_tasks
+  # :nocov:
 end

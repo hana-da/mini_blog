@@ -89,6 +89,11 @@ RSpec.configure do |config|
     FactoryBot.reload
   end
 
+  config.before :suite do
+    # 複数回 load してしまうとカバレッジレポートがおかしくなるので1回だけloadする
+    Rails.application.load_tasks
+  end
+
   config.include ActiveSupport::Testing::TimeHelpers
 end
 
