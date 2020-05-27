@@ -1,0 +1,7 @@
+---
+ja:
+  report_mailer:
+    daily_favorite_ranking:
+      favorite: "%{count} いいね!"
+      favorite_ranking: "%{period} の「いいね」獲得ランキング"
+      rank: 第%{rank}位

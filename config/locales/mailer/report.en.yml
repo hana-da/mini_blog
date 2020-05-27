@@ -1,0 +1,9 @@
+---
+en:
+  report_mailer:
+    daily_favorite_ranking:
+      favorite:
+        one: "%{count}Fav."
+        other: "%{count}Favs."
+      favorite_ranking: 'Favorite ranking: %{period}'
+      rank: No.%{rank}
