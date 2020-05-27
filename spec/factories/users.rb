@@ -20,11 +20,11 @@
 #
 FactoryBot.define do
   factory :user do
-    username { Faker::Internet.username(specifier: 1..20).delete('^a-zA-Z') }
-    email { Faker::Internet.email(domain: 'example.jp') }
-    blog_url { Faker::Internet.url(host: 'example.jp') }
-    password { 'password' }
+    blog_url              { generate(:url) }
+    email                 { generate(:email) }
+    password              { 'password' }
     password_confirmation { 'password' }
-    profile { Faker::Quote.matz.first(200).strip }
+    profile               { generate(:quote_200) }
+    username              { generate(:username) }
   end
 end

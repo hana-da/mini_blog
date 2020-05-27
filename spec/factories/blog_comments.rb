@@ -23,8 +23,8 @@
 #
 FactoryBot.define do
   factory :blog_comment do
-    content { Faker::Quote.most_interesting_man_in_the_world.first(140).strip }
     blog
+    content { generate(:quote_140) }
     user
   end
 end

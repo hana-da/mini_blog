@@ -23,7 +23,7 @@
 #
 FactoryBot.define do
   factory :user_relationship do
-    follower factory: :user
     followed factory: :user
+    follower factory: :user
   end
 end
