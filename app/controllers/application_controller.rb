@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   protected def http_basic_authenticate_for_production
     return unless Rails.env.production?
+    return unless ENV['BASIC_AUTH_USERNAME'] || ENV['BASIC_AUTH_PASSWORD']
 
     http_basic_authenticate_or_request_with name:     ENV.fetch('BASIC_AUTH_USERNAME'),
                                             password: ENV.fetch('BASIC_AUTH_PASSWORD')

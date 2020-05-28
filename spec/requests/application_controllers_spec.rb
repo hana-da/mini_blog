@@ -13,8 +13,9 @@ RSpec.describe 'ApplicationControllers', type: :request do
         stub_const('ENV', ENV.to_h.tap { |h| h.delete('BASIC_AUTH_USERNAME') })
       end
 
-      it do
-        expect { get root_path }.to raise_error(KeyError)
+      it 'Basic認証はかかっていない' do
+        get '/'
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -23,8 +24,9 @@ RSpec.describe 'ApplicationControllers', type: :request do
         stub_const('ENV', ENV.to_h.tap { |h| h.delete('BASIC_AUTH_PASSWORD') })
       end
 
-      it do
-        expect { get root_path }.to raise_error(KeyError)
+      it 'Basic認証はかかっていない' do
+        get '/'
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -52,6 +54,17 @@ RSpec.describe 'ApplicationControllers', type: :request do
       it '認証情報が合致すれば200 OKになる' do
         get '/', headers: { 'HTTP_AUTHORIZATION' => "Basic #{Base64.strict_encode64("#{username}:#{password}")}" }
 
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  context 'RAILS_ENV が production でない時' do
+    before do
+      allow(Rails.env).to receive(:production?).and_return(false)
+
+      it 'Basic認証はかかっていない' do
+        get '/'
         expect(response).to have_http_status(:ok)
       end
     end
