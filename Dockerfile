@@ -29,7 +29,14 @@ RUN set -ex \
     # install node and yarn via n
     && n ${NODE_VERSION} \
     && npm install -g yarn@${YARN_VERSION} \
-    && apt-get purge -y $forWebpacker \
+    && apt-get purge -y $forWebpacker
+
+RUN set -ex \
+    && forDevelopmentAndDebugging=' \
+        less \
+        vim \
+      ' \
+    && apt-get install -y $forDevelopmentAndDebugging \
     # clean up
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* \
