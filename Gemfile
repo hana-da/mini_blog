@@ -57,11 +57,12 @@ group :development do
 
   gem 'annotate'
   gem 'any_login'
+  gem 'benchmark-ips'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'guard',          require: false
-  gem 'guard-rspec',    require: false
-  gem 'guard-rubocop',  require: false
+  gem 'guard',         require: false
+  gem 'guard-rspec',   require: false
+  gem 'guard-rubocop', require: false
   gem 'i18n-tasks'
   gem 'pry'
   gem 'pry-doc'
