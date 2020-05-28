@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @blog = Blog.new_with_validation(content: session[:nil_or_invalid_blog_content])
     session[:nil_or_invalid_blog_content] = nil
 
-    @blogs = current_user.following_blogs.order(created_at: :desc).includes(:user, :liked_users, comments: [:user])
+    @blogs = current_user.following_blogs.order(created_at: :desc).preload(:user, :liked_users, comments: [:user])
 
     render template: 'mini_blog/root'
   end

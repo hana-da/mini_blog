@@ -67,7 +67,7 @@ class User < ApplicationRecord
   #
   # @return [Blog::ActiveRecord_Relation]
   def following_blogs
-    Blog.where(user_id: [id, following_ids].flatten!).includes(:user)
+    Blog.where(user_id: [id, following_ids].flatten!).preload(:user)
   end
 
   # userをフォローしているか?
