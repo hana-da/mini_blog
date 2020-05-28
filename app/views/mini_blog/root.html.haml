@@ -52,7 +52,7 @@
               .row
                 .col.text-center
                   - if blog.image_url.present?
-                    = image_tag(blog.image.thumb.url, class: 'shadow-sm blogs__blog-image')
+                    = image_tag(blog.image.thumb.url, class: 'img-fluid shadow-sm blogs__blog-image')
             .card-footer
               .row
                 .col-3.blogs__blog-favorite-button
@@ -60,7 +60,7 @@
                 .col-9.pl-0.ml-0.blogs__blog-favorited-users
                   = users_to_link_tag(blog.liked_users, :liked_users)
             .card-body.border-top.pt-0
-              %ul.list-group.list-group-flush
+              %ol.list-group.list-group-flush
                 - blog.comments.each do |comment|
                   %li{id: "blogs--blog-comment-#{comment.id}", class: 'list-group-item blogs--blog-comment'}
                     %span.blogs--blog-comment-content

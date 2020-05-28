@@ -9,7 +9,7 @@ class ReportMailer < ApplicationMailer
 
     mail(
       to:      ENV.fetch('REPORT_MAIL_TO'),
-      subject: "[MiniBlog] #{t('.favorite_ranking', period: @date)}"
+      subject: t('.subject', period: @date)
     )
   end
 end

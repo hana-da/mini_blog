@@ -1,30 +1,37 @@
-%h1{class: 'h4'}
-  = t('.favorite_ranking', period: l(@date))
-
-%hr.mb-3.mt-0
-%ol#blogs.list-unstyled
-  - @ranking.each.with_index(1) do |rank, i|
-    - blog, fav_count = rank
-    %li{id: "blog-#{blog.id}", class: 'blogs__blog mb-3'}
-      .card
-        .card-header
-          .row{ class: "h#{i}"}
-            .col-4
-              = t('.rank', rank: i)
-            .col
-              = t('.favorite', count: fav_count)
-        .card-body
-          .row.blogs__blog-header
-            .col-9.mb-2
-              = link_to(blog.user.username, user_url(blog.user), class: 'blogs__blog-username')
-              %br
-              %small.text-muted.blogs__blog-timestamp
-                = l(blog.created_at, format: :long)
-          .row
-            .col
-              %article.blogs__blog-content.lead
-                = blog.content
-          .row
-            .col.text-center
-              - if blog.image_url.present?
-                = image_tag(blog.image.thumb.url, class: 'shadow-sm blogs__blog-image')
+.row
+  %header.col
+    %h1{class: 'h5'}
+      = t('.favorite_ranking')
+    %h2{class: 'h6 text-right'}
+      = l(@date)
+.row
+  .col
+    %hr.mb-3.mt-0
+.row
+  .col
+    %ol#blogs.list-unstyled
+      - @ranking.each.with_index(1) do |rank, i|
+        - blog, fav_count = rank
+        %li{id: "blog-#{blog.id}", class: 'blogs__blog mb-3'}
+          .card
+            .card-header{ class: "h#{i}"}
+              .row
+                .col-5.col-md-3.col-lg-2
+                  = t('.rank', rank: i)
+                .col
+                  = t('.favorite', count: fav_count)
+            .card-body
+              .row.blogs__blog-header
+                .col.mb-2
+                  = link_to(blog.user.username, user_url(blog.user), class: 'blogs__blog-username')
+                  %br
+                  %small.text-muted.blogs__blog-timestamp
+                    = l(blog.created_at, format: :long)
+              .row
+                .col
+                  %article.blogs__blog-content.lead
+                    = blog.content
+              .row
+                .col.text-center
+                  - if blog.image_url.present?
+                    = image_tag(blog.image.thumb.url, class: 'img-fluid shadow-sm blogs__blog-image')

@@ -5,5 +5,6 @@ en:
       favorite:
         one: "%{count}Fav."
         other: "%{count}Favs."
-      favorite_ranking: 'Favorite ranking: %{period}'
+      favorite_ranking: Favorite ranking
       rank: No.%{rank}
+      subject: "[MiniBlog] Favorite ranking: %{period}"
