@@ -2,21 +2,7 @@
 .row.justify-content-center.mb-3
   %aside.col-5
     - if current_user
-      = form_for(@blog) do |f|
-        .form-row
-          .col
-            = f.text_area(:content,
-                class: 'form-control',
-                rows: 3,
-                autofocus: true,
-                placeholder: t('placeholder.post'))
-            = invalid_feedback_tag(@blog, :content)
-        .form-row.mt-2
-          .col-10
-            = f.file_field(:image)
-            = invalid_feedback_tag(@blog, :image)
-          .col
-            = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
+      = render('mini_blog/blog_form')
     - else
       .alert.alert-info
         = t('.need_login_to_post_html',
