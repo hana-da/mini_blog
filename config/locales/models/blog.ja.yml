@@ -4,3 +4,4 @@ ja:
     attributes:
       blog:
         content: 投稿内容
+        image: 投稿画像

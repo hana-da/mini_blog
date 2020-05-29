@@ -4,3 +4,4 @@ en:
     attributes:
       blog:
         content: Content
+        image: Image
