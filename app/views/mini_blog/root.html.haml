@@ -14,6 +14,7 @@
         .form-row.mt-2
           .col-10
             = f.file_field(:image)
+            = invalid_feedback_tag(@blog, :image)
           .col
             = f.submit(t('helpers.submit.post'), class: 'btn btn-primary btn-block')
     - else

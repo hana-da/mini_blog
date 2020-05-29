@@ -175,6 +175,30 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_css('img.blogs__blog-image')
     end
 
+    it '画像でないファイルを投稿するとエラーメッセージが表示される' do
+      visit root_path
+
+      blog = FactoryBot.build(:blog)
+      errors = blog.errors
+
+      within('#new_blog') do
+        expect(page).not_to have_css('.field_with_errors > textarea#blog_content')
+
+        fill_in 'blog[content]', with: blog.content
+        attach_file 'README.md', name: 'blog[image]'
+
+        expect { click_button }.not_to change(Blog, :count)
+      end
+
+      within('#new_blog') do
+        expect(page).to have_css('.field_with_errors > input#blog_image')
+        expect(page).to have_css('.field_with_errors + .invalid-feedback',
+                                 text: errors.full_message(:image,
+                                                           errors.generate_message(:image,
+                                                                                   :content_type_whitelist_error)))
+      end
+    end
+
     it '長文を投稿しようとするとエラーメッセージが表示される' do
       visit root_path
 

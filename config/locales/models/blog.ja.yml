@@ -5,3 +5,9 @@ ja:
       blog:
         content: 投稿内容
         image: 投稿画像
+    errors:
+      models:
+        blog:
+          attributes:
+            image:
+              content_type_whitelist_error: は画像形式のファイルのみ投稿できます

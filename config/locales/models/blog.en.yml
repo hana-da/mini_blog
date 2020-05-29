@@ -5,3 +5,9 @@ en:
       blog:
         content: Content
         image: Image
+    errors:
+      models:
+        blog:
+          attributes:
+            image:
+              content_type_whitelist_error: supports image format file only.

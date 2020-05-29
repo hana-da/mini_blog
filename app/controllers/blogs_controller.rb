@@ -5,7 +5,10 @@ class BlogsController < ApplicationController
 
   def create
     blog = current_user.blogs.create(params.require(:blog).permit(:content, :image))
-    session[:nil_or_invalid_blog_content] = blog.content if blog.invalid?
+    if blog.invalid?
+      session[:nil_or_invalid_blog_content] = blog.content
+      session[:blog_image_error] = blog.errors.include?(:image)
+    end
     redirect_back fallback_location: root_path
   end
 
