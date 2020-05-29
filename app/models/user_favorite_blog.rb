@@ -38,7 +38,7 @@ class UserFavoriteBlog < ApplicationRecord
     date_range = (period.midnight..period.tomorrow.midnight)
     ranking = where(created_at: date_range).group(:blog_id).order(count_all: :desc).limit(limit).count
     blogs = Blog.where(id: ranking.keys).preload(:user).index_by(&:id)
-    ranking.transform_keys { |id| blogs[id] }
+    ranking.transform_keys! { |id| blogs[id] }
   end
 
   private def not_own_blog
