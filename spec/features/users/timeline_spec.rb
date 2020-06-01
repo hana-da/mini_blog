@@ -3,14 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe '/users/timeline', type: :feature do
-  def unescape(escaped_string)
-    escaped_string.gsub(%r{(\\"|\\'|\\/|\\n)},
-                        %q(\") => '"',
-                        %q(\') => "'",
-                        %q(\/) => '/',
-                        '\\n'  => "\n")
-  end
-
   context 'ログインしていない時' do
     it 'ログインを求められる' do
       visit user_timeline_path

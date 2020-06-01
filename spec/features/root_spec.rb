@@ -3,14 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
-  def unescape(escaped_string)
-    escaped_string.gsub(%r{(\\"|\\'|\\/|\\n)},
-                        %q(\") => '"',
-                        %q(\') => "'",
-                        %q(\/) => '/',
-                        '\\n'  => "\n")
-  end
-
   it '全ての投稿が降順に表示される' do
     blogs = 3.times.map do |i|
       travel_to((5 - i).day.ago) { FactoryBot.create(:blog) }
