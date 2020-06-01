@@ -17,6 +17,8 @@ RUN set -ex \
         g++ \ 
         # for pg
         libpq-dev \
+        # for webdrivers
+        chromium-chromedriver \
       ' \
     && forWebpacker=' \
         nodejs \

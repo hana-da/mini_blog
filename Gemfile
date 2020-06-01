@@ -79,9 +79,11 @@ group :test do
   gem 'rspec'
   gem 'rspec-parameterized'
   gem 'rspec-rails'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
   gem 'spring-commands-rspec'
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
