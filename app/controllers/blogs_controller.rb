@@ -5,9 +5,8 @@ class BlogsController < ApplicationController
 
   def create
     @blog = current_user.blogs.create(params.require(:blog).permit(:content, :image))
-    redirect_back(fallback_location: root_path) and return if @blog.persisted?
 
-    render formats: :js
+    redirect_back(fallback_location: root_path) if @blog.persisted?
   end
 
   # Blogを「いいね」する
