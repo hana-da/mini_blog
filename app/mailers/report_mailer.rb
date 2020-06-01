@@ -2,7 +2,7 @@
 
 class ReportMailer < ApplicationMailer
   # @param [ActiveSupport::TimeWithZone] period 集計対象日
-  # @param [Integer] 件数制限
+  # @param [Integer] limit 件数制限
   def daily_favorite_ranking(period:, limit: 10)
     @date = period.to_date
     @ranking = UserFavoriteBlog.daily_ranking(period: period, limit: limit)

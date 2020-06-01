@@ -42,8 +42,8 @@ module MiniBlogHelper
   #
   # current_user.likable?(blog) が偽の場合は button に disabled="disabled" が付与される
   #
-  # @param [Blog] blog_id いいねする対象のBlog
-  # @param [Integer] liked_count 現在のいいねの数
+  # @param [Blog] blog いいねする対象のBlog
+  # @param [Integer] count 現在のいいねの数
   # @return [ActiveSupport::SafeBuffer]
   def favorite_button_tag(blog:, count:)
     button_to(like_blog_path(blog.id),
