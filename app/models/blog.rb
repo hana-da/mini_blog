@@ -30,12 +30,4 @@ class Blog < ApplicationRecord
   has_many :liked_users, through: :likes, source: :user
 
   mount_uploader :image, BlogImageUploader
-
-  # attributesの指定があれば new した後にvalidateもする
-  #
-  # @param [Hash] attributes
-  # @return [Blog]
-  def self.new_with_validation(attributes = {}, &block)
-    new(attributes, &block).tap { |blog| blog.validate if attributes.values.any? }
-  end
 end

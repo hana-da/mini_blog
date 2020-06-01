@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
+  def unescape(escaped_string)
+    escaped_string.gsub(%r{(\\"|\\'|\\/|\\n)},
+                        %q(\") => '"',
+                        %q(\') => "'",
+                        %q(\/) => '/',
+                        '\\n'  => "\n")
+  end
+
   it '全ての投稿が降順に表示される' do
     blogs = 3.times.map do |i|
       travel_to((5 - i).day.ago) { FactoryBot.create(:blog) }
@@ -190,6 +198,7 @@ RSpec.describe '/', type: :feature do
         expect { click_button }.not_to change(Blog, :count)
       end
 
+      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > input#blog_image')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',
@@ -209,6 +218,7 @@ RSpec.describe '/', type: :feature do
         click_button
       end
 
+      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',

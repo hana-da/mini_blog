@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe '/users/timeline', type: :feature do
+  def unescape(escaped_string)
+    escaped_string.gsub(%r{(\\"|\\'|\\/|\\n)},
+                        %q(\") => '"',
+                        %q(\') => "'",
+                        %q(\/) => '/',
+                        '\\n'  => "\n")
+  end
+
   context 'ログインしていない時' do
     it 'ログインを求められる' do
       visit user_timeline_path
@@ -95,6 +103,7 @@ RSpec.describe '/users/timeline', type: :feature do
         expect { click_button }.not_to change(Blog, :count)
       end
 
+      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > input#blog_image')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',
@@ -114,7 +123,7 @@ RSpec.describe '/users/timeline', type: :feature do
         click_button
       end
 
-      expect(page).to have_current_path(user_timeline_path)
+      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',

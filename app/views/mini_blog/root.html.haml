@@ -1,6 +1,6 @@
 - liked_count = UserFavoriteBlog.group(:blog_id).count
 .row.justify-content-center.mb-3
-  %aside.col-5
+  %aside.col-5.form__blog
     - if current_user
       = render('mini_blog/blog_form')
     - else

@@ -4,12 +4,10 @@ class BlogsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    blog = current_user.blogs.create(params.require(:blog).permit(:content, :image))
-    if blog.invalid?
-      session[:nil_or_invalid_blog_content] = blog.content
-      session[:blog_image_error] = blog.errors.include?(:image)
-    end
-    redirect_back fallback_location: root_path
+    @blog = current_user.blogs.create(params.require(:blog).permit(:content, :image))
+    redirect_back(fallback_location: root_path) and return if @blog.persisted?
+
+    render formats: :js
   end
 
   # Blogを「いいね」する
