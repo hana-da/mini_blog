@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/users/sign_in', type: :feature do
+RSpec.describe '/users/sign_in', type: :system do
   it 'new_user_session_pathのフォームでログインできる' do
     user = FactoryBot.create(:user)
 

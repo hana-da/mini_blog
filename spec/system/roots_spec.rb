@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/', type: :feature do
+RSpec.describe '/', type: :system do
   it '全ての投稿が降順に表示される' do
     blogs = 3.times.map do |i|
       travel_to((5 - i).day.ago) { FactoryBot.create(:blog) }
@@ -175,7 +175,7 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_css('img.blogs__blog-image')
     end
 
-    it '画像でないファイルを投稿するとエラーメッセージが表示される' do
+    it '画像でないファイルを投稿するとエラーメッセージが表示される', js: true do
       visit root_path
 
       blog = FactoryBot.build(:blog)
@@ -190,7 +190,6 @@ RSpec.describe '/', type: :feature do
         expect { click_button }.not_to change(Blog, :count)
       end
 
-      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > input#blog_image')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',
@@ -200,7 +199,7 @@ RSpec.describe '/', type: :feature do
       end
     end
 
-    it '長文を投稿しようとするとエラーメッセージが表示される' do
+    it '長文を投稿しようとするとエラーメッセージが表示される', js: true do
       visit root_path
 
       blog = FactoryBot.build(:blog, content: 'a' * 1000).tap(&:validate)
@@ -210,7 +209,6 @@ RSpec.describe '/', type: :feature do
         click_button
       end
 
-      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',

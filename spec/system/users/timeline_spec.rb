@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/users/timeline', type: :feature do
+RSpec.describe '/users/timeline', type: :system do
   context 'ログインしていない時' do
     it 'ログインを求められる' do
       visit user_timeline_path
@@ -80,7 +80,7 @@ RSpec.describe '/users/timeline', type: :feature do
       expect(page).to have_css('img.blogs__blog-image')
     end
 
-    it '画像でないファイルを投稿するとエラーメッセージが表示される' do
+    it '画像でないファイルを投稿するとエラーメッセージが表示される', js: true do
       visit user_timeline_path
 
       blog = FactoryBot.build(:blog)
@@ -95,7 +95,6 @@ RSpec.describe '/users/timeline', type: :feature do
         expect { click_button }.not_to change(Blog, :count)
       end
 
-      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > input#blog_image')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',
@@ -105,7 +104,7 @@ RSpec.describe '/users/timeline', type: :feature do
       end
     end
 
-    it '長文を投稿しようとするとエラーメッセージが表示される' do
+    it '長文を投稿しようとするとエラーメッセージが表示される', js: true do
       visit user_timeline_path
 
       blog = FactoryBot.build(:blog, content: 'a' * 1000).tap(&:validate)
@@ -115,7 +114,6 @@ RSpec.describe '/users/timeline', type: :feature do
         click_button
       end
 
-      page.driver.response.body = unescape(page.body).lines
       within('#new_blog') do
         expect(page).to have_css('.field_with_errors > textarea#blog_content')
         expect(page).to have_css('.field_with_errors + .invalid-feedback',

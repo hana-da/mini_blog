@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/users/sign_up', type: :feature do
+RSpec.describe '/users/sign_up', type: :system do
   it 'new_user_registration_pathの登録フォームで登録できる' do
     user = FactoryBot.build(:user)
     expect(User.find_by(username: user.username)).to be_nil

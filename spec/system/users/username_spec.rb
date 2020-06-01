@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/users/:username', type: :feature do
+RSpec.describe '/users/:username', type: :system do
   it '公開情報が表示されている' do
     user = FactoryBot.create(:user)
 
