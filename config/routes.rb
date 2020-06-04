@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: :registration
   devise_scope :user do
-    get  '/users/sign_up(.:format)', to: 'devise/registrations#new',    as: 'new_user_registration'
-    post '/users(.:format)',         to: 'devise/registrations#create', as: 'user_registration'
+    get  '/users/sign_up', to: 'devise/registrations#new',    as: 'new_user_registration'
+    post '/users',         to: 'devise/registrations#create', as: 'user_registration'
   end
   scope :users do
     get  'timeline',  to: 'users#timeline', as: :user_timeline
