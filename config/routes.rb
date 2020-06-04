@@ -14,17 +14,15 @@ Rails.application.routes.draw do
     post '/users',         to: 'devise/registrations#create', as: 'user_registration'
   end
 
+  resources :users, only: :show, param: :username
+
   resource :user, only: [] do
     member do
       get :timeline
+
+      post :follow
+      post :unfollow
     end
-  end
-
-  scope :users do
-    get  ':username', to: 'users#show',     as: :user
-
-    post 'follow',    to: 'users#follow',   as: :follow_user
-    post 'unfollow',  to: 'users#unfollow', as: :unfollow_user
   end
 
   root 'mini_blog#root'
