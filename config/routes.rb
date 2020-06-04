@@ -13,8 +13,14 @@ Rails.application.routes.draw do
     get  '/users/sign_up', to: 'devise/registrations#new',    as: 'new_user_registration'
     post '/users',         to: 'devise/registrations#create', as: 'user_registration'
   end
+
+  resource :user, only: [] do
+    member do
+      get :timeline
+    end
+  end
+
   scope :users do
-    get  'timeline',  to: 'users#timeline', as: :user_timeline
     get  ':username', to: 'users#show',     as: :user
 
     post 'follow',    to: 'users#follow',   as: :follow_user
