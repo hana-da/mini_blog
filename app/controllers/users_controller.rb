@@ -7,11 +7,6 @@ class UsersController < ApplicationController
     @user = User.find_by!(username: params[:username])
   end
 
-  def unfollow
-    current_user.unfollow(User.find(params[:id]))
-    redirect_back fallback_location: root_path
-  end
-
   # ユーザ個別のタイムライン
   def timeline
     @blog = Blog.new

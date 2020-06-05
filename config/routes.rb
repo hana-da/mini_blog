@@ -20,8 +20,6 @@ Rails.application.routes.draw do
     resource :relationship, only: %i[create destroy], controller: :user_relationships
     member do
       get :timeline
-
-      post :unfollow
     end
   end
 
