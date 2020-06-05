@@ -19,6 +19,18 @@ RSpec.describe 'UserRelationshipsControllers', type: :request do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(root_path)
     end
+
+    it 'フォロー解除できる' do
+      user.follow!(other_user)
+      expect(user).to be_following(other_user)
+
+      expect do
+        delete user_relationship_path, params: { followed_id: other_user.id }
+      end.to change(UserRelationship, :count).by(-1)
+
+      expect(response).to have_http_status(:found)
+      expect(response).to redirect_to(root_path)
+    end
   end
 
   context 'ログインしていない時' do
@@ -27,6 +39,18 @@ RSpec.describe 'UserRelationshipsControllers', type: :request do
 
       expect do
         post user_relationship_path, params: { followed_id: other_user.id }
+      end.not_to change(UserRelationship, :count)
+
+      expect(response).to have_http_status(:found)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it 'フォロー解除できない' do
+      user.follow!(other_user)
+      expect(user).to be_following(other_user)
+
+      expect do
+        delete user_relationship_path, params: { followed_id: other_user.id }
       end.not_to change(UserRelationship, :count)
 
       expect(response).to have_http_status(:found)

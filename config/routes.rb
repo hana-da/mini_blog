@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :users, only: :show, param: :username
 
   resource :user, only: [] do
-    resource :relationship, only: %i[create], controller: :user_relationships
+    resource :relationship, only: %i[create destroy], controller: :user_relationships
     member do
       get :timeline
 
