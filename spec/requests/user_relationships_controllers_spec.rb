@@ -13,7 +13,7 @@ RSpec.describe 'UserRelationshipsControllers', type: :request do
       expect(user).not_to be_following(other_user)
 
       expect do
-        post user_relationship_path, params: { followed_id: other_user.id }
+        post current_user_relationship_path, params: { followed_id: other_user.id }
       end.to change(UserRelationship, :count).by(1)
 
       expect(response).to have_http_status(:found)
@@ -25,7 +25,7 @@ RSpec.describe 'UserRelationshipsControllers', type: :request do
       expect(user).to be_following(other_user)
 
       expect do
-        delete user_relationship_path, params: { followed_id: other_user.id }
+        delete current_user_relationship_path, params: { followed_id: other_user.id }
       end.to change(UserRelationship, :count).by(-1)
 
       expect(response).to have_http_status(:found)
@@ -38,7 +38,7 @@ RSpec.describe 'UserRelationshipsControllers', type: :request do
       expect(user).not_to be_following(other_user)
 
       expect do
-        post user_relationship_path, params: { followed_id: other_user.id }
+        post current_user_relationship_path, params: { followed_id: other_user.id }
       end.not_to change(UserRelationship, :count)
 
       expect(response).to have_http_status(:found)
@@ -50,7 +50,7 @@ RSpec.describe 'UserRelationshipsControllers', type: :request do
       expect(user).to be_following(other_user)
 
       expect do
-        delete user_relationship_path, params: { followed_id: other_user.id }
+        delete current_user_relationship_path, params: { followed_id: other_user.id }
       end.not_to change(UserRelationship, :count)
 
       expect(response).to have_http_status(:found)

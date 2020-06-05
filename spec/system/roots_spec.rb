@@ -125,7 +125,7 @@ RSpec.describe '/', type: :system do
       it 'ユーザのタイムラインへのリンクになったユーザ名が表示されている' do
         visit root_path
 
-        expect(page).to have_link(user.username, href: timeline_user_path)
+        expect(page).to have_link(user.username, href: timeline_current_user_path)
       end
 
       it 'ログアウト用のリンクをクリックするとログアウト状態になる' do

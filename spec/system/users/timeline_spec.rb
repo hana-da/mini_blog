@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe '/users/timeline', type: :system do
   context 'ログインしていない時' do
     it 'ログインを求められる' do
-      visit timeline_user_path
+      visit timeline_current_user_path
 
       expect(page).to have_current_path(new_user_session_path)
     end
@@ -29,7 +29,7 @@ RSpec.describe '/users/timeline', type: :system do
         travel_to((5 - i).day.ago) { FactoryBot.create(:blog, user: author) }
       end
 
-      visit timeline_user_path
+      visit timeline_current_user_path
 
       expect(page).to have_css("li#blog-#{user_blog.id}")
       expect(page).to have_css("li#blog-#{following_blog.id}")
@@ -44,7 +44,7 @@ RSpec.describe '/users/timeline', type: :system do
     end
 
     it '投稿用のフォームからフォームを投稿できる' do
-      visit timeline_user_path
+      visit timeline_current_user_path
 
       content = FactoryBot.attributes_for(:blog)[:content]
 
@@ -55,13 +55,13 @@ RSpec.describe '/users/timeline', type: :system do
         click_button
       end
 
-      expect(page).to have_current_path(timeline_user_path)
+      expect(page).to have_current_path(timeline_current_user_path)
       expect(page).to have_css('article.blogs__blog-content', text: content)
       expect(page.find('textarea#blog_content').value).to be_blank
     end
 
     it '投稿用のフォームから画像付きでも投稿できる' do
-      visit timeline_user_path
+      visit timeline_current_user_path
 
       content = FactoryBot.build(:blog).content
 
@@ -74,14 +74,14 @@ RSpec.describe '/users/timeline', type: :system do
         click_button
       end
 
-      expect(page).to have_current_path(timeline_user_path)
+      expect(page).to have_current_path(timeline_current_user_path)
       expect(page).to have_css('article.blogs__blog-content', text: content)
       expect(page.find('textarea#blog_content').value).to be_blank
       expect(page).to have_css('img.blogs__blog-image')
     end
 
     it '画像でないファイルを投稿するとエラーメッセージが表示される', js: true do
-      visit timeline_user_path
+      visit timeline_current_user_path
 
       blog = FactoryBot.build(:blog)
       errors = blog.errors
@@ -105,7 +105,7 @@ RSpec.describe '/users/timeline', type: :system do
     end
 
     it '長文を投稿しようとするとエラーメッセージが表示される', js: true do
-      visit timeline_user_path
+      visit timeline_current_user_path
 
       blog = FactoryBot.build(:blog, content: 'a' * 1000).tap(&:validate)
 

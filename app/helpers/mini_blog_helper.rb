@@ -21,7 +21,7 @@ module MiniBlogHelper
   # @param [Integer] user_id フォローするUserのid
   # @return [ActiveSupport::SafeBuffer]
   def follow_button_tag(user_id)
-    form_with(url: user_relationship_path, method: :post) do |f|
+    form_with(url: current_user_relationship_path, method: :post) do |f|
       f.hidden_field(:followed_id, value: user_id, id: nil) +
         f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
     end
@@ -32,7 +32,7 @@ module MiniBlogHelper
   # @param [Integer] user_id フォローを解除するUserのid
   # @return [ActiveSupport::SafeBuffer]
   def unfollow_button_tag(user_id)
-    form_with(url: user_relationship_path, method: :delete) do |f|
+    form_with(url: current_user_relationship_path, method: :delete) do |f|
       f.hidden_field(:followed_id, value: user_id, id: nil) +
         f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
     end

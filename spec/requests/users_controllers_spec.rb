@@ -10,7 +10,7 @@ RSpec.describe 'UsersControllers', type: :request do
 
     describe '#timeline' do
       it 'current_userのタイムラインが表示される' do
-        get timeline_user_path
+        get timeline_current_user_path
 
         expect(response).to have_http_status(:ok)
       end
@@ -19,7 +19,7 @@ RSpec.describe 'UsersControllers', type: :request do
 
   context 'ログインしていない時' do
     it 'ログイン画面にリダイレクトされる' do
-      get timeline_user_path
+      get timeline_current_user_path
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(new_user_session_path)

@@ -8,11 +8,11 @@
         .col.text-right
           -if current_user # FIXME: helperを使う
             -if current_user.following?(@user)
-              = form_with(url: user_relationship_path, method: :delete) do |f|
+              = form_with(url: current_user_relationship_path, method: :delete) do |f|
                 = f.hidden_field(:followed_id, value: @user.id, id: nil)
                 = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
             -elsif current_user != @user
-              = form_with(url: user_relationship_path) do |f|
+              = form_with(url: current_user_relationship_path) do |f|
                 = f.hidden_field(:followed_id, value: @user.id, id: nil)
                 = f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
       .row.mt-4.border-bottom.border-secondary
