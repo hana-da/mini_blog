@@ -21,8 +21,8 @@ module MiniBlogHelper
   # @param [Integer] user_id フォローするUserのid
   # @return [ActiveSupport::SafeBuffer]
   def follow_button_tag(user_id)
-    form_with(url: follow_user_path) do |f|
-      f.hidden_field(:id, value: user_id, id: nil) +
+    form_with(url: user_relationship_path, method: :post) do |f|
+      f.hidden_field(:followed_id, value: user_id, id: nil) +
         f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
     end
   end
