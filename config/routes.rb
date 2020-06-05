@@ -21,7 +21,6 @@ Rails.application.routes.draw do
     member do
       get :timeline
 
-      post :follow
       post :unfollow
     end
   end
