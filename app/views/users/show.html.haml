@@ -8,8 +8,8 @@
         .col.text-right
           -if current_user # FIXME: helperを使う
             -if current_user.following?(@user)
-              = form_with(url: unfollow_user_path) do |f|
-                = f.hidden_field(:id, value: @user.id, id: nil)
+              = form_with(url: user_relationship_path, method: :delete) do |f|
+                = f.hidden_field(:followed_id, value: @user.id, id: nil)
                 = f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
             -elsif current_user != @user
               = form_with(url: user_relationship_path) do |f|
