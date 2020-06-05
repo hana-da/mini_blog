@@ -50,7 +50,7 @@ RSpec.describe 'UsersControllers', type: :request do
       expect(user).to be_following(other_user)
 
       expect do
-        post follow_user_path, params: { id: other_user.id }
+        post unfollow_user_path, params: { id: other_user.id }
       end.not_to change(UserRelationship, :count)
 
       expect(response).to have_http_status(:found)
