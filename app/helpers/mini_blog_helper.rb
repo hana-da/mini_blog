@@ -24,10 +24,11 @@ module MiniBlogHelper
   # @param [Integer] user_id フォローするUserのid
   # @return [ActiveSupport::SafeBuffer]
   def follow_button_tag(user_id)
-    form_with(url: current_user_relationship_path, method: :post) do |f|
-      f.hidden_field(:followed_id, value: user_id, id: nil) +
-        f.submit(t('helpers.submit.follow'), class: 'btn btn-primary btn-sm')
-    end
+    button_to(t('helpers.submit.follow'),
+              current_user_relationship_path,
+              method: :post,
+              params: { followed_id: user_id },
+              class:  'btn btn-primary btn-sm')
   end
 
   # フォロー解除するためのフォームタグ
