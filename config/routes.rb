@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   resources :blogs, only: :create do
+    resource :comment, only: :create, controller: :blog_comments
     member do
       post :like
       post :comment
