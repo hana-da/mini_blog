@@ -8,6 +8,7 @@ module MiniBlogHelper
   # @return [ActiveSupport::SafeBuffer, nil]
   def follow_unfollow_button_tag(user_id)
     return unless current_user
+    return if current_user.id == user_id
 
     if current_user.following?(user_id)
       unfollow_button_tag(user_id)

@@ -36,6 +36,12 @@ RSpec.describe MiniBlogHelper, type: :helper do
             .and have_css("input[type='submit'][value='#{t('helpers.submit.follow')}']")
         end
       end
+
+      context 'current_user.id と user_id が同一の時' do
+        it do
+          expect(helper.follow_unfollow_button_tag(helper.current_user.id)).to be_nil
+        end
+      end
     end
 
     context 'ログインしていない時' do
