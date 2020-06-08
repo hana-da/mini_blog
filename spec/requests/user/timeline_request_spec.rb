@@ -2,18 +2,16 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersControllers', type: :request do
+RSpec.describe '/user/timeline', type: :request do
   let!(:user) { FactoryBot.create(:user) }
 
   context 'ログインしている時' do
     before { sign_in user }
 
-    describe '#timeline' do
-      it 'current_userのタイムラインが表示される' do
-        get timeline_current_user_path
+    it 'current_userのタイムラインが表示される' do
+      get timeline_current_user_path
 
-        expect(response).to have_http_status(:ok)
-      end
+      expect(response).to have_http_status(:ok)
     end
   end
 

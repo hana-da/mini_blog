@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'BlogCommentsControllers', type: :request do
+RSpec.describe '/blogs/:blog_id/comment', type: :request do
   let!(:user) { FactoryBot.create(:user) }
 
   context 'ログインしている時' do

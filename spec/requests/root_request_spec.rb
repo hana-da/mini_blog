@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ApplicationControllers', type: :request do
+RSpec.describe '/', type: :request do
   context 'RAILS_ENV が production の時' do
     before do
       allow(Rails.env).to receive(:production?).and_return(true)
@@ -14,7 +14,7 @@ RSpec.describe 'ApplicationControllers', type: :request do
       end
 
       it 'Basic認証はかかっていない' do
-        get '/'
+        get root_path
         expect(response).to have_http_status(:ok)
       end
     end
@@ -25,7 +25,7 @@ RSpec.describe 'ApplicationControllers', type: :request do
       end
 
       it 'Basic認証はかかっていない' do
-        get '/'
+        get root_path
         expect(response).to have_http_status(:ok)
       end
     end
@@ -40,19 +40,19 @@ RSpec.describe 'ApplicationControllers', type: :request do
       end
 
       it 'Basic認証がかかっている(401 Unauthorized)' do
-        get '/'
+        get root_path
 
         expect(response).to have_http_status(:unauthorized)
       end
 
       it '認証情報が合致しない時も401 Unauthorized' do
-        get '/', headers: { 'HTTP_AUTHORIZATION' => "Basic #{Base64.strict_encode64('evil:attack')}" }
+        get root_path, headers: { 'HTTP_AUTHORIZATION' => "Basic #{Base64.strict_encode64('evil:attack')}" }
 
         expect(response).to have_http_status(:unauthorized)
       end
 
       it '認証情報が合致すれば200 OKになる' do
-        get '/', headers: { 'HTTP_AUTHORIZATION' => "Basic #{Base64.strict_encode64("#{username}:#{password}")}" }
+        get root_path, headers: { 'HTTP_AUTHORIZATION' => "Basic #{Base64.strict_encode64("#{username}:#{password}")}" }
 
         expect(response).to have_http_status(:ok)
       end
@@ -64,7 +64,7 @@ RSpec.describe 'ApplicationControllers', type: :request do
       allow(Rails.env).to receive(:production?).and_return(false)
 
       it 'Basic認証はかかっていない' do
-        get '/'
+        get root_path
         expect(response).to have_http_status(:ok)
       end
     end

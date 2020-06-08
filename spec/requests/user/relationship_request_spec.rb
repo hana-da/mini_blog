@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UserRelationshipsControllers', type: :request do
+RSpec.describe '/user/relationship', type: :request do
   let!(:user)       { FactoryBot.create(:user) }
   let!(:other_user) { FactoryBot.create(:user) }
 

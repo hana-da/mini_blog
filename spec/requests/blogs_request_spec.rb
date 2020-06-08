@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'BlogsControllers', type: :request do
+RSpec.describe '/blogs', type: :request do
   context 'ログインしている時' do
     before do
       sign_in FactoryBot.create(:user)
