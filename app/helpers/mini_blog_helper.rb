@@ -46,7 +46,7 @@ module MiniBlogHelper
   # @param [Integer] count 現在のいいねの数
   # @return [ActiveSupport::SafeBuffer]
   def favorite_button_tag(blog:, count:)
-    button_to(like_blog_path(blog.id),
+    button_to(blog_like_path(blog.id),
               id:       "like-button-#{blog.id}",
               class:    'btn btn-primary btn-sm',
               disabled: !current_user&.likable?(blog)) do
