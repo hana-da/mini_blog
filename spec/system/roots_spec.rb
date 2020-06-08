@@ -226,7 +226,7 @@ RSpec.describe '/', type: :system do
         within("#blog-#{blog.id}") do
           expect(page).not_to have_css('.blogs--blog-comment')
 
-          fill_in 'comment', with: comment.content
+          fill_in 'content', with: comment.content
           click_button(t('helpers.submit.comment'))
         end
 
@@ -249,7 +249,7 @@ RSpec.describe '/', type: :system do
 
           within("#blog-#{blog.id}") do
             expect(page).not_to have_css('.blogs--blog-comment')
-            fill_in 'comment', with: FactoryBot.attributes_for(:blog_comment)[:content]
+            fill_in 'content', with: FactoryBot.attributes_for(:blog_comment)[:content]
 
             expect { click_button(t('helpers.submit.comment')) }
               .to(
@@ -270,7 +270,7 @@ RSpec.describe '/', type: :system do
           within("#blog-#{blog.id}") do
             expect(page).not_to have_css('.blogs--blog-comment')
 
-            fill_in 'comment', with: FactoryBot.attributes_for(:blog_comment)[:content]
+            fill_in 'content', with: FactoryBot.attributes_for(:blog_comment)[:content]
             expect { click_button(t('helpers.submit.comment')) }
               .to(
                 change(BlogComment, :count).by(1)

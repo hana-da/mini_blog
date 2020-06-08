@@ -6,7 +6,7 @@ class BlogCommentsController < ApplicationController
   # TODO: エラー処理
   def create
     Blog.find(params[:blog_id]).comments
-        .create_with_notification(content: params[:comment], user: current_user)
+        .create_with_notification(content: params[:content], user: current_user)
 
     redirect_back fallback_location: root_path
   end

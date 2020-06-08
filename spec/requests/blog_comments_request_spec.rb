@@ -12,7 +12,7 @@ RSpec.describe 'BlogCommentsControllers', type: :request do
       blog = FactoryBot.create(:blog)
 
       expect do
-        post blog_comment_path(blog), params: { comment: FactoryBot.attributes_for(:blog_comment)[:content] }
+        post blog_comment_path(blog), params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
       end.to change(BlogComment, :count).by(1)
 
       expect(response).to have_http_status(:found)
@@ -25,7 +25,7 @@ RSpec.describe 'BlogCommentsControllers', type: :request do
       blog = FactoryBot.create(:blog)
 
       expect do
-        post blog_comment_path(blog), params: { comment: FactoryBot.attributes_for(:blog_comment)[:content] }
+        post blog_comment_path(blog), params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
       end.not_to change(BlogComment, :count)
 
       expect(response).to have_http_status(:found)
