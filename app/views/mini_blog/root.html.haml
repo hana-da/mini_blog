@@ -57,7 +57,7 @@
                       %small.text-muted.blogs--blog-comment-timestamp
                         = l(comment.created_at, format: :long)
               - if current_user
-                = form_with(url: comment_blog_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
+                = form_with(url: blog_comment_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
                   .form-row
                     .col-9
                       = f.text_field(:comment, class: 'form-control', placeholder: t('placeholder.comment'))
