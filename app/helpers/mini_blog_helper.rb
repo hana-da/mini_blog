@@ -4,10 +4,12 @@ module MiniBlogHelper
   # current_user が user_id の User をフォローしていない時はフォロー用のタグを
   # フォローしている時はフォロー解除用のタグを返す
   #
-  # @param [Integer] user_id フォロー/フォロー解除するUserのid
+  # @param [User, Integer] user_id フォロー/フォロー解除するUserかUser#id
   # @return [ActiveSupport::SafeBuffer, nil]
-  def follow_unfollow_button_tag(user_id)
+  def follow_unfollow_button_tag(user_or_id)
     return unless current_user
+
+    user_id = user_or_id.is_a?(User) ? user_or_id.id : user_or_id
     return if current_user.id == user_id
 
     if current_user.following?(user_id)

@@ -42,6 +42,16 @@ RSpec.describe MiniBlogHelper, type: :helper do
           expect(helper.follow_unfollow_button_tag(helper.current_user.id)).to be_nil
         end
       end
+
+      context '引数で直接Userモデルを渡した場合' do
+        it 'user.id が followed_id として使われる' do
+          user = FactoryBot.create(:user)
+
+          expect(helper.follow_unfollow_button_tag(user))
+            .to be_instance_of(ActiveSupport::SafeBuffer)
+            .and have_css("input[type='hidden'][name='followed_id'][value='#{user.id}']", visible: :hidden)
+        end
+      end
     end
 
     context 'ログインしていない時' do
