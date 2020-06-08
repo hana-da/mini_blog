@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :request do
+  context 'ログインしていない時' do
+    it '投稿が見える' do
+      get root_path
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   context 'RAILS_ENV が production の時' do
     before do
       allow(Rails.env).to receive(:production?).and_return(true)
