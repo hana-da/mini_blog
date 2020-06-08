@@ -8,13 +8,4 @@ class BlogsController < ApplicationController
 
     redirect_back(fallback_location: root_path) if @blog.persisted?
   end
-
-  # :nocov:
-  # Blogを「いいね」する
-  def like
-    blog = Blog.find(params[:id])
-    current_user.like!(blog)
-    redirect_back fallback_location: root_path
-  end
-  # :nocov:
 end

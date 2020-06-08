@@ -4,9 +4,6 @@ Rails.application.routes.draw do
   resources :blogs, only: :create do
     resource :comment, only: :create, controller: :blog_comments
     resource :like,    only: :create, controller: :user_favorite_blogs
-    member do
-      post :like
-    end
   end
 
   devise_for :users, skip: :registration
