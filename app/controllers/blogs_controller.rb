@@ -15,14 +15,4 @@ class BlogsController < ApplicationController
     current_user.like!(blog)
     redirect_back fallback_location: root_path
   end
-
-  # Blogにコメントする
-  #
-  # コメントの作成に成功するとBlogの投稿者に通知メールが送信される
-  def comment
-    Blog.find(params[:id]).comments
-        .create_with_notification(content: params[:comment], user: current_user)
-
-    redirect_back fallback_location: root_path
-  end
 end

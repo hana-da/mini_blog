@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     resource :comment, only: :create, controller: :blog_comments
     member do
       post :like
-      post :comment
     end
   end
 
