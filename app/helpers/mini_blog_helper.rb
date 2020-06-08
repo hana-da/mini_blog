@@ -36,10 +36,11 @@ module MiniBlogHelper
   # @param [Integer] user_id フォローを解除するUserのid
   # @return [ActiveSupport::SafeBuffer]
   def unfollow_button_tag(user_id)
-    form_with(url: current_user_relationship_path, method: :delete) do |f|
-      f.hidden_field(:followed_id, value: user_id, id: nil) +
-        f.submit(t('helpers.submit.unfollow'), class: 'btn btn-outline-primary btn-sm')
-    end
+    button_to(t('helpers.submit.unfollow'),
+              current_user_relationship_path,
+              method: :delete,
+              params: { followed_id: user_id },
+              class:  'btn btn-outline-primary btn-sm')
   end
 
   # 「いいね」ボタンのタグ
