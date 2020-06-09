@@ -30,8 +30,7 @@
                   %small.text-muted.blogs__blog-timestamp
                     = l(blog.created_at, format: :long)
                 .col.text-right
-                  - if blog.user != current_user
-                    = follow_unfollow_button_tag(blog.user_id)
+                  = follow_unfollow_button_tag(blog.user)
               .row
                 .col
                   %article.blogs__blog-content.lead
