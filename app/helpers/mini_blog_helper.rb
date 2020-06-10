@@ -28,6 +28,7 @@ module MiniBlogHelper
               current_user_relationship_path,
               method: :post,
               params: { followed_id: user_id },
+              remote: true,
               class:  'btn btn-primary btn-sm')
   end
 
