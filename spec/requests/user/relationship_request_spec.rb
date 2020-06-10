@@ -13,11 +13,10 @@ RSpec.describe '/user/relationship', type: :request do
       expect(user).not_to be_following(other_user)
 
       expect do
-        post current_user_relationship_path, params: { followed_id: other_user.id }
+        post current_user_relationship_path, xhr: true, params: { followed_id: other_user.id }
       end.to change(UserRelationship, :count).by(1)
 
-      expect(response).to have_http_status(:found)
-      expect(response).to redirect_to(root_path)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'フォロー解除できる' do
@@ -30,6 +29,14 @@ RSpec.describe '/user/relationship', type: :request do
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(root_path)
+    end
+
+    context 'xhrでない場合は' do
+      it 'フォローできない' do
+        expect do
+          post current_user_relationship_path, params: { followed_id: other_user.id }
+        end.to raise_error(ActionView::MissingTemplate)
+      end
     end
   end
 

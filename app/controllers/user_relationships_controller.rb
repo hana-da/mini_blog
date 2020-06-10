@@ -4,8 +4,10 @@ class UserRelationshipsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    current_user.follow!(User.find(params[:followed_id]))
-    redirect_back fallback_location: root_path
+    @followed_user = User.find(params[:followed_id])
+    current_user.follow!(@followed_user)
+
+    render('mini_blog/reload_follow_unfollow_button')
   end
 
   def destroy

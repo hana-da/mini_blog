@@ -1,0 +1,3 @@
+:plain
+  document.getElementById("follow_unfollow_button-#{@followed_user.id}").innerHTML = 
+    "#{j render('mini_blog/follow_unfollow_button', user: @followed_user)}"
