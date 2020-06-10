@@ -9,7 +9,7 @@ class UserRelationshipsController < ApplicationController
   end
 
   def destroy
-    current_user.unfollow(User.find(params[:followed_id]))
+    current_user.unfollow!(User.find(params[:followed_id]))
     redirect_back fallback_location: root_path
   end
 end
