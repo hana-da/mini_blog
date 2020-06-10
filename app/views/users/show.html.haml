@@ -5,8 +5,8 @@
         .col
           %h1.users__profile-username
             = @user.username
-        .col.text-right
-          = follow_unfollow_button_tag(@user)
+        .col.text-right{ id: "follow_unfollow_button-#{@user.id}"}
+          = render('mini_blog/follow_unfollow_button', user: @user)
       .row.mt-4.border-bottom.border-secondary
         .col
           %dl
