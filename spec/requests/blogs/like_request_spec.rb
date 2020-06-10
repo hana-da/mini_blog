@@ -27,11 +27,20 @@ RSpec.describe '/blogs/:blog_id/like', type: :request do
       blog = FactoryBot.create(:blog)
 
       expect do
-        post blog_like_path(blog)
+        post blog_like_path(blog), xhr: true
       end.to change(UserFavoriteBlog, :count).by(1)
 
-      expect(response).to have_http_status(:found)
-      expect(response).to redirect_to(root_path)
+      expect(response).to have_http_status(:ok)
+    end
+
+    context 'xhrでない場合は' do
+      it do
+        blog = FactoryBot.create(:blog)
+
+        expect do
+          post blog_like_path(blog)
+        end.to raise_error(ActionView::MissingTemplate)
+      end
     end
 
     it '既に「いいね」したblogには「いいね」できない' do

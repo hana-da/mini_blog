@@ -86,7 +86,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
           expect(helper.favorite_button_tag(blog: blog, count: liked_count))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_none_of_selectors("button#like-button-#{blog.id}[disabled='disabled']")
-            .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post']")
+            .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post'][data-remote='true']")
             .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
             .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
         end
@@ -104,7 +104,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
           expect(helper.favorite_button_tag(blog: blog, count: liked_count))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_css("button#like-button-#{blog.id}[disabled='disabled']")
-            .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post']")
+            .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post'][data-remote='true']")
             .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
             .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
         end
@@ -123,7 +123,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
         expect(helper.favorite_button_tag(blog: blog, count: liked_count))
           .to be_instance_of(ActiveSupport::SafeBuffer)
           .and have_css("button#like-button-#{blog.id}[disabled='disabled']")
-          .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post']")
+          .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post'][data-remote='true']")
           .and have_css("button#like-button-#{blog.id} > span.badge", text: liked_count)
           .and have_css("button#like-button-#{blog.id} > span", text: t('helpers.submit.like'))
       end

@@ -54,6 +54,7 @@ module MiniBlogHelper
     button_to(blog_like_path(blog.id),
               id:       "like-button-#{blog.id}",
               class:    'btn btn-primary btn-sm',
+              remote:   true,
               disabled: !current_user&.likable?(blog)) do
       tag.span(count, class: 'badge badge-pill badge-light') +
         ' ' +

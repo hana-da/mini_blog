@@ -1,0 +1,3 @@
+:plain
+  document.getElementById("blog-#{@blog.id}").innerHTML = 
+    "#{j render('mini_blog/blog_card', blog: @blog, liked_count: @blog.likes.count)}";

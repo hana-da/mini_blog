@@ -322,7 +322,7 @@ RSpec.describe '/', type: :system do
         end
       end
 
-      it '「いいね」ボタンで投稿に「いいね」する事ができる' do
+      it '「いいね」ボタンで投稿に「いいね」する事ができる', js: true do
         blog = FactoryBot.create(:blog)
         expect(blog.liked_users).not_to include(user)
 
@@ -331,6 +331,9 @@ RSpec.describe '/', type: :system do
           click_button("like-button-#{blog.id}")
         end
 
+        within("li#blog-#{blog.id}") do
+          expect(page).to have_link(user.username)
+        end
         expect(blog.liked_users.reload).to include(user)
       end
 
