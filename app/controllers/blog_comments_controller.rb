@@ -5,9 +5,10 @@ class BlogCommentsController < ApplicationController
 
   # TODO: エラー処理
   def create
-    Blog.find(params[:blog_id]).comments
-        .create_with_notification(content: params[:content], user: current_user)
+    @blog = Blog.find(params[:blog_id])
+    @blog.comments
+         .create_with_notification(content: params[:content], user: current_user)
 
-    redirect_back fallback_location: root_path
+    render 'mini_blog/reload_blog_card'
   end
 end

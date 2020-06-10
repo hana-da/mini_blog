@@ -216,7 +216,7 @@ RSpec.describe '/', type: :system do
       end
     end
 
-    describe 'コメント欄で' do
+    describe 'コメント欄で', js: true do
       it 'コメント用のフォームでコメントを投稿することができる' do
         blog = FactoryBot.create(:blog)
         comment = FactoryBot.build(:blog_comment)
@@ -230,7 +230,6 @@ RSpec.describe '/', type: :system do
           click_button(t('helpers.submit.comment'))
         end
 
-        expect(page).to have_current_path(root_path)
         within("#blog-#{blog.id}") do
           expect(page).to have_css('.blogs--blog-comment', count: 1)
 
@@ -251,11 +250,13 @@ RSpec.describe '/', type: :system do
             expect(page).not_to have_css('.blogs--blog-comment')
             fill_in 'content', with: FactoryBot.attributes_for(:blog_comment)[:content]
 
-            expect { click_button(t('helpers.submit.comment')) }
-              .to(
-                change(BlogComment, :count).by(1)
-                  .and(change { ActionMailer::Base.deliveries.count }.by(1))
-              )
+            click_button(t('helpers.submit.comment'))
+          end
+
+          within("#blog-#{blog.id}") do
+            expect(page).to have_css('.blogs--blog-comment', count: 1)
+
+            expect(ActionMailer::Base.deliveries.count).to eq(1)
             expect(ActionMailer::Base.deliveries.last.to).to eq([blog.user.email])
           end
         end
@@ -271,16 +272,19 @@ RSpec.describe '/', type: :system do
             expect(page).not_to have_css('.blogs--blog-comment')
 
             fill_in 'content', with: FactoryBot.attributes_for(:blog_comment)[:content]
-            expect { click_button(t('helpers.submit.comment')) }
-              .to(
-                change(BlogComment, :count).by(1)
-                  .and(change { ActionMailer::Base.deliveries.count }.by(0))
-              )
+
+            click_button(t('helpers.submit.comment'))
+          end
+
+          within("#blog-#{blog.id}") do
+            expect(page).to have_css('.blogs--blog-comment', count: 1)
+
+            expect(ActionMailer::Base.deliveries.count).to be_zero
           end
         end
       end
 
-      context 'コメントの追加に失敗した時' do
+      context 'コメントの追加に失敗した時', js: true do
         it '通知メールは送信されない' do
           blog = FactoryBot.create(:blog)
           expect(blog.user.email).to be_present
@@ -290,11 +294,13 @@ RSpec.describe '/', type: :system do
           within("#blog-#{blog.id}") do
             expect(page).not_to have_css('.blogs--blog-comment')
 
-            expect { click_button(t('helpers.submit.comment')) }
-              .to(
-                change(BlogComment, :count).by(0)
-                  .and(change { ActionMailer::Base.deliveries.count }.by(0))
-              )
+            click_button(t('helpers.submit.comment'))
+          end
+
+          within("#blog-#{blog.id}") do
+            expect(page).to have_css('.blogs--blog-comment', count: 0)
+
+            expect(ActionMailer::Base.deliveries.count).to be_zero
           end
         end
       end

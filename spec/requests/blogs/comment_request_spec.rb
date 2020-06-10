@@ -12,11 +12,21 @@ RSpec.describe '/blogs/:blog_id/comment', type: :request do
       blog = FactoryBot.create(:blog)
 
       expect do
-        post blog_comment_path(blog), params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
+        post blog_comment_path(blog), xhr:    true,
+                                      params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
       end.to change(BlogComment, :count).by(1)
 
-      expect(response).to have_http_status(:found)
-      expect(response).to redirect_to(root_path)
+      expect(response).to have_http_status(:ok)
+    end
+
+    context 'xhrでない場合は' do
+      it do
+        blog = FactoryBot.create(:blog)
+
+        expect do
+          post blog_comment_path(blog), params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
+        end.to raise_error(ActionView::MissingTemplate)
+      end
     end
   end
 
