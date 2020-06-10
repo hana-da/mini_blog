@@ -87,6 +87,15 @@ class User < ApplicationRecord
     following_relationships.find_by(followed: user)&.destroy
   end
 
+  # userをフォロー解除する
+  #
+  # @param [User] user フォロー解除するUser
+  # @raise [ActiveRecord::RecordNotFound, ActiveRecord::RecordNotDestroyed]
+  # @return [UserRelationship]
+  def unfollow!(user)
+    following_relationships.find_by!(followed: user).destroy!
+  end
+
   # blogを「いいね」する
   #
   # @param [Blog] blog 「いいね」するBlog
