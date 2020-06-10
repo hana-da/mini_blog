@@ -1,0 +1,42 @@
+%li{id: "blog-#{blog.id}", class: 'blogs__blog mb-3'}
+  .card
+    .card-body
+      .row.blogs__blog-header
+        .col-9.mb-2
+          = link_to(blog.user.username, user_path(blog.user), class: 'blogs__blog-username')
+          %br
+          %small.text-muted.blogs__blog-timestamp
+            = l(blog.created_at, format: :long)
+        .col.text-right
+          = follow_unfollow_button_tag(blog.user)
+      .row
+        .col
+          %article.blogs__blog-content.lead
+            = blog.content
+      .row
+        .col.text-center
+          - if blog.image_url.present?
+            = image_tag(blog.image.thumb.url, class: 'img-fluid shadow-sm blogs__blog-image')
+    .card-footer
+      .row
+        .col-3.blogs__blog-favorite-button
+          = favorite_button_tag(blog: blog, count: liked_count[blog.id].to_i)
+        .col-9.pl-0.ml-0.blogs__blog-favorited-users
+          = users_to_link_tag(blog.liked_users, :liked_users)
+    .card-body.border-top.pt-0
+      %ol.list-group.list-group-flush
+        - blog.comments.each do |comment|
+          %li{id: "blogs--blog-comment-#{comment.id}", class: 'list-group-item blogs--blog-comment'}
+            %span.blogs--blog-comment-content
+              = comment.content
+            %footer.text-right.blogs--blog-comment-username
+              = link_to(comment.user.username, user_path(comment.user))
+              %small.text-muted.blogs--blog-comment-timestamp
+                = l(comment.created_at, format: :long)
+      - if current_user
+        = form_with(url: blog_comment_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
+          .form-row
+            .col-9
+              = f.text_field(:content, class: 'form-control', placeholder: t('placeholder.comment'))
+            .col-3
+              = f.submit(t('helpers.submit.comment'), class: 'btn btn-outline-primary btn-block')
