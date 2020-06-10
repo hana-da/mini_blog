@@ -41,6 +41,7 @@ module MiniBlogHelper
               current_user_relationship_path,
               method: :delete,
               params: { followed_id: user_id },
+              remote: true,
               class:  'btn btn-outline-primary btn-sm')
   end
 

@@ -17,7 +17,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
 
           expect(helper.follow_unfollow_button_tag(user.id))
             .to be_instance_of(ActiveSupport::SafeBuffer)
-            .and have_css("form[action='#{current_user_relationship_path}'][method='post']")
+            .and have_css("form[action='#{current_user_relationship_path}'][method='post'][data-remote='true']")
             .and have_css("input[type='hidden'][name='_method'][value='delete']", visible: :hidden)
             .and have_css("input[type='hidden'][name='followed_id'][value='#{user.id}']", visible: :hidden)
             .and have_css("input[type='submit'][value='#{t('helpers.submit.unfollow')}']")
