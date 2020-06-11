@@ -13,7 +13,7 @@ module MiniBlogHelper
     return if current_user.id == user_id
 
     if current_user.following?(user_id)
-      unfollow_button_tag(user_id)
+      button_to_unfollow(user_id)
     else
       follow_button_tag(user_id)
     end
@@ -36,7 +36,7 @@ module MiniBlogHelper
   #
   # @param [Integer] user_id フォローを解除するUserのid
   # @return [ActiveSupport::SafeBuffer]
-  def unfollow_button_tag(user_id)
+  def button_to_unfollow(user_id)
     button_to(t('helpers.submit.unfollow'),
               current_user_relationship_path,
               method: :delete,
