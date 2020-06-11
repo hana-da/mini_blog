@@ -24,17 +24,25 @@ RSpec.describe '/user/relationship', type: :request do
       expect(user).to be_following(other_user)
 
       expect do
-        delete current_user_relationship_path, params: { followed_id: other_user.id }
+        delete current_user_relationship_path, xhr: true, params: { followed_id: other_user.id }
       end.to change(UserRelationship, :count).by(-1)
 
-      expect(response).to have_http_status(:found)
-      expect(response).to redirect_to(root_path)
+      expect(response).to have_http_status(:ok)
     end
 
     context 'xhrでない場合は' do
       it 'フォローできない' do
         expect do
           post current_user_relationship_path, params: { followed_id: other_user.id }
+        end.to raise_error(ActionView::MissingTemplate)
+      end
+
+      it 'フォロー解除できない' do
+        user.follow!(other_user)
+        expect(user).to be_following(other_user)
+
+        expect do
+          delete current_user_relationship_path, params: { followed_id: other_user.id }
         end.to raise_error(ActionView::MissingTemplate)
       end
     end

@@ -11,7 +11,9 @@ class UserRelationshipsController < ApplicationController
   end
 
   def destroy
-    current_user.unfollow!(User.find(params[:followed_id]))
-    redirect_back fallback_location: root_path
+    @followed_user = User.find(params[:followed_id])
+    current_user.unfollow!(@followed_user)
+
+    render('mini_blog/reload_follow_unfollow_button')
   end
 end

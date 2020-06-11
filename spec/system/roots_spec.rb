@@ -427,7 +427,7 @@ RSpec.describe '/', type: :system do
         end
       end
 
-      it '「フォロー解除」ボタンでフォローを解除できる' do
+      it '「フォロー解除」ボタンでフォローを解除できる', js: true do
         blog = FactoryBot.create(:blog)
         user.follow!(blog.user)
         expect(user).to be_following(blog.user)
@@ -437,13 +437,13 @@ RSpec.describe '/', type: :system do
           click_button(t('helpers.submit.unfollow'))
         end
 
-        expect(user.reload).not_to be_following(blog.user)
-
         # 「フォロー解除」ボタンが「フォローする」ボタンになる
         within("li#blog-#{blog.id}") do
           expect(page).not_to have_button(t('helpers.submit.unfollow'))
           expect(page).to have_button(t('helpers.submit.follow'))
         end
+
+        expect(user.reload).not_to be_following(blog.user)
       end
     end
   end

@@ -64,7 +64,7 @@ RSpec.describe '/users/:username', type: :system do
       sign_in(user)
     end
 
-    context 'フォローしているユーザのページだと' do
+    context 'フォローしているユーザのページだと', js: true do
       it 'フォロー解除ボタンが表示されていて、押すとフォロー解除できる' do
         following = FactoryBot.create(:user).tap { |u| user.follow!(u) }
         expect(user).to be_following(following)
@@ -73,6 +73,8 @@ RSpec.describe '/users/:username', type: :system do
         expect(page).not_to have_button(t('helpers.submit.follow'))
 
         click_button(t('helpers.submit.unfollow'))
+        expect(page).to have_button(t('helpers.submit.follow'))
+
         user.reload
 
         expect(user).not_to be_following(following)
