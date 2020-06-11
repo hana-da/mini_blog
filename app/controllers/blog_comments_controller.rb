@@ -5,9 +5,9 @@ class BlogCommentsController < ApplicationController
 
   def create
     @blog = Blog.find(params[:blog_id])
-    @comment = @blog.comments
-                    .create_with_notification(content: params[:blog_comment][:content], user: current_user)
-                    .then { |c| c.new_record? && c }
+    @comment = current_user.blog_comments
+                           .create_with_notification(blog: @blog, content: params[:blog_comment][:content])
+                           .then { |c| c.new_record? && c }
 
     render 'mini_blog/reload_blog_card'
   end
