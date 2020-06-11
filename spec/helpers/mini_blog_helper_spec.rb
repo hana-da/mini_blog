@@ -66,7 +66,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
     end
   end
 
-  describe '#favorite_button_tag' do
+  describe '#button_to_favorite' do
     context 'ログインしている時' do
       let(:current_user) { FactoryBot.create(:user) }
 
@@ -83,7 +83,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
           blog = FactoryBot.create(:blog)
           liked_count = 2
 
-          expect(helper.favorite_button_tag(blog: blog, count: liked_count))
+          expect(helper.button_to_favorite(blog: blog, count: liked_count))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_none_of_selectors("button#like-button-#{blog.id}[disabled='disabled']")
             .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post'][data-remote='true']")
@@ -101,7 +101,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
           blog = FactoryBot.create(:blog)
           liked_count = 2
 
-          expect(helper.favorite_button_tag(blog: blog, count: liked_count))
+          expect(helper.button_to_favorite(blog: blog, count: liked_count))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_css("button#like-button-#{blog.id}[disabled='disabled']")
             .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post'][data-remote='true']")
@@ -120,7 +120,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
         blog = FactoryBot.create(:blog)
         liked_count = 2
 
-        expect(helper.favorite_button_tag(blog: blog, count: liked_count))
+        expect(helper.button_to_favorite(blog: blog, count: liked_count))
           .to be_instance_of(ActiveSupport::SafeBuffer)
           .and have_css("button#like-button-#{blog.id}[disabled='disabled']")
           .and have_css("form[action='#{blog_like_path(blog.id)}'][method='post'][data-remote='true']")
