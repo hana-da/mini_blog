@@ -21,7 +21,7 @@
       .col-3.blogs__blog-favorite-button
         = favorite_button_tag(blog: blog, count: liked_count)
       .col-9.pl-0.ml-0.blogs__blog-favorited-users
-        = users_to_link_tag(blog.liked_users, :liked_users)
+        = link_to_users(blog.liked_users, :liked_users)
   .card-body.border-top.pt-0
     %ol.list-group.list-group-flush
       - blog.comments.each do |comment|

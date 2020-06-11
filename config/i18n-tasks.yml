@@ -111,7 +111,7 @@ ignore_unused:
   - 'activerecord.{attributes,errors,models}.*'
   - 'devise.*'
   - 'errors.messages.*'
-  - 'helpers.users_to_link_tag.suffix.*'
+  - 'helpers.link_to_users.suffix.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:
