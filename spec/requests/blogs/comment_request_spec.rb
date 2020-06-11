@@ -13,7 +13,9 @@ RSpec.describe '/blogs/:blog_id/comment', type: :request do
 
       expect do
         post blog_comment_path(blog), xhr:    true,
-                                      params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
+                                      params: {
+                                        blog_comment: { content: FactoryBot.attributes_for(:blog_comment)[:content] },
+                                      }
       end.to change(BlogComment, :count).by(1)
 
       expect(response).to have_http_status(:ok)
@@ -24,7 +26,9 @@ RSpec.describe '/blogs/:blog_id/comment', type: :request do
         blog = FactoryBot.create(:blog)
 
         expect do
-          post blog_comment_path(blog), params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
+          post blog_comment_path(blog), params: {
+            blog_comment: { content: FactoryBot.attributes_for(:blog_comment)[:content] },
+          }
         end.to raise_error(ActionView::MissingTemplate)
       end
     end
@@ -35,7 +39,9 @@ RSpec.describe '/blogs/:blog_id/comment', type: :request do
       blog = FactoryBot.create(:blog)
 
       expect do
-        post blog_comment_path(blog), params: { content: FactoryBot.attributes_for(:blog_comment)[:content] }
+        post blog_comment_path(blog), params: {
+          blog_comment: { content: FactoryBot.attributes_for(:blog_comment)[:content] },
+        }
       end.not_to change(BlogComment, :count)
 
       expect(response).to have_http_status(:found)
