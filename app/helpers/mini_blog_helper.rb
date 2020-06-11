@@ -6,7 +6,7 @@ module MiniBlogHelper
   #
   # @param [User, Integer] user_id フォロー/フォロー解除するUserかUser#id
   # @return [ActiveSupport::SafeBuffer, nil]
-  def follow_unfollow_button_tag(user_or_id)
+  def button_to_follow_or_unfollow(user_or_id)
     return unless current_user
 
     user_id = user_or_id.is_a?(User) ? user_or_id.id : user_or_id

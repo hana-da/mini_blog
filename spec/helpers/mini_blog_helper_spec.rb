@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe MiniBlogHelper, type: :helper do
-  describe '#follow_unfollow_button_tag' do
+  describe '#button_to_follow_or_unfollow' do
     context 'ログインしている時' do
       before do
         allow(helper).to receive(:current_user).and_return(FactoryBot.create(:user))
@@ -15,7 +15,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
           helper.current_user.follow!(user)
           expect(helper.current_user).to be_following(user)
 
-          expect(helper.follow_unfollow_button_tag(user.id))
+          expect(helper.button_to_follow_or_unfollow(user.id))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_css("form[action='#{current_user_relationship_path}'][method='post'][data-remote='true']")
             .and have_css("input[type='hidden'][name='_method'][value='delete']", visible: :hidden)
@@ -29,7 +29,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
           user = FactoryBot.create(:user)
           expect(helper.current_user).not_to be_following(user)
 
-          expect(helper.follow_unfollow_button_tag(user.id))
+          expect(helper.button_to_follow_or_unfollow(user.id))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_css("form[action='#{current_user_relationship_path}'][method='post'][data-remote='true']")
             .and have_css("input[type='hidden'][name='followed_id'][value='#{user.id}']", visible: :hidden)
@@ -39,7 +39,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
 
       context 'current_user.id と user_id が同一の時' do
         it do
-          expect(helper.follow_unfollow_button_tag(helper.current_user.id)).to be_nil
+          expect(helper.button_to_follow_or_unfollow(helper.current_user.id)).to be_nil
         end
       end
 
@@ -47,7 +47,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
         it 'user.id が followed_id として使われる' do
           user = FactoryBot.create(:user)
 
-          expect(helper.follow_unfollow_button_tag(user))
+          expect(helper.button_to_follow_or_unfollow(user))
             .to be_instance_of(ActiveSupport::SafeBuffer)
             .and have_css("input[type='hidden'][name='followed_id'][value='#{user.id}']", visible: :hidden)
         end
@@ -60,7 +60,7 @@ RSpec.describe MiniBlogHelper, type: :helper do
       end
 
       it do
-        expect(helper.follow_unfollow_button_tag(1))
+        expect(helper.button_to_follow_or_unfollow(1))
           .to be_nil
       end
     end
