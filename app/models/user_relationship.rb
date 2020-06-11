@@ -27,7 +27,6 @@ class UserRelationship < ApplicationRecord
 
   validate :same_users_should_not_follow_each_other
   validates :followed_id, uniqueness: { scope: :follower_id }
-  validates :follower_id, uniqueness: { scope: :followed_id }
 
   private def same_users_should_not_follow_each_other
     return unless [follower_id, followed_id].all?

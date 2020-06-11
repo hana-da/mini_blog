@@ -28,7 +28,6 @@ RSpec.describe UserRelationship, type: :model do
     it do
       relationship = FactoryBot.create(:user_relationship)
       expect(relationship).to validate_uniqueness_of(:followed_id).scoped_to(:follower_id)
-      expect(relationship).to validate_uniqueness_of(:follower_id).scoped_to(:followed_id)
     end
 
     it '自分自身をフォローする事はできない' do
