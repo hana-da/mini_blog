@@ -33,9 +33,10 @@
             %small.text-muted.blogs--blog-comment-timestamp
               = l(comment.created_at, format: :long)
     - if current_user
-      = form_with(model: BlogComment.new, url: blog_comment_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
+      = form_with(model: @comment || BlogComment.new, url: blog_comment_path(blog), class: 'blogs__blog-comment-form mt-3 mb-0') do |f|
         .form-row
           .col-9
             = f.text_field(:content, class: 'form-control', placeholder: t('placeholder.comment'))
+            = invalid_feedback_tag(@comment, :content)
           .col-3
             = f.submit(t('helpers.submit.comment'), class: 'btn btn-outline-primary btn-block')

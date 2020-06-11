@@ -3,11 +3,11 @@
 class BlogCommentsController < ApplicationController
   before_action :authenticate_user!
 
-  # TODO: エラー処理
   def create
     @blog = Blog.find(params[:blog_id])
-    @blog.comments
-         .create_with_notification(content: params[:blog_comment][:content], user: current_user)
+    @comment = @blog.comments
+                    .create_with_notification(content: params[:blog_comment][:content], user: current_user)
+                    .then { |c| c.new_record? && c }
 
     render 'mini_blog/reload_blog_card'
   end

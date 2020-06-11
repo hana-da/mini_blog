@@ -1,0 +1,6 @@
+---
+ja:
+  activerecord:
+    attributes:
+      blog_comment:
+        content: コメント

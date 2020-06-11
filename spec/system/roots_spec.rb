@@ -236,6 +236,10 @@ RSpec.describe '/', type: :system do
           expect(page).to have_css('.blogs--blog-comment-content', text: comment.content)
             .and have_link(user.username, href: user_path(user))
             .and have_css('.blogs--blog-comment-timestamp')
+
+          expect(page).to have_no_css('.field_with_errors + .invalid-feedback')
+            .and have_no_css('input[type="hidden"][name="_method"][value="delete"]', visible: :hidden)
+            .and have_no_css('input[type="text"][value]')
         end
       end
 
@@ -280,6 +284,30 @@ RSpec.describe '/', type: :system do
             expect(page).to have_css('.blogs--blog-comment', count: 1)
 
             expect(ActionMailer::Base.deliveries.count).to be_zero
+          end
+        end
+
+        context '追加しようとしたコメントがinvalidの時' do
+          it 'コメントのerrorsメッセージが表示される' do
+            blog = FactoryBot.create(:blog)
+            comment = FactoryBot.build(:blog_comment, blog: blog, content: 'a' * 1000)
+            expect(comment).to be_invalid
+
+            visit root_path
+
+            within("#blog-#{blog.id}") do
+              expect(page).not_to have_css('.blogs--blog-comment')
+
+              fill_in 'blog_comment[content]', with: comment.content
+
+              click_button(t('helpers.submit.comment'))
+            end
+
+            within("#blog-#{blog.id}") do
+              expect(page).to have_css('.field_with_errors > input#blog_comment_content')
+              expect(page).to have_css('.field_with_errors + .invalid-feedback',
+                                       text: comment.errors.full_messages_for(:content).first)
+            end
           end
         end
       end
