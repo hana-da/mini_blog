@@ -25,14 +25,14 @@ class UserRelationship < ApplicationRecord
   belongs_to :followed, class_name: 'User'
   belongs_to :follower, class_name: 'User'
 
-  validate :not_following_myself
+  validate :same_users_should_not_follow_each_other
   validates :followed_id, uniqueness: { scope: :follower_id }
   validates :follower_id, uniqueness: { scope: :followed_id }
 
-  private def not_following_myself
+  private def same_users_should_not_follow_each_other
     return unless [follower_id, followed_id].all?
     return unless follower_id == followed_id
 
-    errors.add(:base, :not_following_myself)
+    errors.add(:base, :same_users_should_not_follow_each_other)
   end
 end

@@ -6,4 +6,4 @@ ja:
         user_relationship:
           attributes:
             base:
-              not_following_myself: 自分自身をフォローする事はできません。
+              same_users_should_not_follow_each_other: 自分自身をフォローする事はできません。

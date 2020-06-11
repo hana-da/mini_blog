@@ -6,4 +6,4 @@ en:
         user_relationship:
           attributes:
             base:
-              not_following_myself: You can't follow yourself.
+              same_users_should_not_follow_each_other: You can't follow yourself.
