@@ -1,6 +1,3 @@
-- if @blog.errors.include?(:image)
-  - @blog.errors.delete(:image)
-  - @blog.errors.add(:image, @blog.errors.generate_message(:image, :content_type_whitelist_error))
 = form_with(model: @blog, id: 'new_blog') do |f|
   .form-row
     .col

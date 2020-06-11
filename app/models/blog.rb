@@ -20,6 +20,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Blog < ApplicationRecord
+  after_validation :modify_errors_message_for_image
+
   validates :content, length: { in: 1..140 }
 
   belongs_to :user
@@ -30,4 +32,11 @@ class Blog < ApplicationRecord
   has_many :liked_users, through: :likes, source: :user
 
   mount_uploader :image, BlogImageUploader
+
+  private def modify_errors_message_for_image
+    return unless errors.include?(:image)
+
+    errors.delete(:image)
+    errors.add(:image, errors.generate_message(:image, :content_type_whitelist_error))
+  end
 end

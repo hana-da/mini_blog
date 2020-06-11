@@ -26,6 +26,18 @@ RSpec.describe Blog, type: :model do
     it do
       expect(Blog.new).to validate_length_of(:content).is_at_least(1).is_at_most(140)
     end
+
+    it 'imageのエラーメッセージは独自のものを使用' do
+      blog = Blog.new.tap(&:validate)
+      expect(blog.errors[:image]).to be_empty
+
+      blog = Blog.new(image: File.open('README.md')).tap(&:validate)
+      expect(blog.errors[:image]).to eq(
+        [
+          t('activerecord.errors.models.blog.attributes.image.content_type_whitelist_error'),
+        ]
+      )
+    end
   end
 
   describe 'associations' do
