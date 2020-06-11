@@ -1,4 +1,4 @@
-= form_with(model: @blog, id: 'new_blog') do |f|
+= form_with(model: @blog || Blog.new, id: 'new_blog') do |f|
   .form-row
     .col
       = f.text_area(:content,
