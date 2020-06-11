@@ -28,12 +28,10 @@ class BlogComment < ApplicationRecord
   validates :content, length: { in: 1..140 }
 
   def self.create_with_notification(attributes = nil, &block)
-    comment = create(attributes, &block)
-
-    return comment if comment.new_record?
-    return comment if comment.blog.user.email.blank?
-
-    NotificationMailer.added_to_blog(comment).deliver_now
-    comment
+    create(attributes, &block).tap do |comment|
+      if comment.persisted? && comment.blog.user.email.present? # rubocop:disable Style/IfUnlessModifier
+        NotificationMailer.added_to_blog(comment).deliver_now
+      end
+    end
   end
 end
