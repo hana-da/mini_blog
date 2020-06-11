@@ -9,7 +9,6 @@ class UsersController < ApplicationController
 
   # ユーザ個別のタイムライン
   def timeline
-    @blog = Blog.new
     @blogs = current_user.following_blogs.order(created_at: :desc).preload(:user, :liked_users, comments: [:user])
 
     render template: 'mini_blog/root'
