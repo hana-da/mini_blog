@@ -41,6 +41,12 @@ RSpec.describe ApplicationHelper, type: :helper do
                         text: model.errors.full_messages_for(:name).join(I18n.t('support.array.words_connector')))
       end
     end
+
+    context 'modelがnilの時' do
+      it do
+        expect(helper.invalid_feedback_tag(nil, :name)).to be_nil
+      end
+    end
   end
 
   describe '#nav_link_to' do

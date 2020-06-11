@@ -7,6 +7,8 @@ module ApplicationHelper
   # @param [Symbol] attribute
   # @return [ActiveSupport::SafeBuffer]
   def invalid_feedback_tag(model, attribute)
+    return unless model
+
     tag.div(
       model.errors.full_messages_for(attribute).join(I18n.t('support.array.words_connector')),
       class: 'invalid-feedback'
