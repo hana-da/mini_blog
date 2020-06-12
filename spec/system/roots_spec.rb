@@ -427,10 +427,18 @@ RSpec.describe '/', type: :system do
       end
 
       it '「フォローする」ボタンでユーザをフォローできる', js: true do
-        blog = FactoryBot.create(:blog)
+        author = FactoryBot.create(:user)
+        blogs = FactoryBot.create_list(:blog, 3, user: author)
+        blog  = blogs.first
+        _other_authors_blog = FactoryBot.create(:blog)
+
         expect(user).not_to be_following(blog.user)
 
         visit root_path
+
+        expect(page).to have_button(t('helpers.submit.follow'), count: Blog.count)
+        expect(page).not_to have_button(t('helpers.submit.unfollow'))
+
         within("li#blog-#{blog.id}") do
           click_button(t('helpers.submit.follow'))
         end
@@ -440,6 +448,11 @@ RSpec.describe '/', type: :system do
           expect(page).not_to have_button(t('helpers.submit.follow'))
           expect(page).to have_button(t('helpers.submit.unfollow'))
         end
+
+        # 同一userの「フォローする」ボタンは全て「フォロー解除」ボタンになっている
+        expect(page).to have_button(t('helpers.submit.unfollow'), count: blogs.count)
+        # 違うuserの「フォローする」ボタンは残っている
+        expect(page).to have_button(t('helpers.submit.follow'), count: 1)
 
         expect(user.reload).to be_following(blog.user)
       end
@@ -456,8 +469,13 @@ RSpec.describe '/', type: :system do
       end
 
       it '「フォロー解除」ボタンでフォローを解除できる', js: true do
-        blog = FactoryBot.create(:blog)
+        author = FactoryBot.create(:user)
+        blogs = FactoryBot.create_list(:blog, 3, user: author)
+        blog  = blogs.first
+        other_authors_blog = FactoryBot.create(:blog)
+
         user.follow!(blog.user)
+        user.follow!(other_authors_blog.user)
         expect(user).to be_following(blog.user)
 
         visit root_path
@@ -470,6 +488,11 @@ RSpec.describe '/', type: :system do
           expect(page).not_to have_button(t('helpers.submit.unfollow'))
           expect(page).to have_button(t('helpers.submit.follow'))
         end
+
+        # 同一userの「フォロー解除」ボタンは全て「フォローする」ボタンになっている
+        expect(page).to have_button(t('helpers.submit.follow'), count: blogs.count)
+        # 違うuserの「フォロー解除」ボタンは残っている
+        expect(page).to have_button(t('helpers.submit.unfollow'), count: 1)
 
         expect(user.reload).not_to be_following(blog.user)
       end

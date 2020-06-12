@@ -6,7 +6,7 @@
         %br
         %small.text-muted.blogs__blog-timestamp
           = l(blog.created_at, format: :long)
-      .col.text-right{ id: "follow_unfollow_button-#{blog.user_id}"}
+      .col.text-right{ class: "buttons__follow_unfollow-#{blog.user_id}"}
         = render('mini_blog/follow_unfollow_button', user: blog.user)
     .row
       .col

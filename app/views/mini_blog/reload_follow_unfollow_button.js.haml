@@ -1,3 +1,7 @@
 :plain
-  document.getElementById("follow_unfollow_button-#{@followed_user.id}").innerHTML = 
-    "#{j render('mini_blog/follow_unfollow_button', user: @followed_user)}"
+  var follow_unfollow_button_cols = document.getElementsByClassName("buttons__follow_unfollow-#{@followed_user.id}");
+  Array.prototype.forEach.call(follow_unfollow_button_cols, function(col) {
+      col.innerHTML =
+        "#{j render('mini_blog/follow_unfollow_button', user: @followed_user)}";
+    }
+  );
