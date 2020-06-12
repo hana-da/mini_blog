@@ -2,6 +2,6 @@
   var follow_unfollow_button_cols = document.getElementsByClassName("buttons__follow_unfollow-#{@followed_user.id}");
   Array.prototype.forEach.call(follow_unfollow_button_cols, function(col) {
       col.innerHTML =
-        "#{j render('mini_blog/follow_unfollow_button', user: @followed_user)}";
+        "#{j button_to_follow_or_unfollow(@followed_user)}";
     }
   );
