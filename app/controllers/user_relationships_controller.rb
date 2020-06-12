@@ -7,13 +7,13 @@ class UserRelationshipsController < ApplicationController
     @followed_user = User.find(params[:followed_id])
     current_user.follow!(@followed_user)
 
-    render('mini_blog/reload_follow_unfollow_button')
+    render :reload_follow_unfollow_button
   end
 
   def destroy
     @followed_user = User.find(params[:followed_id])
     current_user.unfollow!(@followed_user)
 
-    render('mini_blog/reload_follow_unfollow_button')
+    render :reload_follow_unfollow_button
   end
 end
