@@ -6,4 +6,4 @@ ja:
         user_favorite_blog:
           attributes:
             base:
-              not_own_blog: 自分のブログを「いいね」する事はできません。
+              should_not_like_own_blog: 自分のブログを「いいね」する事はできません。

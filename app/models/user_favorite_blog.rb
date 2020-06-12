@@ -25,7 +25,7 @@ class UserFavoriteBlog < ApplicationRecord
   belongs_to :blog
   belongs_to :user
 
-  validate :not_own_blog
+  validate :should_not_like_own_blog
   validates :blog_id, uniqueness: { scope: :user_id }
   validates :user_id, uniqueness: { scope: :blog_id }
 
@@ -41,9 +41,9 @@ class UserFavoriteBlog < ApplicationRecord
     ranking.transform_keys! { |id| blogs[id] }
   end
 
-  private def not_own_blog
+  private def should_not_like_own_blog
     return unless blog&.user_id == user_id
 
-    errors.add(:base, :not_own_blog)
+    errors.add(:base, :should_not_like_own_blog)
   end
 end
