@@ -9,6 +9,7 @@ FactoryBot.define do
     "#{n}_#{Faker::Internet.email(domain: 'example.jp')}"
   end
   sequence(:username) do |n|
-    "#{((n % 25) + 'A'.ord).chr}#{Faker::Internet.username(specifier: 1..20).delete('^a-zA-Z')}".truncate(20)
+    seq = n.times.inject(+'A') { |r,| r.succ! }
+    "#{seq}#{Faker::Internet.username(specifier: 1..20).delete('^a-zA-Z')}".first(20)
   end
 end
