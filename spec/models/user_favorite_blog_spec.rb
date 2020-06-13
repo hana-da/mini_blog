@@ -56,14 +56,14 @@ RSpec.describe UserFavoriteBlog, type: :model do
     end
   end
 
-  describe '.daily_ranking' do
+  describe '.count_by_blog' do
     context '引数がない時' do
       it '本日「いいね」された回数の上位10件が降順で返ってくる' do
         blogs = FactoryBot.create_list(:blog, 11)
 
         blogs.flat_map.with_index(1) { |b, i| FactoryBot.create_list(:user_favorite_blog, i, blog: b) }
 
-        actual_ranking = UserFavoriteBlog.daily_ranking
+        actual_ranking = UserFavoriteBlog.count_by_blog
         expect(actual_ranking).to be_a(Hash)
         expect(actual_ranking.keys.first).to be_a(Blog)
         expect(actual_ranking.keys.first.association(:user)).to be_loaded
@@ -84,7 +84,7 @@ RSpec.describe UserFavoriteBlog, type: :model do
         blog = FactoryBot.create(:blog)
         FactoryBot.create_list(:user_favorite_blog, 3, blog: blog)
 
-        expect(UserFavoriteBlog.daily_ranking.values.first).to eq(3)
+        expect(UserFavoriteBlog.count_by_blog.values.first).to eq(3)
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe UserFavoriteBlog, type: :model do
           FactoryBot.create(:user_favorite_blog)
         end
 
-        expect(UserFavoriteBlog.daily_ranking(period: 1.day.ago).values.first).to eq(3)
+        expect(UserFavoriteBlog.count_by_blog(on: 1.day.ago).values.first).to eq(3)
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe UserFavoriteBlog, type: :model do
         FactoryBot.create_list(:user_favorite_blog, 5)
 
         # この場合は5件とも同率1位だが、limit:3なので神(DB)が選んだ適当な3件が返る
-        expect(UserFavoriteBlog.daily_ranking(limit: 3).size).to eq(3)
+        expect(UserFavoriteBlog.count_by_blog(limit: 3).size).to eq(3)
       end
     end
   end
