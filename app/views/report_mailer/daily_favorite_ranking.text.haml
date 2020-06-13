@@ -1,9 +1,9 @@
 = t('.favorite_ranking', period: l(@date))
   
-- @ranking.each.with_index(1) do |rank, i|
-  - blog, fav_count = rank
+- @favorite_counts.each.with_index(1) do |blog_and_count, rank|
+  - blog, fav_count = blog_and_count
   \--------------------------------------------------------------------------------
-  #{t('.rank', rank: i)} - #{t('.favorite', count: fav_count)}
+  #{t('.rank', rank: rank)} - #{t('.favorite', count: fav_count)}
   = blog.user.username
   = blog.content
   \--------------------------------------------------------------------------------

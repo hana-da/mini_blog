@@ -10,11 +10,11 @@
 .row
   .col
     %ol#blogs.list-unstyled
-      - @ranking.each.with_index(1) do |rank, i|
-        - blog, fav_count = rank
+      - @favorite_counts.each.with_index(1) do |blog_and_count, rank|
+        - blog, fav_count = blog_and_count
         %li{id: "blog-#{blog.id}", class: 'blogs__blog mb-3'}
           .card
-            .card-header{ class: "h#{i}"}
+            .card-header{ class: "h#{rank}"}
               .row
                 .col-5.col-md-3.col-lg-2
                   = t('.rank', rank: i)

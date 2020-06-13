@@ -5,7 +5,7 @@ class ReportMailer < ApplicationMailer
   # @param [Integer] limit 件数制限
   def daily_favorite_ranking(on:, limit: 10)
     @date = on.to_date
-    @ranking = UserFavoriteBlog.count_by_blog(on: @date, limit: limit)
+    @favorite_counts = UserFavoriteBlog.count_by_blog(on: @date, limit: limit)
 
     mail(
       to:      ENV.fetch('REPORT_MAIL_TO'),
