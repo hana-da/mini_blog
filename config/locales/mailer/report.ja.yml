@@ -5,4 +5,4 @@ ja:
       favorite: "%{count} いいね!"
       favorite_ranking: "「いいね」獲得ランキング"
       rank: 第%{rank}位
-      subject: "[MiniBlog] %{period} の「いいね」獲得ランキング"
+      subject: "[MiniBlog] %{on} の「いいね」獲得ランキング"

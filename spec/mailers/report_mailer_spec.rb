@@ -10,10 +10,10 @@ RSpec.describe ReportMailer, type: :mailer do
       period = 1.day.ago
       date = period.to_date
 
-      mail = ReportMailer.daily_favorite_ranking(period: period)
+      mail = ReportMailer.daily_favorite_ranking(on: period)
 
       expect(mail).to be_multipart
-      expect(mail.subject).to eq(t('report_mailer.daily_favorite_ranking.subject', period: date))
+      expect(mail.subject).to eq(t('report_mailer.daily_favorite_ranking.subject', on: date))
       expect(mail.from).to eq(['no-reply@example.jp'])
       expect(mail.to).to eq([ENV['REPORT_MAIL_TO']])
     end

@@ -7,4 +7,4 @@ en:
         other: "%{count}Favs."
       favorite_ranking: Favorite ranking
       rank: No.%{rank}
-      subject: "[MiniBlog] Favorite ranking: %{period}"
+      subject: "[MiniBlog] Favorite ranking: %{on}"
