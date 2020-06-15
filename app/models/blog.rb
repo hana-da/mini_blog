@@ -33,6 +33,8 @@ class Blog < ApplicationRecord
 
   mount_uploader :image, BlogImageUploader
 
+  scope :for_timeline, -> { order(created_at: :desc).preload(:user, :liked_users, comments: [:user]) }
+
   private def modify_errors_message_for_image
     return unless errors.include?(:image)
 
