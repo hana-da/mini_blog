@@ -36,9 +36,10 @@ class UserFavoriteBlog < ApplicationRecord
   # @return [Hash{Blog => Integer}]
   def self.count_by_blog(on: Time.zone.now, limit: 10)
     date_range = (on.midnight..on.tomorrow.midnight)
-    ranking = where(created_at: date_range).group(:blog_id).order(count_all: :desc).limit(limit).count
-    blogs = Blog.where(id: ranking.keys).preload(:user).index_by(&:id)
-    ranking.transform_keys! { |id| blogs[id] }
+    counts = where(created_at: date_range).group(:blog_id).order(count_all: :desc).limit(limit).count
+    blogs = Blog.where(id: counts.keys).preload(:user).index_by(&:id)
+
+    counts.transform_keys! { |id| blogs[id] }
   end
 
   private def should_not_like_own_blog
