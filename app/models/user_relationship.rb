@@ -26,6 +26,7 @@ class UserRelationship < ApplicationRecord
   belongs_to :follower, class_name: 'User'
 
   validate :same_users_should_not_follow_each_other
+
   validates :followed_id, uniqueness: { scope: :follower_id }
 
   private def same_users_should_not_follow_each_other

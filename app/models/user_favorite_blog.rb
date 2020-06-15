@@ -26,6 +26,7 @@ class UserFavoriteBlog < ApplicationRecord
   belongs_to :user
 
   validate :should_not_like_own_blog
+
   validates :blog_id, uniqueness: { scope: :user_id }
   validates :user_id, uniqueness: { scope: :blog_id }
 

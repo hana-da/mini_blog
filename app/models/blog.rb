@@ -25,9 +25,8 @@ class Blog < ApplicationRecord
   validates :content, length: { in: 1..140 }
 
   belongs_to :user
-  has_many :comments, class_name: 'BlogComment', dependent: :destroy
 
-  # いいね
+  has_many :comments, class_name: 'BlogComment', dependent: :destroy
   has_many :likes, class_name: 'UserFavoriteBlog', dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
 
