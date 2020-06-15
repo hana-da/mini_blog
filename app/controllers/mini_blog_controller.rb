@@ -3,6 +3,6 @@
 class MiniBlogController < ApplicationController
   # 全体タイムライン
   def root
-    @blogs = Blog.order(created_at: :desc).preload(:user, :liked_users, comments: [:user])
+    @blogs = Blog.for_timeline
   end
 end
