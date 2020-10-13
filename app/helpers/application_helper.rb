@@ -12,7 +12,7 @@ module ApplicationHelper
     tag.div(
       model.errors.full_messages_for(attribute).join(I18n.t('support.array.words_connector')),
       class: 'invalid-feedback'
-    ) + "\n"
+    ) << "\n"
   end
 
   # bootstarap の .nav-link を付与した a タグを返す

@@ -120,7 +120,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
           expect(helper.link_to_users([], suffix))
             .to be_instance_of(ActiveSupport::SafeBuffer)
-            .and have_text(' ' + suffix.to_s)
+            .and have_text(" #{suffix}")
         end
       end
 
@@ -157,8 +157,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
           expect(helper.link_to_users([], locale_key))
             .to be_instance_of(ActiveSupport::SafeBuffer)
-            .and have_text(' ' +
-                            I18n.t("helpers.link_to_users.suffix.#{locale_key}", count: 0))
+            .and have_text(" #{I18n.t("helpers.link_to_users.suffix.#{locale_key}", count: 0)}")
         end
       end
 

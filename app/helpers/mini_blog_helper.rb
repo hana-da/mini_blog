@@ -58,8 +58,7 @@ module MiniBlogHelper
               class:    'btn btn-primary btn-sm',
               remote:   true,
               disabled: !current_user&.likable?(blog)) do
-      tag.span(count, class: 'badge badge-pill badge-light') +
-        ' ' +
+      tag.span(count, class: 'badge badge-pill badge-light') << ' ' <<
         tag.span(t('helpers.submit.like'))
     end
   end
