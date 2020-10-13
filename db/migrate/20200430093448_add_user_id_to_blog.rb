@@ -24,7 +24,7 @@ class AddUserIdToBlog < ActiveRecord::Migration[6.0]
       ApplicationRecord.sanitize_sql_array(
         [
           "INSERT INTO users(id, username, created_at, updated_at) VALUES(0, 'Unknown', :current, :current)",
-          current: Time.zone.now,
+          { current: Time.zone.now },
         ]
       )
     )

@@ -15,7 +15,7 @@ def translate(key, options = {})
       key[1..],
     ].join('.')
   end
-  I18n.translate(key, options)
+  I18n.t(key, options)
 end
 alias t translate
 
@@ -26,6 +26,6 @@ alias t translate
 # @option options [String] :timezone objectのtimezoneを書き換える(default: 'Tokyo')
 def localize(object, options = {})
   timezone = options[:timezone] || 'Tokyo'
-  I18n.localize(object.in_time_zone(timezone), options)
+  I18n.l(object.in_time_zone(timezone), options)
 end
 alias l localize
