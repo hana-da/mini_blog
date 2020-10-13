@@ -70,11 +70,11 @@ RSpec.describe '/', type: :request do
   context 'RAILS_ENV が production でない時' do
     before do
       allow(Rails.env).to receive(:production?).and_return(false)
+    end
 
-      it 'Basic認証はかかっていない' do
-        get root_path
-        expect(response).to have_http_status(:ok)
-      end
+    it 'Basic認証はかかっていない' do
+      get root_path
+      expect(response).to have_http_status(:ok)
     end
   end
 end
